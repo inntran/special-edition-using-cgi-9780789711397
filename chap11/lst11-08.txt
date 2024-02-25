@@ -1,0 +1,8 @@
+<FORM METHOD="POST" ACTION="http://www.substitute_your.com/cgi-bin/hukilau.cgi">
+<INPUT TYPE="HIDDEN" NAME="Command" VALUE="search">
+<INPUT TYPE="TEXT" NAME="SearchText" SIZE="48">
+<INPUT TYPE="SUBMIT" VALUE=" Search "><br>
+<INPUT TYPE="HIDDEN" NAME="SearchMethod" value="and">
+<INPUT TYPE="HIDDEN" NAME="WholeWords" value="yes">
+<INPUT TYPE="HIDDEN" NAME="ShowURL" value="yes">
+</FORM>

@@ -1,0 +1,24 @@
+# Basic Map Configuration File For NCSA Server
+# Corresponds to Basic Image
+# Written on: 1/12/95        Last Modified on: 1/12/95
+# Map File Created by: Matt Wright
+
+# Default URL if user clicks outside of hyperlinked areas
+
+default http://www.server.xxx/
+
+# Circle URL.  URL used if user clicks in the circle.
+
+circle http://www.server.xxx/circle.html 35,35 67,35
+
+# Rectangle URL.  URL used if user clicks in the rectangle.
+
+rect http://www.server.xxx/rect.html 71,3 199,65
+
+# Point URL.  URL used if user clicks on the dot.
+
+point http://www.server.xxx/point.html 326,30
+
+# Triangle URL.  URL used if user clicks in the triangle.
+
+poly http://www.server.xxx/poly.html 225,63 296,63 261,4

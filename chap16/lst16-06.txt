@@ -1,0 +1,133 @@
+// BYAGENT.C
+// This program demonstrates how to redirect
+// a browser to a page that matches the browser.
+// It depends on the browser's self-identification,
+// so a browser that lies can get the wrong page.
+// In general, most programs that claim to be
+// "Mozilla" are either Netscape, fully compatible
+// with Netscape, or Microsoft Internet Explorer.
+// The special case of MSIE can be identified
+// because although it says "Mozilla," it also
+// says "MSIE."
+
+#include <windows.h>
+#include <string.h>
+#include <stdio.h>
+
+void main() {
+
+     // First declare our variables.
+     // We'll use three pointers and a character
+     // array.  The pointers are UserAgent, a
+     // pointer to the CGI environment variable
+     // HTTP_USER_AGENT; Referer, a pointer to
+     // the CGI environment variable
+     // HTTP_REFERER; and p, a generic pointer
+     // used for string manipulation.  The
+     // remaining variable, szNewPage, is where
+     // we build the URL of the page to which
+     // the browser gets redirected.
+
+     char     *UserAgent;
+     char     *Referer;
+     char     *p;
+     char     szNewPage[128];
+
+     // Turn buffering off for stdout
+     setvbuf(stdout,NULL,_IONBF,0);
+
+     // Get the HTTP_REFERER, so we know our directory
+     Referer = getenv("HTTP_REFERER");
+
+     // Get the user-agent, so we know which pagename to
+// supply
+     UserAgent = getenv("HTTP_USER_AGENT");
+
+     // If either user agent or http referer not available,
+// die here
+     if ((Referer==NULL) | (UserAgent==NULL)) {
+          printf("Content-type:  text/html\n\n"
+"<html>\n"
+            "<head><title>ByAgent</title></head>\n"
+            "<body>\n"
+             "<h1>Pick your browser</h1>\n"
+            "ByAgent could not find either the "
+            "HTTP_REFERER or the HTTP_USER_AGENT "
+            "environment variable.  "
+            "Please pick your browser from this list:\n"
+             "<ul>\n"
+             "<li><a href=\"generic.html\">Generic</a>\n"
+             "<li><a href=\"lynx.html\">Lynx</a>\n"
+             "<li><a href=\"msie.html\">Microsoft</a>\n"
+             "<li><a href=\"netscape.html\">Netscape</a>\n"
+             "</ul>\n"
+             "</body>\n"
+             "</html>"
+             );
+          return;
+     }
+
+     // This program assumes that the browser-specific pages
+     // are in the same directory as the page calling this
+     // program.  Therefore, we'll use the HTTP_REFERER to
+     // get our URL, then strip the HTTP_REFERER's page
+// name, and add the proper browser-specific page name
+// to the end.
+
+     // First, copy the HTTP_REFERER value to szNewPage, so
+     // we have something to work on.
+     strcpy(szNewPage,Referer);
+
+     // Find the last forward slash in the URL.  This is
+     // the separator between the directory and the page
+     // name.
+     p = strrchr(szNewPage,'/');
+
+     // If we found no forward slash, assume some sort of
+     // weird server and hope a relative path will work by
+     // chopping off the entire URL.
+     if (p==NULL) p = szNewPage;
+
+     // Mark the end of the string, so we can concatenate
+     // to it from that point on.
+     *p = '\0';
+
+     // Convert to lower-case so we can do more efficient
+     // searches.
+     _strlwr(UserAgent);
+
+     // We are now ready to output a redirection header.
+     // This header tells the browser to go elsewhere
+     // for its next page.  A redirection header is
+     // nothing more than a standard content type
+     // followed by "Location: " and an URL.  The
+     // content type is separated from the redirection
+     // by a single newline; the entire header is
+     // terminated by a blank line (two newlines).
+
+     // If user agent is Microsoft Internet Explorer,
+     // redirect to msie.html
+     if (strstr(UserAgent,"msie")) {
+          printf("Location: %s/msie.html\n\n",szNewPage);
+          return;
+     }
+
+     // If user agent is Lynx,
+     // redirect to lynx.html
+     if (strstr(UserAgent,"lynx")) {
+          printf("Location: %s/lynx.html\n\n",szNewPage);
+          return;
+     }
+
+     // If user agent is Netscape,
+     // redirect to netscape.html
+     if (strstr(UserAgent,"mozilla")) {
+          printf("Location: %s/netscape.html\n\n",szNewPage);
+          return;
+     }
+
+     // If none of the above,
+     // use generic.html
+     printf("Location: %s/generic.html\n\n",szNewPage);
+     return;
+}

@@ -1,0 +1,10 @@
+[Thu Jan 11 16:30:42 1996] httpd: malformed header from script
+parse error in file /usr/local/httpd/cgi-bin/find.pl at line 426,
+  next 2 tokens "were found"
+Search pattern not terminated in file
+  /usr/local/httpd/cgi-bin/find.pl at line 436, next char ^>
+  (Might be a runaway multi-line "" string starting on line 435)
+parse error in file /usr/local/httpd/cgi-bin/find.pl at line 453,
+  next token "}"
+Execution of /usr/local/httpd/cgi-bin/find.pl aborted due to
+  compilation errors.

@@ -1,0 +1,4 @@
+if (($file_Name =~ /[^a-zA-Z_\.]/) || ($file_Name =~ /^\./))
+{
+      # File name contains an illegal character or starts with a period
+}

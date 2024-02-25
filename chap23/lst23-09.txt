@@ -1,0 +1,11 @@
+Sub CGI_Main()
+
+    If CGI_RequestMethod = "GET" Then
+        SendReQuest
+        Exit Sub
+    Else
+        SendResults
+        Exit Sub
+    End If
+
+End Sub

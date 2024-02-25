@@ -1,0 +1,52 @@
+#Up to here code is identical with SearchHotlist.p above
+#
+#now @in has key=value pairs, and %in{key} = value
+#Main Program Begins Here
+#connect to database server
+$user = "healy";
+$server = "server.wherever";
+$passwd = "dummy";  #not used, for msql goes by Unix UID;
+$database = "test";
+&dbi_connect( $user, $pswd, $server, $database );
+
+$Query = "select UID,URL,SHORTDESC,DESCRIPTION from SUBMISSIONS";
+    print "#SQL Query: $Query\n\n";
+    print "#\n#\n#\n";
+    print "#Review this SQL script with care, then ";
+    print "pipe it through msql\n#\n#\n";
+
+&dbi_dosql($Query);
+#the next line is msql-specific; comment-out for other ver
+&dbi_fieldnames('UID','URL','SHORTDESC','DESCRIPTION');
+
+print "#Inserting into HOTLIST\n\n";
+while( %row = &dbi_nextrow  )
+     {
+      print "Insert into HOTLIST values(\n";
+
+      print "$row{'UID'}'\n,";
+      print "$row{'URL'}'\n,'";
+      print "$row{'SHORTDESC'}'\n,'";
+      print "$row{'DESCRIPTION'}'";
+      print ')\g';
+      print "\n";
+      }
+
+$Query = "select MaxUID from UIDs where TableName = 'SUBMISSIONS'";
+&dbi_dosql($Query);
+#the next line is msql-specific; comment-out for other ver
+&dbi_fieldnames('MaxUID');
+$MaxUID=0;
+$Query = "select MaxUID from UIDs where TableName = 'SUBMISSIONS'";
+&dbi_dosql($Query);
+#the next line is msql-specific; comment-out for other ver
+&dbi_fieldnames('MaxUID');
+$MaxUID=0;
+%row = &dbi_nextrow;
+$MaxUID = $row{'MaxUID'};
+print "\n\n#Updating UIDs\n\n";
+print "Update UIDs Set MaxUID = $MaxUID where"
+print " TableName = 'HOTLIST'" . '\g' . "\n\n";
+
+print "\n\n#Deleting from SUBMISSIONS\n\n";
+print 'delete from SUBMISSIONS where UID <=  . $MaxUID . \g';

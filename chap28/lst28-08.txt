@@ -1,0 +1,33 @@
+#!/usr/bin/perl
+
+# Where the form data is dumped
+$dump_File = "savepost.dat";
+
+# Output header
+print("Content-type: text/html\n\n");
+
+# Dump the input to a file
+if ($ENV{"REQUEST_TYPE"} eq "POST")
+{
+     if (read(STDIN,$dump_Output,$ENV{"CONTENT_LENGTH"})
+     {
+          if (open(DUMP_FILE,">$dump_File"))
+          {
+               print DUMP_FILE ("$dump_Output");
+               close(DUMP_FILE);
+
+               print("<HTML><HEAD><TITLE>");
+               print("POST METHOD Dump");
+               print("</TITLE></HEAD><BODY>\n");
+               print("POST METHOD output dumped to $dump_File.\n");
+               print("</BODY></HTML>")
+
+               exit(0);
+          }
+     }
+}
+print("<HTML><HEAD><TITLE>");
+print("POST METHOD Dump Error");
+print("</TITLE></HEAD><BODY>\n");
+print("Something went wrong...\n</BODY></HTML>");
+exit(-1);

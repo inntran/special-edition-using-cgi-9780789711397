@@ -1,0 +1,22 @@
+DocumentRoot /usr/local/etc/httpd/htdocs
+UserDir public_html
+Redirect /HTTPd/ http://hoohoo.ncsa.uiuc.edu/
+Alias /icons/ /usr/local/etc/httpd/icons/
+ScriptAlias /cgi-bin/ /usr/local/etc/httpd/cgi-bin/
+DirectoryIndex index.html index.shtml index.cgi
+IndexOptions FancyIndexing
+AddIconByType (TXT,/icons/text.gif) text/*
+AddIconByType (IMG,/icons/image.gif) image/*
+AddIconByType (SND,/icons/sound.gif) audio/*
+AddIcon /icons/movie.gif .mpg .qt
+AddIcon /icons/binary.gif .bin
+AddIcon /icons/back.xbm ..
+AddIcon /icons/menu.gif
+AddIcon /icons/blank.xbm
+DefaultIcon /icons/unknown.xbm
+ReadmeName README
+HeaderName HEADER
+IndexIgnore */.??* *~ *# */HEADER* */README*
+DefaultType text/plain
+AccessFileName .htaccess
+ErrorDocument 403 /errors/forbidden.html

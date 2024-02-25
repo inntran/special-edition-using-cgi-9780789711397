@@ -1,0 +1,55 @@
+// SSIDUMP.C
+// This program dumps the SSI environment variables
+// to the screen. The code is platform-independent.
+// Compile it for your system and place it in your
+// CGI-BIN directory.
+
+#include <windows.h>  // only required for Windows machines
+#include <stdio.h>
+
+void main(int argc, char * argv[]) {
+
+     // First declare our variables. This program
+     // only uses one, I, a generic integer counter.
+
+     int i;
+
+     // Print off some nice-looking header
+     // information. Note that unlike a CGI
+     // program, there is no need to include the
+     // standard HTTP headers.
+
+     printf("<h1>SSI Environment Dump</h1>\n");
+     printf("<b>Command-Line Arguments:</b>\n");
+
+     // Now print out the command-line arguments.
+     // By convention, arg[0] is the path to this
+     // program at run-time. args[1] through
+     // arg[argc-1] are passed to the program as
+     // parameters. Only some servers will allow
+     // command-line arguments. We'll use a nice
+     // bulleted list format to make it readable:
+
+printf("<ul>\n");
+     for (i = 0; i < argc; i++) {
+          printf("<li>argv[%i]=%s\n",i,argv[i]);
+     }
+     printf("</ul>\n");
+
+     // Now print out whatever environment variables
+     // are visible to us. We'll use the bulleted
+     // list format again:
+
+     printf("<b>Environment Variables:</b>\n<ul>\n");
+     i = 0;
+     while (_environ[i]) {
+          printf("<li>%s\n",_environ[i]);
+             i++;
+}
+     printf("</ul>\n");
+
+     // Flush the output and we're done
+
+     fflush(stdout);
+     return;
+}

@@ -1,0 +1,12 @@
+<Directory /usr/local/etc/httpd/cgi-bin>
+Options Indexes ExecCGI
+</Directory>
+
+<Directory /usr/local/etc/httpd/htdocs>
+Options Indexes FollowSymLinks
+AllowOverride All
+<Limit GET>
+order allow,deny
+allow from all
+</Limit>
+</Directory>

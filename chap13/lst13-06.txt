@@ -1,0 +1,18 @@
+<HTML>
+<HEAD>
+<TITLE>Hotlist Searching Form</TITLE>
+</HEAD>
+<BODY>
+<H1>Hotlist Searching Form</h1>
+Please enter a keyword and click the <b>Send</b> button at the bottom.
+The <b>Reset</b> button will clear everything you've typed.<P>
+<FORM ACTION="http://server.wherever/cgi-bin/healy/SearchHotlist.p" METHOD="POST"><hr>
+<p>
+<INPUT name="SHORTDESC" size=20 value=""><b>SHORT description</b><BR>
+<hr>
+<INPUT TYPE="submit" VALUE="Send"> <INPUT TYPE="reset" VALUE="Reset"><P>
+<hr>
+</FORM>
+</BODY>
+</HTML>
+

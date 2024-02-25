@@ -1,0 +1,39 @@
+$name = strtok($entry,27);
+                $email = strtok(27);
+                $comment = strtok(27)>
+                <form action="<?echo $PHP_SELF>?admin" method="POST">
+                <input type="hidden" name="GUESTBOOKPASS" 
+[ic:ccc]             value="<?echo $GUESTBOOKPASS>">
+                <input type="hidden" name="GUESTBOOKARG" 
+[ic:ccc]             value="<?echo $GUESTBOOKARG>">
+                <input type="hidden" name="GUESTBOOKFUNC" 
+[ic:ccc]             value="editsave">
+                <font size=-1><tt><b>Name</b></tt></font><br>
+                <input type="text" name="EditGuestName" 
+[ic:ccc]             value="<?echo $name>"><br><br>
+                <font size=-1><tt><b>E-Mail</b></tt></font><br>
+                <input type="text" name="EditGuestEmail" 
+[ic:ccc]              value="<?echo $email>"><br><br>
+                <font size=-1><tt><b>Comment</b></tt></font><br>
+                <textarea name="EditGuestComment"
+[ic:ccc]             rows=8 cols=70><?echo $comment></textarea><br><br>
+                <center><input type="submit" 
+[ic:ccc]             value=" Submit Changed Record "></center>
+        <?endif;        
+        break;
+case "editsave";
+        dbmopen($fn,"w");
+        dbmreplace($fn,$GUESTBOOKARG,"$EditGuestName^[$EditGuestEmail^[$EditGuestComment");
+        dbmclose($fn);
+        echo "Changed record saved.<p>";        
+        break;
+endswitch;
+endif>
+<center>
+<a href="<?echo $PHP_SELF>"> [Top] </a>
+<a href="<?echo $PHP_SELF>?read+1"> [Read] </a>
+<a href="<?echo $PHP_SELF>?admin"> [Admin] </a>
+</center>
+<?include "footer">
+</body></html>
+<?exit;

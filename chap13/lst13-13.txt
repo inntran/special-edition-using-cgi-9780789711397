@@ -1,0 +1,39 @@
+#Up to here code is identical with SearchHotlist.p above
+#
+#now @in has key=value pairs, and %in{key} = value
+#Main Program Begins Here
+#connect to database server
+$user = "healy";
+$server = "server.wherever";
+$passwd = "dummy";  #not used, for msql goes by Unix UID;
+$database = "test";
+&dbi_connect( $user, $pswd, $server, $database );
+
+$UID = $in{'UID'};
+$URL = $in{'URL'};
+$SHORTDESC = &escape($in{'SHORTDESC'});
+$SHORTDESC =~ tr/a-z/A-Z/;  #convert to uppercase
+$DESCRIPTION = &escape($in{'DESCRIPTION'});
+$Query = "select MaxUID from UIDs where TableName = 'SUBMISSIONS'";
+&dbi_dosql($Query);
+#the next line is msql-specific; comment-out for other ver
+&dbi_fieldnames('MaxUID');
+%row = &dbi_nextrow; 
+$MaxUID = $row{'MaxUID'} + 1;
+$Query = "Update UIDs Set MaxUID = $MaxUID where TableName ='SUBMISSIONS'";
+
+&dbi_dosql($Query);
+$Query = "Insert into SUBMISSIONS values(";
+
+$Query = $Query . $MaxUID . ",'";
+
+$Query = $Query . $URL . "','";
+$Query = $Query . $SHORTDESC . "','";
+$Query = $Query . $DESCRIPTION . "')";
+
+&dbi_dosql($Query);
+
+print "<h1>Submission Accepted</h1>\n";
+print "Thank you for your submission. \n";
+print "It will be reviewed by the database administrator \n";
+print "for possible inclusion in our hotlist \n";

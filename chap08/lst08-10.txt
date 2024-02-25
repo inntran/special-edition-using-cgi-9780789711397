@@ -1,0 +1,7 @@
+if ($separator eq '1') {
+    print GUEST " - $date<hr>\n\n";
+ }
+ else {
+    print GUEST " - $date<p>\n\n";
+ }
+

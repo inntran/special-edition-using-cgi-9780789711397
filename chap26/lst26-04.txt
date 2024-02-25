@@ -1,0 +1,26 @@
+
+<FORM METHOD=POST ACTION="http://cgi-test/cgi/test-4.cgi">
+
+Enter your full name here:
+<INPUT NAME="full_name" SIZE=35>
+</TEXTAREA><P>
+
+Enter Your Favorite Music Group
+<SELECT NAME="Rock" SIZE=5>
+<OPTION> The Beatles
+<OPTION> The Who
+<OPTION> REM
+<OPTION> Nirvana
+<OPTION> The Talking Heads
+</SELECT><P>
+
+<DL>
+<DT>How old are you?
+<DD><INPUT TYPE="radio" NAME="age" VALUE="young">Younger than 18
+<DD><INPUT TYPE="radio" NAME="age" VALUE="middle">18-35
+<DD><INPUT TYPE="radio" NAME="age" VALUE="old">Older than 35
+</DL>
+
+Press here to submit form
+<INPUT TYPE="submit" VALUE="Submit Form">
+</FORM>

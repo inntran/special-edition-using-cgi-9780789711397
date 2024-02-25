@@ -1,0 +1,22 @@
+print <<"HTML";
+<HTML><HEAD><TITLE>Entry successful</TITLE></HEAD>
+<BODY>
+<H1>Entry successful!</H1>
+<p>
+<hr>
+<p>
+<H2>You may now view our special online magazine!</H2>
+Simply click the link below and then enter your username,
+<b>$contents{'username'}</b> and your private password when asked.
+
+<p>
+Thank you for registering with us!<p>
+Enjoy!!
+<p>
+<HR>
+<A HREF=\"$private_area\">Go read the magazine!!</A>
+</BODY>
+</HTML>
+HTML
+
+exit;

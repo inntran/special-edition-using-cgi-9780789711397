@@ -1,0 +1,27 @@
+if ($entry_order eq '1') {
+    print GUEST "<!--begin-->\n";
+
+ if ($FORM{'url'}) {
+    print GUEST "<a href=\"$FORM{'url'}\">$FORM{'realname'}</a>- ";
+ }
+ else {
+    print GUEST "$FORM{'realname'}- ";
+ }
+
+ if ($line_breaks == 1) {
+    $FORM{'comments'} =~ s/\cM\n/\n/g;
+ }
+
+ print GUEST "<b>$FORM{'comments'}</b>\n";
+
+ }
+
+ if ( $FORM{'username'} ){
+    if ($linkmail eq '1') {
+       print GUEST " \&lt;<a href=\"mailto:$FORM{'username'}\">";
+       print GUEST "$FORM{'username'}</a>\&gt;";
+    }
+    else {
+       print GUEST " &lt;$FORM{'username'}&gt;";
+    }
+ }

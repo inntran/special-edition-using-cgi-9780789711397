@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "Content-type: text/html"
+echo ""
+echo "<HTML><HEAD><TITLE>Environment</TITLE></HEAD><BODY><HR><PRE>"
+env
+echo "</PRE></BODY></HTML>"

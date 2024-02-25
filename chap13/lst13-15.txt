@@ -1,0 +1,35 @@
+#SQL Query: select UID,URL,SHORTDESC,DESCRIPTION from SUBMISSIONS
+#
+#
+#Review this SQL script with care, then pipe it through msql
+#
+#
+#Inserting into HOTLIST
+
+Insert into HOTLIST values(
+18
+,'http://gasnet.med.yale.edu/'
+,'GASNET'
+,'The%20Gasnet%20server%20has%20various%20resources%0D%0Afor%20Anesthesiology...')\g
+Insert into HOTLIST values(
+17
+,'http://www.ncbi.nlm.nih.gov/BLAST/'
+,'BLAST'
+,'BLAST%20Homepage%20at%20the%20National%20Center%0D%0Afor%20Biotechnology%20Information')\g
+Insert into HOTLIST values(
+16
+,'http://www.eol.ists.ca/~dunlop/wdb-p95/'
+,'WDB%20POSTGRES'
+,'WDB%20Port%20to%20Postgres')\g
+Insert into HOTLIST values(
+15
+,'http://www.comvista.com/net/www/cgidata.html'
+,'MAC%2FWWW%2FDB'
+,'List%20of%20URLs%20with%20info%20on%20Mac%20WWW%2FDBMS%0D%0Ascripting')\g
+
+#Deleting from SUBMISSIONS
+
+delete from SUBMISSIONS where UID <= 18\g
+#Updating UIDs
+
+Update UIDs Set MaxUID = 18 where TableName = 'HOTLIST'\g

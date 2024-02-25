@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Set the environment to simulate a request
+set DOCUMENT_ROOT=/web/docroot
+set SCRIPT_NAME=${0};
+set REMOTE_HOST=www.server.com
+set REMOTE_ADDR=127.0.0.1
+set REQUEST_METHOD=GET     
+set QUERY_STRING=name=joanne&email=joanne@jojomoco.com
+set PATH_INFO=
+set PATH_TRANSLATED=${DOCUMENT_ROOT}/${PATH_INFO}
+set HTTP_USER_AGENT=Mozilla 2.0
+set HTTP_REFERER=http://www.server.com/referrer.html
+
+# Run the script and save the output
+script.pl > /tmp/script.out
+
+# Compare output (.out) against idealized version (.idl) and
+# add it to the report (.rpt)
+diff /tmp/script.out script.idl >> /tmp/script.rpt

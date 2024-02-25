@@ -1,0 +1,35 @@
+#!/usr/local/bin/perl
+#Either_dbi_demo.p
+#
+#This works with either Sybperl or Msqlperl
+
+#AS SHOWN HERE, this works with Msqlperl.
+#To make it work with Sybperl, change the
+#    $dbFlag line below.
+#
+#Also, if you are using the Perl4 version of sybperl
+#then you must change the first line of this program
+
+$dBFlag = 'MSQL';  ## OR $DbFlag = 'SYBASE'
+#this is the msql version!
+
+if ($DbFlag eq 'MSQL') {require 'msql_dbi.pl';}
+elsif ($DbFlag eq 'SYBASE') {require 'syb_dbi.pl';}
+else {die "unsupported database\n";}
+
+$database = "test"; #define $User, etc here!
+&dbi_connect( $user, $pswd, $server, $database );
+
+$Query = "select last_name,salary,id from employees";
+&dbi_dosql($Query);
+
+if ($DbFlag eq 'MSQL') #one extra thing needed for Msql
+{&dbi_fieldnames( 'last_name', 'salary','id');}
+
+while( %row = &dbi_nextrow  ) {
+          print "last_name:$row{'last_name'}\t";
+          print "salary:$row{'salary'}\t";
+          print "id:$row{'id'}\t";
+          print "\n";
+
+       }

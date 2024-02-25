@@ -1,0 +1,7 @@
+while($j>=0);
+/* Look up the key */
+$entry = dbmfetch($fn,$key[$j]);
+/* Fields are separated by ESC chars, so tokenize on char 27 */
+$name = strtok($entry,27);
+$email = strtok(27);
+$comment = strtok(27)>

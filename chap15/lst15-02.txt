@@ -1,0 +1,19 @@
+<h1>Search Alta Vista</h1>
+<form method=get
+      action=" http://www.altavista.digital.com/cgi-bin/query ">
+<input type=hidden name=pg value=q>
+<B>Search
+<select name=what>
+<option value=web  SELECTED>the Web
+<option value=news >Usenet
+</select>
+and Display the Results
+<select name=fmt>
+<option value="." SELECTED>in Standard Form
+<option value=c >in Compact Form
+<option value=d >in Detailed Form
+</select></B>
+<input name=q size=55 maxlength=200 value="">
+<input type=submit value=Submit>
+<br>
+</form>

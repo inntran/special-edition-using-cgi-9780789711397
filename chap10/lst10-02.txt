@@ -1,0 +1,29 @@
+#! /usr/local/bin/perl
+# print out a MIME header so the server knows
+#this is an HTML document
+print qq|Content-type: text/html;\n\n|;
+
+# print out standard HTML beginning of document
+print qq|<html><head><title>Mike Ellsworth's Tool Time</title>\n|;
+print qq|</head><BODY bgcolor="#ffffff">\n|;
+
+# assign the environmental variable to a Perl variable
+# if you want to get fancy, you can add some code to put the parts into
+# an array by splitting on the comma between MIME types
+$accepts = $ENV{'HTTP_ACCEPT'};
+
+# now test to see if the string jpeg exists in the environment
+if ($accepts =~ /jpeg/i) {
+     print qq|<img border=0 src="testme.jpg" alt="Yo" align=left></a>|;
+} else {
+     print qq|<img border=0 src="testme.gif" alt="Yo" align=left></a>|;
+}
+# read in the base document and print to STDOUT
+open(READ, "testimg.txt");
+     while (<READ>) {
+          print;
+     }
+close(READ);
+
+# close the document
+print qq|</body></html>\n|;

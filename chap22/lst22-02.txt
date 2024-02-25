@@ -1,0 +1,50 @@
+#! /usr/local/bin/perl
+# Random Image Displayer          Version 1.2
+# Created by: Matt Wright     mattw@misha.net
+# Created On: 7/1/95          Last Modified: 1/29/96
+# Scripts Archive at:   http://www.worldwidemart.com/scripts/
+#################################################################
+# Necessary Variables
+
+# $baseurl defines the URL path to the directory that contains
+# the images you wish to randomize.
+
+$baseurl = "http://www.server.xxx/pics/";
+
+# @files is an array which consists of the filenames, located at
+# the URLs referenced with the $baseurl above that you wish to
+# put in the randomizer.
+
+@files = ("waterfalls.gif","test.gif","random.gif","neat.jpg");
+
+# $uselog is a variable that allows you to choose whether or not
+# you wish to log each time the random image generator generates
+# a new picture.  If you choose to set this variable equal to '1'
+# (thus turning it on), then the name of the image that was
+# chosen will be saved to a log file.
+
+$uselog = 0; # 1 = YES; 0 = NO
+
+# If $uselog is set to '1', you must define this variable so that
+# it points to the file that you want to contain the logged
+# images.
+
+$logfile = "/home/mattw/public_html/image/pics/piclog";
+# Done
+#################################################################
+
+# Seed a Random Number of Time to the power of the Process ID.
+srand(time ** $$);
+
+# Pick the random number with the rand() function.
+$num = rand(@files); # Pick a Random Number
+
+# Print Out Header With Random Filename and Base Directory
+print "Location: $baseurl$files[$num]\n\n";
+
+# Log Image
+if ($uselog eq '1') {
+   open (LOG, ">>$logfile");
+   print LOG "$files[$num]\n";
+   close (LOG);
+}

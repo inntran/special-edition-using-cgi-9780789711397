@@ -1,0 +1,271 @@
+///////////////////////////////////////////////////////////////////
+//
+// name:          Camera.java
+//
+// author:          David Geller
+//                    geller@starwave.com
+//
+
+import java.awt.*;
+import java.net.*;
+
+public class Camera extends java.applet.Applet implements Runnable
+{
+     URL                imageURL = null;
+     Thread          scroller = null;
+     Image          img = null;
+     Image          im = null;
+     String          imageFile;
+     String          outputText;
+     Color          color = Color.blue;
+     Color          scrollerColor;
+     Font               font;
+     Font               scrollerfont;
+     Graphics          offScrGC;
+     int               timeout;
+     int               xpos = 0;
+     int               msgWidth;
+     int               msgHeight;
+     int                msgStartY = 255;
+     int               secondsLeft = 0;
+     int               imgPos = 0;
+     int               textHeight = 0;
+     int               textWidth = 0;
+     int               counterWidth = 0;
+     boolean          imgBusy = false;
+     boolean          imgCollected = false;
+     boolean          noImages = true;
+     MediaTracker     tracker = null;
+
+     ///////////////////////////////////////////////////
+     //
+
+     public void init()
+     {
+          setLayout (null);
+
+          // load up parameters passed from HTML
+          String at = getParameter("image");
+          imageFile = (at != null) ? at : "capture.gif";
+
+          at = getParameter("refresh");
+          timeout = (at == null) ? 30 :
+               Integer.valueOf(at).intValue();
+
+          at = getParameter("message");
+          outputText = (at != null) ? at :
+               "Welcome to DavidCAM.";
+
+          // initialize our font object
+          scrollerfont = new Font("Helvetica",Font.BOLD,14);
+
+      // initialize the color for our scrolling banner
+      scrollerColor = Color.yellow;
+
+           // create an off-screen image area
+          im = createImage (size().width, size().height);
+          offScrGC = im.getGraphics();
+          offScrGC.setFont (scrollerfont);
+
+          FontMetrics metrics = offScrGC.getFontMetrics();
+          textWidth = metrics.stringWidth(outputText);
+          textHeight = metrics.getHeight();
+          counterWidth = metrics.stringWidth("000");
+
+          tracker = new MediaTracker(this);
+    }
+
+     ///////////////////////////////////////////////////
+     // grabImage - pull an image off the server
+
+     public void grabImage ()
+     {
+          imgCollected = false;
+
+          if (img != null)
+          {
+               img.flush ();
+               noImages = true;
+          }
+
+          try
+          {
+               imageURL = new URL (imageFile);
+          }
+          catch (MalformedURLException e)
+          {
+          }
+
+          img = getImage(imageURL);
+          tracker.addImage(img, 1);
+     }
+
+     ///////////////////////////////////////////////////
+     // start
+
+    public void start()
+     {
+          if (scroller == null)
+          {
+               scroller = new Thread (this);
+               scroller.start ();
+          }
+    }
+
+     ///////////////////////////////////////////////////
+     // stop
+
+    public void stop()
+     {
+           if (scroller != null)
+               scroller.stop();
+
+          scroller = null;
+    }
+
+     ///////////////////////////////////////////////////
+     // run
+
+    public void run()
+     {
+          // while we're running we sleep a bit and
+          // then we repaint out message after repositioning
+          // ourselves
+
+          int seconds = 0;
+          int tenthSeconds = 0;
+          secondsLeft = 0;
+
+          while(scroller != null)
+          {
+               try
+               {
+                    Thread.sleep(100);
+               }
+               catch (InterruptedException e)
+               {}
+
+               // keep track of time so we can refresh
+               // our graphic at specified intervals
+               if (tenthSeconds++ > 9)
+               {
+                    tenthSeconds = 0;
+                    seconds++;
+                    secondsLeft = timeout - seconds;
+               }
+
+               if (secondsLeft == 0)
+               {
+                    grabImage ();     // fetch the image
+                    secondsLeft = timeout;
+                    seconds = 0;
+               }
+
+               if (!imgCollected &&
+                  (tracker.checkID(1,true) == true))
+               {
+                    imgCollected = true;
+               }
+
+               setcoord ();
+               repaint();               // repaint our image
+          }
+    }
+
+     ///////////////////////////////////////////////////
+     // setcoord
+
+     public void setcoord()
+     {
+          xpos = xpos-5;
+          if(xpos < -textWidth)
+          {
+               xpos = size().width;
+          }
+     }
+
+     ///////////////////////////////////////////////////
+     // displayImage
+
+     public void displayImage (Graphics g)
+     {
+          if (noImages)
+          {
+               // display a waiting message
+Font font = new Font ("Helvetica",
+                 Font.BOLD,20);
+
+               g.setFont (font);
+
+               FontMetrics metrics = g.getFontMetrics();
+               String s = "Loading image...";
+               int width = metrics.stringWidth(s);
+               int height = metrics.getHeight();
+
+               g.setColor(Color.red);
+               g.drawString(s,
+                    size().width/2 - width/2,
+                    size().height/2 - height/2);
+          }
+
+          if (imgCollected)
+          {
+               g.drawImage (img, 0, 0, this);
+               noImages = false;
+          }
+     }
+
+     ///////////////////////////////////////////////////
+     // displayScroller
+
+     public void displayScroller (Graphics g)
+     {
+          // draw our scrolling message
+          // ------------------------------------
+          g.setFont(scrollerfont);
+          g.setColor(scrollerColor);
+          g.drawString(outputText,xpos,
+               255 + (textHeight/2));
+     }
+
+     ///////////////////////////////////////////////////
+     // displayCounter
+     public void displayCounter (Graphics g)
+     {
+          String counterText = Integer.toString
+               (secondsLeft);
+          g.setColor (Color.white);
+          g.drawString (counterText,
+               size().width - counterWidth, textHeight);
+     }
+
+     ///////////////////////////////////////////////////
+     // update
+
+     public void update(Graphics g)
+     {
+          paint(g);
+     }
+
+     ///////////////////////////////////////////////////
+     // paint
+
+    public void paint(Graphics g)
+     {
+          paintOffscreen (offScrGC);
+          g.drawImage (im, 0, 0, null);
+     }
+
+     ///////////////////////////////////////////////////
+     // paintOffscreen
+
+     public void paintOffscreen (Graphics g)
+     {
+          g.setColor(Color.black);
+          g.fillRect(0,0, size().width, size().height);
+
+          displayImage (g);
+          displayScroller (g);
+          displayCounter (g);
+     }
+}

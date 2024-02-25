@@ -1,0 +1,15 @@
+#!/usr/bin/perl
+# Guestbook for the World Wide Web
+# Created by Matt Wright           Version 2.3.1
+# Created on: 4/21/95              Last Modified: 10/29/95
+# Consult the file README for more information and Installation
+# Instructions.
+
+###################################################################
+
+# Set Variables
+$guestbookurl = "http://your.host.com/~yourname/guestbook.html";
+$guestbookreal = "/home/yourname/public_html/guestbook.html";
+$guestlog = "/home/yourname/public_html/guestlog.html";
+$cgiurl = "http://your.host.com/cgi-bin/guestbook.pl";
+$date_command = "/usr/bin/date";

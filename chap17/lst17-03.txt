@@ -1,0 +1,150 @@
+// RQ.C
+// This program reads a text file and extracts a random
+// quotation from it. If a citation line is found, it
+// treats it as a citation; otherwise, all text is treated
+// the same. HTML tags may be embedded in the text.
+
+// RQ is mostly platform-independent. You'll have to change
+// path element separators to the correct slash if you
+// compile for Unix. There are no platform-specific system
+// calls, though, so a little bit of customization should
+// enable the code to run on any platform.
+
+#include <windows.h>  // only required for Windows
+#include <stdio.h>
+#include <stdlib.h>
+#include <io.h>
+
+char     buffer[16000];     // temp holding buffer
+
+void main(int argc, char * argv[]) {
+     FILE          *f;          // file-info structure
+     fpos_t     fpos;     // file-pos structure
+     long          flen;     // length of the file
+     char          fname[80];// the file name
+     long          lrand;     // a long random number
+     BOOL          goodpos;     // switch
+     char          *p;          // generic pointer
+     char          *soq;     // start-of-quote pointer
+     char          *eoq;     // end-of-quote pointer
+
+     // Seed the random number generator
+     srand(GetTickCount());
+
+     // Set all I/O streams to unbuffered
+     setvbuf(stdin,NULL,_IONBF,0);
+     setvbuf(stdout,NULL,_IONBF,0);
+
+     // Open the quote file
+
+     // If a command-line argument is present, treat it as
+     // the file name. But first check it for validity!
+
+     if (argc > 1) {
+          p = strstr(argv[1],"..");
+          if (p==NULL) p = strstr(argv[1],"\\\\");
+          if (p==NULL) p = strchr(argv[1],':');
+
+          // If .., \\, or : found, reject the filename
+          if (p) {
+               printf("Invalid relative path "
+                      "specified: %s",argv[1]);
+               return;
+          }
+
+          // Otherwise append it to our own path
+          strcpy(fname,argv[0]);
+          p = strrchr(fname,'\\');
+          if (p) *p = '\0';
+          strcat(fname,"\\");
+          strcat(fname,argv[1]);
+
+     } else {
+          // No command-line parm found, so use our
+          // executable name, minus our extension, plus
+          // .txt as the filename
+          strcpy(fname,_pgmptr);
+          p = strrchr(fname,'.');
+          if (p) strcpy(p,".txt");
+     }
+
+     // We have a filename, so try to open the file
+     f = fopen(fname,"r");
+
+     // If open failed, die right here
+     if (f==NULL) {
+          printf("Could not open '%s' for read.",fname);
+          return;
+     }
+
+     // Get total length of file in bytes.
+     // We do this by seeking to the end and then
+     // reading the offset of our current position.
+     // There are other ways of getting this
+     // information, but this way works almost
+     // everywhere, whereas the other ways are
+     // platform-dependent.
+
+     fseek(f,0,SEEK_END);
+     fgetpos(f,&fpos);
+     flen = fpos;
+
+     // Seek to a random point in the file. Loop through
+     // the following section until we find a block of text
+     // we can use.
+
+     goodpos = FALSE;          // goes TRUE when we're done
+
+     while (!goodpos) {
+
+          // Make a random offset into the file. Generate
+          // the number based on the file's length.
+          if (flen > 65535) {
+               lrand = MAKELONG(rand(),rand());
+          } else {
+               lrand = MAKELONG(rand(),0);
+          }
+
+          // If our random number is less than the length
+          // of the file, use it as an offset. Seek there
+          // and read whatever we find.
+
+          if (lrand < flen) {
+               fpos = lrand;
+               fsetpos(f,&fpos);
+               if (fread(buffer, sizeof(char),
+                    sizeof(buffer),f) !=0 ) {
+                    soq=NULL;
+                    eoq=NULL;
+                    soq = strstr(buffer,"\n\n");
+                    if (soq) eoq = strstr(soq+2,"\n\n");
+                    if (eoq) {
+                         // skip the first CR
+                         soq++;
+                         // and the one for the blank line
+                         soq++;
+                         // mark end of string
+                         *eoq='\0';
+                         // look for citation marker
+                         p = strstr(soq,"\n--");
+                         // if found, exempt it & remember
+                         if (p) {
+                              *p='\0';
+                              p++;
+                         }
+                         // print the quotation
+                         printf(soq);
+                         if (p)
+                         // and citation if any
+                         printf("<br><cite>%s</cite>",p);
+                         // exit the loop
+                         goodpos=TRUE;
+                    }
+               }
+          }
+     }
+
+     fclose(f);
+     fflush(stdout);
+        return;
+}

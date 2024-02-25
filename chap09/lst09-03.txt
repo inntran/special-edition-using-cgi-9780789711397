@@ -1,0 +1,29 @@
+# Basic Map Configuration File For CERN and W3C Servers
+# Corresponds to Basic Image
+# Written on: 1/12/95         Last Modified on: 1/24/95
+# Map File Created by: Matt Wright
+
+# Default URL if user clicks outside of hyperlinked areas
+
+def http://www.server.xxx/
+
+# Circle URL.  URL used if user clicks in the circle.  The
+# htimage program must have the Center and Radius of the 
+# circle defined.
+
+circle (35,35) (32) http://www.server.xxx/circle.html
+
+# Rectangle URL.  URL used if user clicks in the rectangle.
+
+rect (71,3) (199,65) http://www.server.xxx/rect.html
+
+# Point URL.  URL used if user clicks on the dot.  htimage
+# is not point compatible with the point method, so we will
+# represent it with a circle with a radius of 2, which will
+# create a small point.
+
+circ (326,30) 2 http://www.server.xxx/point.html
+
+# Triangle URL.  URL used if user clicks in the triangle.
+
+poly (225,63) (296,63) (261,4) http://www.server.xxx/poly.html

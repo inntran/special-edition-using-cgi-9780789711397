@@ -1,0 +1,30 @@
+<MAP NAME="basic_map">
+
+<!-- The Circle Shape. Users will be taken to circle.html if they
+click inside of the circle. Like the htimage program, the circle
+coordinates should be defined with the center and the radius. All
+three numbers are comma separated. The Alt tag will be seen by
+non-graphical browsers. -->
+
+<AREA SHAPE=CIRCLE COORDS="35,35,32" HREF="circle.html" ALT="Circle">
+
+<!-- The Rectangle Shape. Users will be taken to rect.html if they
+click inside of the rectangle. The coordinates for the rectangle
+should be the upper left (1) and lower right corners (2) of the
+rectangle separated by commas, ie. COORDS="x1y1x2y2"-->
+
+<AREA SHAPE=RECT COORDS="71,3,199,65" HREF="rect.html" ALT="Rectangle">
+
+<!-- The Triangle is represented with a polygon shape. Coordinates
+from the triangle vertices are comma separated. You can have as
+many vertices as you wish, except for the fact that HTML limits an
+attribute's value to 1024 characters in size. -->
+
+<AREA SHAPE=POLY COORDS="225,63,296,63,261,4" HREF="poly.html" ALT="Triangle">
+
+<!-- The Point attribute is not supported by the current Client-side
+Image Maps specification, but to get around that we will use a
+circle reference with a radius of 2, to create a point. -->
+
+<AREA SHAPE=CIRCLE COORDS="326,30,2" HREF="point.html" ALT="Dot">
+</MAP>

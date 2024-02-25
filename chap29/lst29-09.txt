@@ -1,0 +1,22 @@
+sub error_Fatal
+{
+     local($error_Title);
+     local($error_Url);
+
+     # Get the specifics
+     $error_Title = "General" unless $error_Title = $_[0];
+     $error_Url = "http://www.server.com/help.html" unless
+      $error_Url = $_[1];
+
+     # Print the error
+     print("<HTML><HEAD>");
+     print("<TITLE>Error: $error_Title</TITLE>");
+     print("</HEAD><BODY>\n");
+     print("<H1>Error: $error_Title</H1>\n");
+     print("<HR><I>@_[2..@_]</I><HR>\n");
+     print("For help, click <A HREF=\"$error_Url\">here</A>.\n");
+     print("</BODY></HTML>\n"):
+
+     # Exit the program
+     exit(-1);
+}

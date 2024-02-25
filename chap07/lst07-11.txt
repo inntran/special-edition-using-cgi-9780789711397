@@ -1,0 +1,27 @@
+<HTML>
+<HEAD>
+<TITLE>Register with ITM Online!</TITLE>
+</HEAD>
+
+<BODY>
+
+<H1>Register with ITM Online!</H1>
+<p>
+<HR>
+<p>
+
+Simply enter a username and password below to enjoy a free subscription
+to <b>ITM Online</b> - the premiere <i>online</i> technical magazine
+concerning the Web!!<p>
+<FORM METHOD="POST" ACTION="/cgi-bin/register.pl">
+<pre>
+Enter a username:<INPUT TYPE="text" NAME="username">
+Enter a password:<INPUT TYPE="password" NAME="password">
+</pre>
+<p>
+<hr>
+<p>
+<INPUT TYPE="submit" VALUE="Submit-it">
+</FORM>
+</BODY>
+</HTML>

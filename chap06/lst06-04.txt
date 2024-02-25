@@ -1,0 +1,44 @@
+// PrintMIMEHeader:  Prints content-type header
+
+void PrintMIMEHeader() {
+    // This is the basic MIME header for the
+    // CGI.  Note that it is a 2-line header,
+    // including a "pragma: no-cache" directive.
+    // This keeps the page from being cached,
+    // and reduces the number of duplicate
+    // entries from users who keep hitting the
+    // submit button over and over
+
+    printf("Content-type: text/html\n");
+    printf("Pragma: no-cache\n");
+    printf("\n");
+
+}
+
+// PrintHTMLHeader:  Prints HTML page header
+
+void PrintHTMLHeader() {
+    printf(
+        "<html>\n"
+        "<head><title>SGB1.c</title></head>\n"
+        "<body "
+              "bgcolor=#FEFEFE "
+              "text=#000000 "
+              "link=#000040 "
+              "alink=FF0040 "
+              "vlink=#7F7F7F"
+              ">\n"
+        "<h1><i>CGI by Example</i></h1>\n"
+        "<b>SGB1.c</b> -- demonstration CGI written "
+        "in C to make a simple guestbook <p>\n"
+        );
+}
+
+// PrintHTMLTrailer:  Prints closing HTML info
+
+void PrintHTMLTrailer() {
+    printf(
+        "</body>\n"
+        "</html>\n"
+        );
+}

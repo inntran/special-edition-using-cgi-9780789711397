@@ -1,0 +1,242 @@
+#!/usr/bin/perl
+################################################################
+# Simple Search Script     Version 1.0
+# Written By Matt Wright     mattw@tahoenet.com
+# Created on: 12/16/95     Last Modified on: 1/29/96
+# Scripts found at:          http://www.worldwidemart.com/scripts/
+################################################################
+# Define Variables
+
+# $basedir should be the system path to the files and directories
+# you wish to search.
+
+$basedir = '/path/to/files/you/wish/to/search/';
+
+# $baseurl should be the same path as $basedir, except
+# represented as a URL, so that the user can get to the web page
+# when the filename is returned.
+
+$baseurl = 'http://worldwidemart.com/scripts/';
+
+# @files is an array that specifies which files you wish to
+# search.  Wildcards, in the form of a (*) are accepted.  So to
+# search all html files in the basedir and all text files, you
+# would configure @files as:
+
+@files = ('*.html','*.txt');
+
+# The $title is the title of the page you are searching.  This
+# will be returned on the results page as a way to get back to
+# the main page.
+
+$title = "My Web Server";
+
+# $title_url is the URL that will be linked to the text in $title
+# on the results page.
+
+$title_url = 'http://www.server.xxx/';
+
+# This is the URL to the search form; search.html
+
+$search_url = 'http://www.server.xxx/search.html';
+
+# Done
+################################################################
+
+# Parse Form Search Information
+&parse_form;
+
+# Get Files To Search Through
+&get_files;
+
+# Search the files
+&search;
+
+# Print Results of Search
+&return_html;
+
+sub parse_form {
+
+   # Get the input
+   read(STDIN, $buffer, $ENV{'CONTENT_LENGTH'});
+
+   # Split the name-value pairs
+   @pairs = split(/&/, $buffer);
+
+   foreach $pair (@pairs) {
+      ($name, $value) = split(/=/, $pair);
+
+      $value =~ tr/+/ /;
+      $value =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C",hex($1))/eg;
+
+      $FORM{$name} = $value;
+   }
+}
+
+sub get_files {
+
+   # Change Directories to $basedir
+   chdir($basedir);
+
+   # Loop through the files in @files and with the ls command
+   # determine all files that need to be searched.  This is
+   # necessary so that the wildcards can be expanded into
+   # filenames.
+   foreach $file (@files) {
+      $ls = `ls $file`;
+      @ls = split(/\s+/,$ls);
+      foreach $temp_file (@ls) {
+
+         # If the file is a directory, then adjust the filename
+         # accordingly.
+         if (-d $file) {
+            $filename = "$file$temp_file";
+            if (-T $filename) {
+               push(@FILES,$filename);
+            }
+         }
+
+         # Otherwise, if the file is a text file, we can search
+         # it.
+         elsif (-T $temp_file) {
+            push(@FILES,$temp_file);
+         }
+      }
+   }
+}
+
+sub search {
+
+   # Split the Search Terms that the user entered by spaces.
+   @terms = split(/\s+/, $FORM{'terms'});
+
+   foreach $FILE (@FILES) {
+
+      # Open the File, Read it Into an Array.
+      open(FILE,"$FILE");
+      @LINES = <FILE>;
+      close(FILE);
+
+      # Join the LINES in the FILE with a space, and then take
+      # out all new line characters.
+      $string = join(' ',@LINES);
+      $string =~ s/\n//g;
+
+      # The loops below determine which syntax to use based on
+      # user input such as case (in)sensitivity and the boolean
+      # term (and/or)
+
+      if ($FORM{'boolean'} eq 'AND') {
+         foreach $term (@terms) {
+            if ($FORM{'case'} eq 'Insensitive') {
+
+               # If the string doesn't contain one of the terms,
+               # don't include the file in report.
+               if (!($string =~ /$term/i)) {
+                  $include{$FILE} = 'no';
+                  last;
+               }
+               else {
+                  $include{$FILE} = 'yes';
+               }
+            }
+            elsif ($FORM{'case'} eq 'Sensitive') {
+
+               # If the string doesn't contain one of the terms
+               # exactly, do not include it.
+               if (!($string =~ /$term/)) {
+                  $include{$FILE} = 'no';
+                  last;
+               }
+               else {
+                  $include{$FILE} = 'yes';
+               }
+            }
+         }
+      }
+      elsif ($FORM{'boolean'} eq 'OR') {
+         foreach $term (@terms) {
+            if ($FORM{'case'} eq 'Insensitive') {
+
+               # If string contains one of the terms, then
+               # include the file in report.
+               if ($string =~ /$term/i) {
+                  $include{$FILE} = 'yes';
+                  last;
+               }
+               else {
+                  $include{$FILE} = 'no';
+               }
+            }
+            elsif ($FORM{'case'} eq 'Sensitive') {
+
+               # If the string includes one of the terms exactly
+               # as entered, then include the file in report.
+               if ($string =~ /$term/) {
+                  $include{$FILE} = 'yes';
+                  last;
+               }
+               else {
+                  $include{$FILE} = 'no';
+               }
+            }
+         }
+      }
+
+      # Attempt to locate the title of the page to display in
+      # results.
+      if ($string =~ /<title>(.*)<\/title>/i) {
+         $titles{$FILE} = "$1";
+      }
+      else {
+         $titles{$FILE} = "$FILE";
+      }
+   }
+}
+
+# Return the HTML and Results to User.
+sub return_html {
+   print "Content-type: text/html\n\n";
+   print "<html>\n";
+   print " <head>\n";
+   print "  <title>Results of Search</title>\n";
+   print " </head>\n";
+   print " <body>\n";
+   print "  <center>\n";
+   print "   <h1>Results of Search in $title</h1>\n";
+   print "  </center>\n\n";
+   print "Below are the results of your Search in no ";
+   print "particular order:<p><hr size=7 width=75%><p>\n";
+   print "<ul>\n";
+   foreach $key (keys %include) {
+      if ($include{$key} eq 'yes') {
+        print "<li><a href=\"$baseurl$key\">$titles{$key}</a>\n";
+      }
+   }
+   print "</ul>\n";
+   print "<hr size=7 width=75%>\n";
+   print "Search Information:<p>\n";
+   print "<ul>\n";
+   print "<li><b>Terms:</b> ";
+   $i = 0;
+   foreach $term (@terms) {
+      print "$term";
+      $i++;
+      if (!($i == @terms)) {
+         print ", ";
+      }
+   }
+   print "\n";
+   print "<li><b>Boolean Used:</b> $FORM{'boolean'}\n";
+   print "<li><b>Case $FORM{'case'}</b>\n";
+   print "</ul><br><hr size=7 width=75%><P>\n";
+   print "<ul>\n";
+   print "<li><a href=\"$search_url\">Back to Search Page</a>\n";
+   print "<li><a href=\"$title_url\">$title</a>\n";
+   print "</ul>\n";
+   print "<hr size=7 width=75%>\n";
+   print "Search Script written by Matt Wright and can be found";
+   print "at <a href=\"http://www.worldwidemart.com/scripts/\">";
+   print "Matt's Script Archive</a>\n";
+   print "</body>\n</html>\n";
+}

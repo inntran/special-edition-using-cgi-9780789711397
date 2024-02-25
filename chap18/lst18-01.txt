@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "Content-type: text/html"
+echo "Set-cookie: UserId=mikee; expires=Wednesday, 31-Jan-96 12:00:00 GMT"
+echo "Set-cookie: Password=guess; expires=Wednesday, 31-Jan-96 12:00:00 GMT"
+echo ""
+echo "<HTML><HEAD><TITLE>Welcome to WWW BBS</TITLE>"

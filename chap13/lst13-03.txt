@@ -1,0 +1,27 @@
+#!/usr/bin/perl
+#raw_msql_perl_demo.p
+#
+#This code has been tested with Msql 1.0.6 under SunOS 4.1.4
+#
+#A simple demonstration of Msqlperl in action
+require "Msql.pm";$host = shift || "";
+package main;
+#Connect in two steps: (1) Connect and (2) SelectDB...
+if ($dbh = Msql->Connect($host))
+    {print "Connected\n";} else {die "failed to connect\n";}
+if ($dbh->SelectDB("test"))
+    {print("Test db\n");} else {die "Select db failed\n";}
+
+$SQL = "select last_name,salary,id from employees";
+$sth = $dbh->Query($SQL) or die $Msql::db_errstr;
+#get the hash associating fieldnames and numbers:
+@fieldnum{@{$sth->name}} = 0..@{$sth->name}-1;
+# %fieldnum is now a list of fieldnums, indexed on names
+#and get the rows
+while (@row = $sth->FetchRow())
+     {
+          print "last_name:$row[$fieldnum{'last_name'}]\t";
+          print "salary:$row[$fieldnum{'salary'}]\t";
+          print "id:$row[$fieldnum{'id'}]\t";
+     print "\n";
+     }

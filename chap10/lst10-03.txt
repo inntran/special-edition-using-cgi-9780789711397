@@ -1,0 +1,16 @@
+#! /usr/local/bin/perl
+
+# print out an entire HTTP header
+print qq|HTTP/1.0 200 OK\n|;
+print qq|Server: NCSA/1.4\n|;
+print qq|Content-type: text/html\n\n|;
+
+# print out standard HTML beginning of document
+print qq|<html><head><title>A test page</title></title></head>\n|;
+print qq|<BODY bgcolor="#ffffff">\n|;
+
+# print the HTML document
+print qq|<h1>This is a test, only a test.</h1>\n|;
+
+# close the document
+print qq|</body></html>\n|;

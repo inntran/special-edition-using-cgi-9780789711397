@@ -1,0 +1,19 @@
+What types of stocks are you interested in?<BR>
+<INPUT TYPE="checkbox" NAME="Penny" VALUE="Yes">Penny
+<INPUT TYPE="checkbox" NAME="High-Tech" VALUE="Yes">Technology
+<INPUT TYPE="checkbox" NAME="Mfg" VALUE="Yes">Manufacturing
+<INPUT TYPE="checkbox" NAME="Retail" VALUE="Yes">Retail
+<INPUT TYPE="checkbox" NAME="Service" VALUE="Yes">Service
+<INPUT TYPE="checkbox" NAME="BlueChip" VALUE="Yes">Blue-Chip
+<HR>
+What financial/investment magazines do you read?<BR>
+<INPUT TYPE="checkbox" NAME="Forbes" VALUE="Yes">Forbes
+<INPUT TYPE="checkbox" NAME="Wall-Street" VALUE="Yes">Wall-Street Journal
+<INPUT TYPE="checkbox" NAME="Robb" VALUE="Yes">Robb Report
+<INPUT TYPE="checkbox" NAME="Kiplinger's" VALUE="Yes">Kiplinger's
+<INPUT TYPE="checkbox" NAME="other" VALUE="Yes">Others
+<HR>
+Would you be interested in a Bonds quoting service?
+<INPUT TYPE="radio" NAME="bond" VALUE="Yes">Yes
+<INPUT TYPE="radio" NAME="bond" VALUE="No">No
+<HR>

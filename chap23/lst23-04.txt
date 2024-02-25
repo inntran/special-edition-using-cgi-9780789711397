@@ -1,0 +1,18 @@
+Sub SendReQuest()
+
+Send ("Content-type: text/html")
+Send ("")
+Send ("<HTML><HEAD><TITLE>")
+Send ("Please fill in your e-mail address.")
+Send ("</TITLE></HEAD>")
+Send ("<BODY>")
+Send ("<FORM METHOD=""POST"" ACTION=""/cgi-win\email.exe"">")
+Send ("")
+Send ("Please fill in your E-mail address and press submit.")
+Send ("<INPUT SIZE=30 NAME=""EMailAddress"">")
+Send ("<INPUT TYPE=""submit"" VALUE=""Submit"">.")
+Send ("")
+Send ("</FORM>")
+Send ("</BODY></HTML>")
+
+ End Sub

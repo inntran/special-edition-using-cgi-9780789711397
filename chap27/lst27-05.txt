@@ -1,0 +1,21 @@
+<b><i><?echo $name></i></b> 
+                &lt;<a href="mailto: <?echo $email>"><?echo $email>
+[ic:ccc]             </a>&gt;
+<b><?echo date("D M d/y H:i:s",$key[$j])></b>
+                <font size=-1><a href="<?echo $PHP_SELF>?edit+
+[ic:ccc]             <?echo $key[$j]>">
+                &lt;entry id: <?echo $key[$j]>&gt;</a></font>
+                <br><?echo $comment><hr>
+                <?$j--;
+        endwhile;
+        /* Don't forget to close the dbm file */
+        dbmclose($fn)>
+        <center>
+        <a href="<?echo $PHP_SELF>"> [Top] </a>
+        <a href="<?echo $PHP_SELF>?read+1"> [Read] </a>
+        <a href="<?echo $PHP_SELF>?admin"> [Admin] </a>
+        </center>
+        <?include "footer">
+        </body></html>
+        <?exit>
+<?endif;

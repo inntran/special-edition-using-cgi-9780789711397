@@ -1,0 +1,72 @@
+// The script's entry point
+
+void main() {
+
+    char * pRequestMethod;  // pointer to REQUEST_METHOD
+        
+    // First, set STDOUT to unbuffered
+
+    setvbuf(stdout,NULL,_IONBF,0);
+
+    // Zero out the global variables
+
+    ZeroMemory(szEmail,sizeof(szEmail));
+    ZeroMemory(szComments,sizeof(szComments));
+    ZeroMemory(szName,sizeof(szName));
+        
+    // Figure out how we were invoked, and determine what
+    // to do based on that
+
+    pRequestMethod = getenv("REQUEST_METHOD");
+
+    if (pRequestMethod==NULL) {
+
+        // No request method; must have been invoked from
+        // command line.  Print a message and terminate.
+
+        printf("This program is designed to run as a CGI script, "
+               "not from the command-line.\n");
+
+    }
+    
+    else if (stricmp(pRequestMethod,"GET")==0) {
+
+        // Request-method was GET; this means we should
+        // print out the guestbook
+
+        PrintMIMEHeader();      // Print MIME header
+        PrintHTMLHeader();      // Print HTML header
+        PrintForm();            // Print guestbook form
+        PrintGBEntries();       // Print contents of guestbook
+        PrintHTMLTrailer();     // Print HTML trailer
+    }
+
+    else if (stricmp(pRequestMethod,"POST")==0) {
+
+        // Request-method was POST; this means we should
+        // parse the input and create a new entry in
+        // the guestbook
+
+        PrintMIMEHeader();      // Print MIME header
+        PrintHTMLHeader();      // Print HTML header
+        GetPOSTData();          // Get POST data to szBuffer
+        ProcessPOSTData();      // Process the POST data
+        PrintHTMLTrailer();     // Print HTML trailer
+    }
+
+    else
+    {
+
+        // Request-method wasn't null, but wasn't GET or
+        // POST either.  Output an error message and die
+
+        PrintMIMEHeader();      // Print MIME header
+        PrintHTMLHeader();      // Print HTML header
+        printf("Only GET and POST methods supported.\n");
+        PrintHTMLTrailer();     // Print HTML trailer
+    }
+
+    // Finally, flush the output & terminate
+
+    fflush(stdout);
+}

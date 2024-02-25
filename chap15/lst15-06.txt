@@ -1,0 +1,101 @@
+<head>
+<title>Search the Web!</title>
+</head>
+
+<body>
+
+<H1> Search the Web!</H1>
+<hr>
+<H2>Search the pages on ITM</H2>
+<A HREF="http://www.wolfenet.com/~rniles/itm.html"><IMG SRC="http://www.wolfenet.com/~rniles/pics/itm.gif" BORDER = 0></A>
+<dl><dt><dd>
+<h3>Search for:</h3>
+<FORM METHOD="POST" ACTION="http://www.wolfenet.com/~rniles/swish-web.cgi">
+<input type="text" name="keywords" size="48">
+<input type="submit" value=" Run ">
+<input type="reset" value=" Clear "><br>
+<select name="maxhits">
+<option>10
+<option SELECTED>25
+<option>50
+<option>100
+<option>250
+<option>500
+<option>all
+</select>
+Results<br>
+<p>
+<input type="radio" name="searchall" value="1" checked>Search entire files<br>
+<input type="radio" name="searchall" value="0">Search in:<br>
+<dl><dt><dd>
+<input type="checkbox" name="head">Head (title and other items)<br>
+<input type="checkbox" CHECKED name="title">Title<br>
+<input type="checkbox" name="body">Document text<br>
+<input type="checkbox" CHECKED name="headings">Headings in text<br>
+<input type="checkbox" CHECKED name="emphasized">Emphasized text (bold, italic)<br>
+<input type="checkbox" CHECKED name="comments">Comments (may contain search keywords)<br>
+</dd></dl>
+<p>
+<input type="checkbox" name="compact">Compact listing (omit scores, URLs, file sizes and types)<br>
+<input type="checkbox" name="indexdata">Show data about index
+<p>
+<hr>
+<b>And</b>, <b>or</b> and <b>not</b> operators can be used.
+(The default is <b>and</b>.)<br>
+Searching is not case-sensitive.<br>
+<p>
+Limited wildcard searches are possible, by appending a * to the end
+of a word.<br>
+Otherwise the search looks for complete words.<br>
+Searching starts at the beginning of a word. You can't look for
+segments in the middle of words.<br>
+<p>
+Parentheses force a search order.<br>
+Searching for phrases is not supported.<br>
+<p>
+<pre>
+<b>Examples:</b>
+   boat sail
+   boat <b>and</b> sail
+   boat <b>or</b> sail
+   boat <b>and (</b>row <b>or</b> sail<b>)</b>
+   boat<b>* and not</b> row
+</pre>
+</dd></dl>
+</form>
+<a href="mailto:rniles@wolfenet.com">E-mail: Robert Niles (rniles@wolfenet.com)</a><br>
+<p>
+<hr>
+<p>
+
+<H2>Search InfoSeek</H2>
+
+<FORM METHOD="GET" ACTION="http://guide-p.infoseek.com/WW/IS/Titles">
+
+<A HREF="http://guide.infoseek.com/"><img src="http://images2.infoseek.com/images/guidesm.gif" border=0 width=105 height=62 alt="[Infoseek Guide]"></A><p>
+
+<A HREF="http://guide.infoseek.com/">Infoseek Guide</A>: <B>Your roadmap to the Internet</B><p>
+
+The best way to search the Web, Usenet News and <A HREF="http://guide.infoseek.com/">more</A>.
+Type in words and phrases and select a source to search below.<br>
+<INPUT NAME="qt" SIZE=50 VALUE="" MAXLENGTH=80>
+<INPUT TYPE="submit" VALUE="Search"><br>
+
+Source:
+<INPUT TYPE=radio NAME=col VALUE=DC CHECKED> All Web pages
+<INPUT TYPE=radio NAME=col VALUE=NN> Usenet Newsgroups &nbsp;&nbsp;(<A HREF="http://guide.infoseek.com/IS/Help?SearchHelp.html#searchtips">Search tips</A>)
+</FORM>
+<hr>
+<p>
+
+<H2>Search Starting Point</H2>
+
+<A href="http://www.stpt.com/"><IMG SRC="http://www.stpt.com/stpthalf.gif" border=0></a><p>
+Enter search keyword(s):<br>
+<form action="http://www.stpt.com/cgi-bin/searcher" method="post">
+<input type="text" name="SearchFor" value="" size=38><br>
+<input type="submit" name="S" value="Starting Point - MetaSearch">
+</form>
+
+</body>
+</html>

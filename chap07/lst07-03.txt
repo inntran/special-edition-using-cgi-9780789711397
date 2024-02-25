@@ -1,0 +1,73 @@
+<HTML>
+<HEAD>
+<TITLE>Order QUE Books ONLINE</TITLE>
+</HEAD>
+
+<BODY>
+<H1>Order QUE Books Online</H1>
+<p>
+<hr>
+<H2>Customer Information</H2>
+
+<FORM ACTION="formmail.pl" METHOD="POST">
+<INPUT TYPE="hidden" NAME="subject" VALUE="Book Order">
+<INPUT TYPE="hidden" NAME="recipient" VALUE="sales@que.books.com">
+
+<pre>
+          Name:<INPUT TYPE="text" NAME="realname">
+         Email:<INPUT TYPE="text" NAME="email">
+
+<b>Postal Address:</b>
+Street (line1):<INPUT TYPE="text" NAME="street1">
+Street (line2):<INPUT TYPE="text" NAME="street2">
+          City:<INPUT TYPE="text" NAME="city">
+         State:<INPUT TYPE="text" NAME="state" SIZE=12>
+       Country:<INPUT TYPE="text" NAME="country" SIZE=12>
+      ZIP Code:<INPUT TYPE="text" NAME="zip" SIZE=6>
+
+  Phone Number:<INPUT TYPE="text" NAME="phone" SIZE=13>
+
+</pre>
+<p>
+<hr>
+<H2>Product Information</h2>
+<p>
+<pre>
+
+<INPUT TYPE="checkbox" NAME="SP_Using_CGI" VALUE="order">Special Edition: Using CGI
+Quantity:<INPUT TYPE="text" NAME="qnty_CGI" SIZE=4>
+
+<INPUT TYPE="checkbox" NAME="SP_Using_HTML" VALUE="order">Special Edition: Using HTML
+Quantity:<INPUT TYPE="text" NAME="qnty_HTML" SIZE=4>
+
+If you would like additional information on other products, or on
+bulk purchasing arrangements, please leave us a note:
+<TEXTAREA NAME="Comments" ROWS=6 COLS=60> </TEXTAREA>
+
+</pre>
+<p>
+
+<H2>Payment information</H2>
+<p>
+<pre>
+
+Would you like to pay with:<br>
+
+<INPUT TYPE="radio" NAME="CreditCard" VALUE="Visa"> Visa
+<INPUT TYPE="radio" NAME="CreditCard" VALUE="MasterCard"> Master Card
+<INPUT TYPE="radio" NAME="CreditCard" VALUE="A_Express"> American Express
+<INPUT TYPE="radio" NAME="CreditCard" VALUE="Discover"> Discover
+
+Name on credit card:<INPUT TYPE="text" NAME="Full_Name" SIZE=60>
+ Credit Card Number:<INPUT TYPE="text" NAME="cc_number" SIZE=19>
+    Expiration Date:<INPUT TYPE="text" NAME="expires" SIZE=7>
+</pre>
+<p>
+<INPUT TYPE="submit" VALUE="Process Order">
+or
+<INPUT TYPE="reset" VALUE="Clear Form">
+<p>
+</FORM>
+
+</BODY>
+</HTML>

@@ -1,0 +1,15 @@
+dbmopen($fn,"r");
+$i=0;
+$getkey = dbmfirstkey($fn)>
+<?while($getkey);
+         if($getkey!="GUESTBOOKPASS");
+                 $keyday = intval(date("Y",
+[ic:ccc]              $getkey))*365+date("z",$getkey); 
+                 $today = intval(date("Y"))*365+date("z");
+                 if(($today - $keyday < $days) || $days==0);
+                         $key[$i] = $getkey;
+                         $i++;
+                 endif;  
+         endif;
+         $getkey = dbmnextkey($fn,$getkey);
+endwhile;

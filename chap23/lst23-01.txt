@@ -1,0 +1,30 @@
+ [CGI]
+Request Protocol=HTTP/1.0
+Request Method=GET
+Executable Path=/cgi-win/order.exe
+Server Software=WebSite/1.0
+Server Name=server.domain.com
+Server Port=80
+Server Admin=user@mailserver.com
+CGI Version=CGI/1.2 (Win)
+Remote Address=123.123.123.123
+Authentication Method=Basic
+Authentication Realm=Web Server
+
+[System]
+GMT Offset=3600
+Debug Mode=No
+Output File=c:\temp\59ws.out
+
+[Accept]
+image/gif=Yes
+image/x-xbitmap=Yes
+image/jpeg=Yes
+image/pjpeg=Yes
+*/*=Yes
+
+[Extra Headers]
+Connection=Keep-Alive
+User-Agent=Mozilla/2.0b3 (Win95; I)
+Pragma=no-cache
+Host=123.123.123.123

@@ -1,0 +1,58 @@
+void DecodeQueryString() {
+    char    *pQueryString;      // pointer to QUERY_STRING
+    char    *p;                 // generic pointer
+
+    iOperation = 0;             // undefined value
+    liFirstRecord = 0;          // first entry to view
+
+    pQueryString = getenv("QUERY_STRING");
+
+    // If query string absent, or op = view, set
+    // the operation to view
+   
+    if ( (pQueryString==NULL) ||    // no query string
+        (*pQueryString=='\0'))      // query string blank
+    {
+        iOperation = Op_ViewBook;
+        return;
+    }
+
+    _strlwr(pQueryString);
+
+    if (strstr(pQueryString,"op=view"))
+    {
+        iOperation = Op_ViewBook;
+    }
+   
+    // else if op = sign, set operation to sign
+
+    else if (strstr(pQueryString,"op=sign"))
+    {
+        iOperation = Op_SignBook;
+    }
+
+    // Look for first=xx in the query string
+   
+    p = strstr(pQueryString,"first=");
+    if (p)
+    {
+        strcpy(szBuffer,p+6);
+        p = strchr(szBuffer,'&');
+        if (p) *p = '\0';
+        liFirstRecord = atol(szBuffer);
+        if (liFirstRecord < 0) liFirstRecord = 0;
+    }
+
+    // Look for howmany=xx in the query string
+   
+    p = strstr(pQueryString,"howmany=");
+    if (p)
+    {
+        strcpy(szBuffer,p+8);
+        p = strchr(szBuffer,'&');
+        if (p) *p = '\0';
+        liHowMany = atol(szBuffer);
+        if (liHowMany < 1) liHowMany = 1;
+        if (liHowMany > 999) liHowMany = 999;
+    }
+ }

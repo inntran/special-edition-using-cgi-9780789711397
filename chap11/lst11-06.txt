@@ -1,0 +1,12 @@
+$FileEnding       = ".html";
+$DirectoryPath       = "/home/rclark/public_html/";
+$DirectoryURL       = "http://www.aa.net/~rclark/";
+$HukilauCGI       = "http://www.aa.net/cgi-bin/rclark/hukilau.cgi";
+$HukilauImage       = "http://www.aa.net/~rclark/hukilau.gif";
+$BackgroundImage  = "http://www.aa.net/~rclark/ivory.gif";
+$Copyright       = "Copyright 1995 Adams Communications. All rights
+ [ccc]reserved.";
+$HomePageURL       = "http://www.aa.net/~rclark/";
+$HomePageName       = "Home Page";
+# You must place the "\" before the "@" sign in the e-mail address:
+$MailAddress       = "rclark\@aa.net";

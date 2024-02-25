@@ -1,0 +1,51 @@
+#------------------------------------------------------------------
+# PRINT INDEX DATA
+
+sub PrintIndexData {
+   # If entry field is blank, index isn't searched, hence no index
+   #data.
+   # In that case, search the index to retrieve indexing data.
+   if (!$Keywords) {
+      &SearchFileForIndexData;
+   }
+   print "<hr>";
+   print "<dl><dt><dd>";
+   print "Index name: <b>$iname</b><br>\n";
+   print "Description: <b>$idesc</b><br>\n";
+   print "Index contains: <b>$icounts</b><br>\n";
+   if ($ShowIndexFilenames) {
+      print "Location: <b>$IndexLocation</b><br>\n";
+      print "Saved as (internal name): <b>$ifilename</b><br>\n";
+   }
+   print "SWISH Format: <b>$iformat</b><br>\n";
+   print "Maintained by: <b>$imaintby</b><br>\n";
+   print "Indexed on: (day/month/year): <b>$idate</b><br>\n";
+   if ($ShowSwishVersion) {
+      if (open (SWISHOUT, "-|") || exec $SwishLocation, "-V") {
+      $SwishVersion = <SWISHOUT>;
+      close (SWISHOUT);
+      }
+      print "Searched with: <b>$SwishVersion</b><br>\n";
+   }
+   print "</dd></dl>";
+}
+
+#----------------------------------------------------------------
+# SEARCH FILE FOR INDEX DATA
+
+# If the form's input field is blank, ordinarily no search is made,
+# which prevents reading the index file for the index data. In that
+# case, the following subroutine is called.
+
+sub SearchFileForIndexData {
+  # use a keyword that definitely won't be found
+  $Keywords = $GoofyKeyword;
+  if (open (SWISHOUT, "-|") 
+    || exec $SwishLocation, "-f", $IndexLocation, "-w", $Keywords) {
+    while ($LINE=<SWISHOUT>) {
+      chop ($LINE);
+      &ScanLineForIndexData;
+    }
+    close (SWISHOUT);
+  }
+}

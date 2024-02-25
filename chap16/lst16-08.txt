@@ -1,0 +1,12 @@
+<html>
+<head>
+<META HTTP-EQUIV="Refresh" CONTENT="5; URL=http://www.microsoft.com/">
+<title>Take a Ride</title>
+</head>
+<body>
+<h1>Take a Ride to Microsoft</h1>
+This page takes you to Microsoft's Web server in five seconds.
+<p>
+If your browser doesn't support META commands, click <a href="http://www.microsoft.com/">here</a> to go there manually.
+</body>
+</html>

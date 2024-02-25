@@ -1,0 +1,11 @@
+<FORM ACTION="/orders/order.idc" METHOD="POST">
+Name: <INPUT TYPE="text" NAME="name"><BR>
+Street: <INPUT TYPE="text" NAME="street"><BR>
+City: <INPUT TYPE="text" NAME="city"><BR>
+State: <INPUT TYPE="text" NAME="state">
+Zip: <INPUT TYPE="text" NAME="zip" SIZE=10><P>
+Select which items you would like to order:<BR>
+<INPUT TYPE="checkbox" NAME="ram" VALUE="ram"> 8MB RAM<BR>
+<INPUT TYPE="checkbox" NAME="hd" VALUE="hd"> 1.2GB HD<BR>
+<INPUT TYPE="checkbox" NAME="modem" VALUE="modem"> 28.8 Modem<P>
+<INPUT TYPE="submit" VALUE="Place Order">

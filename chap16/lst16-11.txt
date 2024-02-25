@@ -1,0 +1,86 @@
+// SERVPUSH.C
+// This program demonstrates SERVER PUSH of text
+// strings.  It outputs a header, followed by 10
+// strings.  Each output is an x-mixed-replace
+// section.  Each section replaces the previous
+// one on the user's browser.
+//
+// Long printf lines in this listing have been broken
+// for clarity.
+
+#include <windows.h>
+#include <stdio.h>
+
+void main() {
+     // First declare our variables.  We'll use "x"
+     // as a loop counter.  We'll use an array of
+     // pointers, called *pushes[], to hold 10 strings.
+     // These strings will get pushed down the pipe,
+     // one at a time, during the operation of our
+     // program.
+     int     x;
+     char     *pushes[10] = {
+               "Did you know this was possible?",
+               "Did you know this was <i>possible</i>?",
+               "Did you know this was <b>possible?</b>",
+               "<font size=+1>Did you know this was "
+               "possible?</font>",
+               "<font size=+2>Did you know this was "
+               "<i>possible?</i></font>",
+               "<font size=+3>Did you know this was "
+               "<b>possible?</b></font>",
+               "<font size=+4>Did you know this was "
+               "possible?</font>",
+               "<font size=+5><i>DID YOU KNOW THIS WAS "
+               "POSSIBLE?</i></font>",
+               "<font size=+6><b>DID YOU KNOW THIS WAS "
+               "POSSIBLE?</b></font>",
+               "<b><i>Now you do!</i></b>"
+               };
+
+     // Turn buffering off for stdout
+     setvbuf(stdout,NULL,_IONBF,0);
+
+     // Output the main HTTP header
+     // Our boundary string will be "BoundaryString"
+     // Note that like all headers, it must be
+     // terminated with a blank line (the \n\n at
+     // the end).
+     printf("Content-type: "
+            "multipart/x-mixed-replace;"
+            "boundary=BoundaryString\n\n");
+
+     // Output the first section header
+     // Each section header must start with two dashes,
+     // the arbitrary boundary string, a newline character,
+     // the content type for this section, and TWO newlines.
+     printf("--BoundaryString\n"
+            "Content-type: text/html\n\n");
+
+     // Output a line to describe what we're doing
+     printf("<h1>Server Push Demonstration</h1>\n");
+
+     // Loop through the 10 strings
+     for (x = 0; x < 10; x++) {
+          // Output the section header first
+          printf("\n--BoundaryString\n"
+                 "Content-type: text/html\n\n");
+          // Flush output, just to be safe
+          fflush(stdout);
+          // Wait to let the browser display last section
+          Sleep(1500);
+          // Output data for this section
+          printf("Special Edition: Using CGI<br>"
+                 "Server Push demonstration.  "
+                 "Push %i:<br>%s\n"
+                 ,x+1, pushes[x]);
+          // Flush again
+          fflush(stdout);
+     }
+
+     // All done, so output the terminator.
+     // The trailing two dashes let the browser know that
+     // there will be no more parts in this multipart
+     // document.
+     printf("\n--BoundaryString--\n\n");
+}

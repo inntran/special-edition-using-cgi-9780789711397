@@ -1,0 +1,53 @@
+'
+' Control comes here on a GET operation (the first
+' time the script is invoked). Control also comes
+' here every time a POST operation decides to print
+' the order form again.
+'
+Sub CreateForm()
+    ' First, show the current orders
+    ShowOrders
+       
+    ' Now print the order form, so the visitor
+    ' can pick items to order
+   
+    ' First the <form...> line
+    Out "<form method=POST action="
+    Out Q(cgiGetScript()) + ">" + vbCrLf
+   
+    ' Now the state information, if any
+    Out "<input type=hidden name=baggage value="
+    PrintArray
+    Out ">" + vbCrLf
+       
+    Out "Fresh Fruits you can buy:<br>"
+    ' Now the Fruit options
+    Out "<select name=Item>"
+    Out "<option>Apple $0.25 ea"
+    Out "<option>Orange $0.24 ea"
+    Out "<option>Mango $0.75 ea"
+    Out "<option>Banana $0.23 ea"
+    Out "<option>Kiwi $1.19 ea"
+    Out "<option>Plastic Bag (free)"
+    Out "</select>"
+   
+    ' Now the quantity
+    Out "  How many? "
+    Out "<input type=text name=Quantity "
+    Out "size=3 value=1 maxlength=3>"
+    Out "<p>"
+   
+    ' Now the submit buttons
+    Out "<input type=submit name=Choice value="
+    Out Q(" Add to Cart ") + ">" + vbCrLf
+   
+    Out "<input type=submit name=Choice value="
+    Out Q(" Remove from Cart ") + ">" + vbCrLf
+   
+    Out "<input type=submit name=Choice value="
+    Out Q(" Check Out ") + ">" + vbCrLf
+   
+    ' End the form
+    Out "</form>"
+   
+End Sub

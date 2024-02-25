@@ -1,0 +1,91 @@
+#!/usr/bin/perl 
+ 
+# l2picture.cgi  --  A QuickCam "live" picture CGI script
+# Copyright 1996, Jon Lewis <jlewis@inorganic5.fdt.net>
+
+$ENV{'IFS'}='' if $ENV{'IFS'} ne '';
+$ENV{'PATH'}='/bin:/usr/bin';
+
+$< = $>;       
+
+$ROOT='/home/admin/fubar';
+$PH='public_html';
+$LOCK="$ROOT/$PH/.pic.lock";
+#$QCOPT="-w145 -b160 -c32";
+$CJOPT="-greyscale -quality 85";
+#$QCOPT="-w145 -b160 -c8";
+#$QCOPT="-w195 -b170 -c12";
+##$QCOPT="-w200 -b170 -c24";
+$QCOPT="-w208 -b162 -c35";
+
+@NoBeeps=('nav-nt.microngreen.com',
+        'some.site.com',);
+
+# This annoyed coworkers...so I had to disable it.
+#system('echo -e "\007" >/dev/tty9');
+
+sub copy # WTH isn't this built in?
+{
+local($a,$b)=@_;
+        open(IF,$a);
+        open(OF,">$b");
+        while (<IF>) {
+                print OF;
+        }
+        close(IF);
+        close(OF);
+}
+
+sub shoot # hmm...shoot a picture
+{
+        system("rsh dino killall -9 qcam 2>/dev/null");
+        &copy("${ROOT}/${PH}/test1.jpg","${ROOT}/${PH}/test2.jpg");
+        system("rsh dino qcam/qcam-0.3/qcam $QCOPT >${ROOT}/${PH}/test1.ppm");
+        system("cjpeg $CJOPT <$ROOT/$PH/test1.ppm >$ROOT/$PH/test1.jpg 2>/dev/null");
+}
+
+sub sendit # transmit a picture
+{
+local($image)=$_[0];
+        print "Content-type: image/jpeg\n";
+        print "Content-length: ", -s "$ROOT/$PH/$image","\n\n"; 
+        open(IF,"$ROOT/$PH/$image");
+        while (<IF>)
+        {
+                print;
+        }
+}
+
+sub makelock # make a lock file, put the PID in it
+{
+        open(LF,">$LOCK");
+        print(LF $$);
+        close(LF);
+}
+
+sub checklock # check for existance and validity of the lock file.
+              # returns 1 if locked, 0 if not locked or stale lock
+{
+        if ( -f $LOCK ) {
+                open(PS,"$LOCK");
+                $pid=<PS>;
+                $pid=~/(.*)/; #untaint $pid
+                $pid=$1;
+                $PSO=`/bin/ps $pid 2>/dev/null`;
+                (! $PSO=~m/"No processes available"/);
+        }
+}
+
+# Main()
+#
+if ( ! (&checklock) ) 
+{
+        &makelock;
+        &shoot;
+        &sendit("test1.jpg");
+        unlink($LOCK);
+}
+else
+{
+        &sendit("test2.jpg"); 
+}                       

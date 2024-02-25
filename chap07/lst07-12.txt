@@ -1,0 +1,227 @@
+// PrintGBEntries -- print out the contents of the guestbook
+
+BOOL PrintGBEntries() {
+    int         iWaitForIt;         // generic counter
+    HANDLE      hFile;              // file handle
+    BOOL        bSuccess;           // success indicator
+    DWORD       dwBytesRead;        // num bytes written
+    DWORD       dwNumBytes;         // generic counter
+    DWORD       dwLastError;        // hold last err code
+    DWORD       dwLoWord;           // file size lo word
+    DWORD       dwHiWord;           // file size hi word
+    long        liRecordNumber;     // record number
+    long        liTotalRecords;     // tot recs in file
+    long        dwNumPrinted = 0;   // num printed so far   
+
+    // First, print a link to allow the visitor to sign
+    // the guestbook. A sign operation is accomplished
+    // by invoking the script with the GET method (an
+    // <a href...> link, with a query string of "op=sign"
+
+    printf("<a href=\"%s"
+           "?op=sign\">"
+           "Sign the Guestbook"
+           "</a><p>\n",
+           getenv("SCRIPT_NAME")
+           );
+
+    // Set up a counter/loop. We'll use the iWaitForIt
+    // variable as our counter, and we'll go through the
+    // loop up to 100 times.
+   
+    for (iWaitForIt = 0; iWaitForIt < 100; iWaitForIt++)
+    {
+
+        // Each time within the loop, we'll try to get
+        // non-exclusive read access to the log file.
+
+        hFile = CreateFile (
+            szDataFile,                  
+            GENERIC_READ,       // read-only
+            FILE_SHARE_READ,    // let others read, too
+            0,                  // no special security
+            OPEN_EXISTING,      // fail if not there
+            FILE_ATTRIBUTE_NORMAL,
+            0
+            );
+       
+        // If we were unable to open the file, find out why
+       
+        if (hFile == INVALID_HANDLE_VALUE)
+        {
+            dwLastError = GetLastError();
+            switch (dwLastError)
+            {
+                case ERROR_FILE_NOT_FOUND:
+
+                    // file doesn't exist
+
+                    return FALSE;
+
+                case ERROR_SHARING_VIOLATION:
+                case ERROR_LOCK_VIOLATION:
+
+                    // file is busy
+                    // so sleep for .1 second
+               
+                    Sleep(100);
+                    break;
+
+                default:
+               
+                    // some other fatal error
+                    // we don't care what; just
+                    // exit
+               
+                    return FALSE;
+            }
+        }
+        else
+        {
+            // At this point, the file is open for read.
+            // Loop through backwards, starting with
+            // liFirstRecord, for liHowMany records
+           
+            dwLoWord = GetFileSize(hFile,&dwHiWord);
+            liTotalRecords = dwLoWord / sizeof(szBuffer);
+
+
+            // If liFirstRecord is zero, we want to start
+            // at the end of the file. If liFirstRecord
+            // is invalid (points beyond the end of the
+            // file, adjust it backward
+
+            if ( (liFirstRecord==0) ||
+                 (liFirstRecord > liTotalRecords)
+               )
+               liFirstRecord = liTotalRecords;
+
+            liRecordNumber = liFirstRecord;
+
+            if (liTotalRecords==0)      // if no records at all
+            {
+                CloseHandle(hFile);
+                return TRUE;
+            }
+               
+            if ((liRecordNumber - liHowMany) > 0)
+            {
+                // not starting at beginning of
+                // file, so print a link for "View
+                // Earlier Records"
+
+                liFirstRecord = liRecordNumber - liHowMany;
+                if (liFirstRecord < 1) liFirstRecord = 1;
+               
+                printf("<a href=\"%s"
+                    "?op=view&first=%li&howmany=%li\">"
+                    "Earlier Records"
+                    "</a> &nbsp;",
+                    getenv("SCRIPT_NAME"),
+                    liFirstRecord,
+                    liHowMany
+                    );
+            }
+           
+            if (liRecordNumber!=liTotalRecords)
+            {
+                // not starting at end of file,
+                // so print a link for "View Later
+                // "Records"
+
+                liFirstRecord = liRecordNumber + liHowMany;
+
+                if (liFirstRecord > liTotalRecords)
+                    liFirstRecord = liTotalRecords;
+
+                printf("<a href=\"%s"
+                    "?op=view&first=%li&howmany=%li\">"
+                    "Later Records"
+                    "</a> &nbsp;",
+                    getenv("SCRIPT_NAME"),
+                    liFirstRecord,
+                    liHowMany
+                    );
+            }
+
+            printf("<p>\n");
+
+            while (dwNumPrinted < liHowMany)
+            {
+            
+                liRecordNumber--;     // record numbers are zero-based
+
+                // Position the file pointer to the
+                // beginning of the desired record.
+                // This offset is liRecordNumber times
+                // the length in bytes of each record
+
+                SetFilePointer (
+                    hFile,
+                    liRecordNumber * sizeof(szBuffer),
+                    0L,
+                    FILE_BEGIN
+                    );
+
+                // Read in exactly one record
+
+                dwNumBytes = sizeof(szBuffer);
+                bSuccess = ReadFile (
+                    hFile,
+                    szBuffer,
+                    dwNumBytes,
+                    &dwBytesRead,
+                    0
+                    );
+           
+                if ( (bSuccess==FALSE) || (dwBytesRead==0))
+                {
+
+                    // file is done, or there was an error
+
+                    break;
+                }
+                else
+                {
+
+                    // print out what we got
+
+
+                    // bump number of recs printed
+                    dwNumPrinted++;
+
+                    // terminate the record, in case
+                    // it is exactly sizeof(szBuffer)
+                    // in length
+
+                    szBuffer[dwBytesRead]='\0';
+
+                    // print out the record
+                    printf(szBuffer);
+
+                    // print out the record number,
+                    // just for fun
+
+                    printf("(Record #%d of %d)<br>",
+                        liRecordNumber+1,
+                        liTotalRecords
+                        );
+
+                    // if that was the first record
+                    // in the file, exit this loop
+                    // immediately!
+
+                    if (liRecordNumber==0) break;
+                }
+
+            } // end of while loop
+           
+            CloseHandle(hFile);
+            return TRUE;
+
+        } // end of if hFILE test
+
+    } // end of for loop
+
+    return FALSE;
+}

@@ -1,0 +1,21 @@
+# The current debug level
+$debug_Level = 2;
+
+# Print debugging status
+sub debug_Print
+{
+     if ($debug_Level >= $_[0])
+     {
+          print STDERR ("@_[1..@_]\n");
+     }
+}
+
+# Some code
+&debug_Print(1,"Output header");
+print("Content-type: text/html\n\n");
+
+&debug_Print(2,"Loop through %user_Info array");
+foreach $user_Key sort(keys(%user_Info))
+{
+     &debug_Print(3,"\t\"$user_Key\" = \"$user_Info{$user_Key}\"");
+     if (...

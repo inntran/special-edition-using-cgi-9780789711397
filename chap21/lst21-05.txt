@@ -1,0 +1,267 @@
+<HTML>
+<HEAD>
+<TITLE>Samples</TITLE>
+<script language="JavaScript">
+<!--
+    // Check for necessary browser features
+    var langSafe = false;
+    function verifyLang ()
+    {
+        if ( (x = ""+window.RedScroll).indexOf("undefined") == -1 )
+            langSafe = true;
+        else
+        {
+            if (confirm("This browser version does not support all the\nlanguage and/or html features needed on this page.\n\n"+
+            "Go back to the JScript samples page?")) window.location.href = document.links[0].href;
+        }
+    }
+//-->
+</script>
+</HEAD>
+<BODY BGCOLOR=WHITE LINK=#0033CC TOPMARGIN=15 LEFTMARGIN=20 onLoad="verifyLang()">
+<talbe>
+<B>JScript sample:  
+Colortime</B></FONT>
+			<HR SIZE=2>
+		</TD>
+	</TR>
+</TABLE> 
+&nbsp;<BR>
+<FONT FACE="VERDANA, ARIAL, HELVETICA" SIZE=2>
+
+<SCRIPT LANGUAGE="JavaScript" FOR="RedScroll" EVENT="Change()">
+<!--
+    if (langSafe)
+    {
+        RedDec.Text = RedScroll.Value;
+        RedHex.text = UpdateVals().substring(4,6);
+    }
+//-->
+</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" FOR="GreenScroll" EVENT="Change()">
+<!--
+    if (langSafe)
+    {
+        GreenDec.Text = GreenScroll.Value;
+        GreenHex.text = UpdateVals().substring(2,4)
+    }
+//-->
+</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" FOR="BlueScroll" EVENT="Change()">
+<!--
+    if (langSafe)
+    {
+        BlueDec.Text = BlueScroll.Value;
+        BlueHex.text = UpdateVals().substring(0,2);
+    }
+//-->
+</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+    function UpdateVals()
+    {
+        var colorVal = RGB( RedScroll.Value, GreenScroll.Value, 
+BlueScroll.Value );
+        ColorTextBox.Backcolor = colorVal;
+        RGBDec.Text = colorVal;
+        var sHex = hex(colorVal);
+        while (6-sHex.length) sHex = "0"+sHex;
+
+        RGBHex.Text="&H" + sHex;
+        HTMLHex.Text = sHex.substring(4,6) + sHex.substring(2,4) + sHex.substring(0,2);
+        return sHex;
+    }
+    function RGB (r, g, b)
+    {
+        return (r) | (g << 8) | (b << 16);
+    }
+    function hex (num)
+    {
+        num = parseInt(num);
+        var sHex = "0123456789ABCDEF".charAt(num&15);
+        if (num>>>4) sHex = hex(num>>>4) + sHex;
+        return sHex;
+    }
+//-->
+</SCRIPT>
+This small application uses Forms 2.0 Controls and JScript<BR>
+to create a simple interface for choosing colors.<P>
+<TABLE BORDER=0 CELLSPACING=0>
+<TR><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>Dec</TD><TD>Hex</TD><TD>&nbsp;</TD></TR>
+<TR><TD colspan=2 align=right height=28>
+Red &nbsp; &nbsp;&nbsp;
+<OBJECT ID="RedScroll" WIDTH=171 HEIGHT=21 ALIGN=CENTER
+ CODEBASE="http://activex.microsoft.com/controls/mspert10.cab" 
+ CLASSID="CLSID:DFD181E0-5E2F-11CE-A449-00AA004A803D">
+    <PARAM NAME="Size" VALUE="4516;564">
+    <PARAM NAME="Max" VALUE="255">
+    <PARAM NAME="LargeChange" VALUE="51">
+    <PARAM NAME="Orientation" VALUE="1">
+</OBJECT>
+</TD>
+<TD>
+<OBJECT ID="RedDec" WIDTH=41 HEIGHT=21
+  CODEBASE="http://activex.microsoft.com/controls/mspert10.cab"
+  CLASSID="CLSID:8BD21D10-EC42-11CE-9E0D-00AA006002F3">
+    <PARAM NAME="VariousPropertyBits" VALUE="679495707">
+    <PARAM NAME="Size" VALUE="1094;564">
+    <PARAM NAME="Value" VALUE="0">
+    <PARAM NAME="FontCharSet" VALUE="0">
+    <PARAM NAME="FontPitchAndFamily" VALUE="2">
+    <PARAM NAME="FontWeight" VALUE="0">
+</OBJECT>
+</TD>
+<TD>
+<OBJECT ID="RedHex" WIDTH=41 HEIGHT=21
+  CODEBASE="http://activex.microsoft.com/controls/mspert10.cab" 
+  CLASSID="CLSID:8BD21D10-EC42-11CE-9E0D-00AA006002F3">
+    <PARAM NAME="VariousPropertyBits" VALUE="679495707">
+    <PARAM NAME="Size" VALUE="1094;564">
+    <PARAM NAME="Value" VALUE="0">
+    <PARAM NAME="FontCharSet" VALUE="0">
+    <PARAM NAME="FontPitchAndFamily" VALUE="2">
+    <PARAM NAME="FontWeight" VALUE="0">
+</OBJECT>
+</TD>
+<TD ROWSPAN=3>
+<OBJECT ID="ColorTextBox" WIDTH=95 HEIGHT=79
+  CODEBASE="http://activex.microsoft.com/controls/mspert10.cab"
+  CLASSID="CLSID:8BD21D10-EC42-11CE-9E0D-00AA006002F3">
+    <PARAM NAME="VariousPropertyBits" VALUE="746604571">
+    <PARAM NAME="Size" VALUE="2505;2081">
+    <PARAM NAME="FontCharSet" VALUE="0">
+    <PARAM NAME="FontPitchAndFamily" VALUE="2">
+    <PARAM NAME="FontWeight" VALUE="0">
+</OBJECT>
+</TD></TR>
+<TR><TD colspan=2 align=right height=28>
+Green  &nbsp; &nbsp;&nbsp;
+<OBJECT ID="GreenScroll" WIDTH=171 HEIGHT=21 ALIGN=CENTER
+  CODEBASE="http://activex.microsoft.com/controls/mspert10.cab"
+CLASSID="CLSID:DFD181E0-5E2F-11CE-A449-00AA004A803D">
+    <PARAM NAME="Size" VALUE="4516;564">
+    <PARAM NAME="Max" VALUE="255">
+    <PARAM NAME="LargeChange" VALUE="51">
+    <PARAM NAME="Orientation" VALUE="1">
+</OBJECT>
+</TD>
+<TD>
+<OBJECT ID="GreenDec" WIDTH=41 HEIGHT=21
+  CODEBASE="http://activex.microsoft.com/controls/mspert10.cab"
+CLASSID="CLSID:8BD21D10-EC42-11CE-9E0D-00AA006002F3">
+    <PARAM NAME="VariousPropertyBits" VALUE="679495707">
+    <PARAM NAME="Size" VALUE="1094;564">
+    <PARAM NAME="Value" VALUE="0">
+    <PARAM NAME="FontCharSet" VALUE="0">
+    <PARAM NAME="FontPitchAndFamily" VALUE="2">
+    <PARAM NAME="FontWeight" VALUE="0">
+</OBJECT>
+</TD>
+<TD>
+<OBJECT ID="GreenHex" WIDTH=41 HEIGHT=21
+  CODEBASE="http://activex.microsoft.com/controls/mspert10.cab"
+CLASSID="CLSID:8BD21D10-EC42-11CE-9E0D-00AA006002F3">
+    <PARAM NAME="VariousPropertyBits" VALUE="679495707">
+    <PARAM NAME="Size" VALUE="1094;564">
+    <PARAM NAME="Value" VALUE="0">
+    <PARAM NAME="FontCharSet" VALUE="0">
+    <PARAM NAME="FontPitchAndFamily" VALUE="2">
+    <PARAM NAME="FontWeight" VALUE="0">
+</OBJECT>
+</TD></TR>
+<TR><TD colspan=2 align=right height=28>
+Blue  &nbsp; &nbsp;&nbsp;
+<OBJECT ID="BlueScroll" WIDTH=171 HEIGHT=21 ALIGN=CENTER
+  CODEBASE="http://activex.microsoft.com/controls/mspert10.cab"
+CLASSID="CLSID:DFD181E0-5E2F-11CE-A449-00AA004A803D">
+    <PARAM NAME="Size" VALUE="4516;564">
+    <PARAM NAME="Max" VALUE="255">
+    <PARAM NAME="LargeChange" VALUE="51">
+    <PARAM NAME="Orientation" VALUE="1">
+</OBJECT>
+</TD>
+<TD>
+<OBJECT ID="BlueDec" WIDTH=41 HEIGHT=21
+  CODEBASE="http://activex.microsoft.com/controls/mspert10.cab"
+  CLASSID="CLSID:8BD21D10-EC42-11CE-9E0D-00AA006002F3">
+    <PARAM NAME="VariousPropertyBits" VALUE="679495707">
+    <PARAM NAME="Size" VALUE="1094;564">
+    <PARAM NAME="Value" VALUE="0">
+    <PARAM NAME="FontCharSet" VALUE="0">
+    <PARAM NAME="FontPitchAndFamily" VALUE="2">
+    <PARAM NAME="FontWeight" VALUE="0">
+</OBJECT>
+</TD>
+<TD>
+<OBJECT ID="BlueHex" WIDTH=41 HEIGHT=21
+  CODEBASE="http://activex.microsoft.com/controls/mspert10.cab"
+  CLASSID="CLSID:8BD21D10-EC42-11CE-9E0D-00AA006002F3">
+    <PARAM NAME="VariousPropertyBits" VALUE="679495707">
+    <PARAM NAME="Size" VALUE="1094;564">
+    <PARAM NAME="Value" VALUE="0">
+    <PARAM NAME="FontCharSet" VALUE="0">
+    <PARAM NAME="FontPitchAndFamily" VALUE="2">
+    <PARAM NAME="FontWeight" VALUE="0">
+</OBJECT>
+</TD></TR>
+<TR><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD>
+<TD ROWSPAN=3><IMG SRC="http://www.microsoft.com/jscript/us/samples/colortime/arrow.gif" 
+WIDTH=48 HEIGHT=51></TD><TD>&nbsp;</TD></TR>
+<TR><TD>RGB Decimal</TD><TD width=105>RGB Hex (MS)</TD><TD 
+width=47>&nbsp;</TD><TD>HTML Hex</TD></TR>
+<TR><TD>
+<OBJECT ID="RGBDec" WIDTH=95 HEIGHT=21
+  CODEBASE="http://activex.microsoft.com/controls/mspert10.cab"
+  CLASSID="CLSID:8BD21D10-EC42-11CE-9E0D-00AA006002F3">
+    <PARAM NAME="VariousPropertyBits" VALUE="679495707">
+    <PARAM NAME="Size" VALUE="2505;564">
+    <PARAM NAME="Value" VALUE="0">
+    <PARAM NAME="FontCharSet" VALUE="0">
+    <PARAM NAME="FontPitchAndFamily" VALUE="2">
+    <PARAM NAME="FontWeight" VALUE="0">
+</OBJECT>
+</TD>
+<TD>
+    <OBJECT ID="RGBHex" WIDTH=95 HEIGHT=21
+        CODEBASE="http://activex.microsoft.com/controls/mspert10.cab"
+        CLASSID="CLSID:8BD21D10-EC42-11CE-9E0D-00AA006002F3">
+        <PARAM NAME="VariousPropertyBits" VALUE="679495707">
+        <PARAM NAME="Size" VALUE="2505;564">
+        <PARAM NAME="Value" VALUE="0">
+        <PARAM NAME="FontCharSet" VALUE="0">
+        <PARAM NAME="FontPitchAndFamily" VALUE="2">
+        <PARAM NAME="FontWeight" VALUE="0">
+    </OBJECT>
+</TD>
+<TD>&nbsp;</TD>
+<TD>
+<OBJECT ID="HTMLHex" WIDTH=95 HEIGHT=21
+  CODEBASE="http://activex.microsoft.com/controls/mspert10.cab"
+  CLASSID="CLSID:8BD21D10-EC42-11CE-9E0D-00AA006002F3">
+    <PARAM NAME="VariousPropertyBits" VALUE="679495707">
+    <PARAM NAME="Size" VALUE="2505;564">
+    <PARAM NAME="Value" VALUE="0">
+    <PARAM NAME="FontCharSet" VALUE="0">
+    <PARAM NAME="FontPitchAndFamily" VALUE="2">
+    <PARAM NAME="FontWeight" VALUE="0">
+</OBJECT></FONT>
+</TABLE>
+<P>
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100%>
+	<TR>
+		<TD COLSPAN=2>
+			<HR SIZE=2>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=225>
+			<FONT FACE="Verdana, Arial, Helvetica" SIZE=2>
+<A  HREF="/misc/cpyright.htm">&#169; 1996 by Microsoft 
+Corporation</a>.</FONT><BR>
+		</TD>
+		<TD ALIGN=RIGHT></TD>
+	</TR>
+</TABLE> 
+</BODY>
+</HTML>
+

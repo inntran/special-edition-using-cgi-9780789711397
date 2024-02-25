@@ -1,0 +1,56 @@
+200 news.sff.net DNEWS Version 2.6f Greyware, posting OK
+help
+100 Legal commands
+  authinfo user Name|pass Password
+  article [MessageID|Number]
+  body [MessageID|Number]
+  check MessageID
+  date
+  group newsgroup
+  head [MessageID|Number]
+  help
+  ihave
+  last
+  list [active|active.times|newsgroups]
+  listgroup newsgroup
+  mode stream
+  mode reader
+  newgroups yymmdd hhmmss [GMT] [<distributions>]
+  newnews newsgroups yymmdd hhmmss [GMT] [<distributions>]
+  next
+  post
+  slave
+  stat [MessageID|Number]
+  takethis MessageID
+  xgtitle [group_pattern]
+  xhdr header [range|MessageID]
+  xover [range]
+  xpat header range|MessageID pat [morepat...]
+.
+group sff.admin.announce
+211 136 3 140 sff.admin.announce selected
+head 140
+221 140 <32baa241.87766522@news.sff.net> article retrieved - head follows
+From: TechSupport@sff.net (Jeffry Dwight)
+Newsgroups: sff.admin.announce
+Subject: Re: New Newsgroups
+Date: Fri, 20 Dec 1996 15:15:31 GMT
+Organization: SFF Net
+Message-ID: <32baa241.87766522@news.sff.net>
+References: <328536e2.39436673@news.sff.net> <32932751.32262723@news.sff.net>
+X-Newsreader: Forte Free Agent 1.1/32.230
+NNTP-Posting-Host: 207.141.178.79
+Lines: 4
+Path: news.sff.net!207.141.178.79
+.
+body
+222 140 <32baa241.87766522@news.sff.net> article retrieved - body follows
+I hope everyone has a wonderful winter holiday!  My wife and I
+will be out of town with the relatives all day on Christmas,
+but John will babysit the house for us.
+ 
+.
+next
+421 no next article in this group
+quit
+205 closing connection - goodbye!

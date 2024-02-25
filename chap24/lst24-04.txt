@@ -1,0 +1,27 @@
+// This code fragment shows how to split out an individual var=val
+// pair after you've located it within the input stream.  This
+// routine makes use of the URLDecode() routine in Listing 23.5
+
+void PrintOut (char * VarVal) {
+    char * pEquals;                // pointer to equals sign
+    int  i;                   // generic counter
+
+    pEquals = strchr(VarVal, '=');    // find the equals sign
+    if (pEquals != NULL) {
+        *pEquals++ = '\0';            // terminate the Var name
+        URLDecode(VarVal);            // decode the Var name
+
+        // Convert the Var name to upper case
+        i = 0;
+        while (VarVal[i]) {
+            VarVal[i] = toupper(VarVal[i]);
+            i++;
+        }
+
+        // decode the Value associated with this Var name
+        URLDecode(pEquals);
+
+        // print out the var=val pair
+        printf("%s=%s\n",VarVal,pEquals);
+    }
+}

@@ -1,0 +1,29 @@
+<HTML>
+<HEAD><TITLE>Thank you!</TITLE></HEAD>
+<BODY>
+<H1> Thank you for your order!</H1>
+Thank you, %idc.name%. The following items will be added to your bill:
+<UL>
+<%if% idc.ram EQ "">
+<%else%>
+<LI> 8MB of RAM
+<%endif%>
+<%if% idc.hd EQ "">
+<%else%>
+<LI> 1.2GB Hard Drive
+<%endif%>
+<%if% idc.modem EQ "">
+<%else%>
+<LI> 28.8 Modem
+<%endif%>
+</UL>
+These items will be sent to:
+<%name%><BR>
+<%street%><BR>
+<%city%>, <%state%> <%zip%><P>
+Again, thank you for your order, please visit us again soon!<BR>
+<HR>
+<P>
+<A HREF="http://www.selah.net">[Return to main page]</A>
+</BODY>
+</HTML>

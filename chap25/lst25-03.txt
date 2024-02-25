@@ -1,0 +1,16 @@
+<html>
+<head>
+<title>
+Draw Marble
+</title>
+</head>
+<body>
+<center>
+<h2>Show a Marble Color</h2>
+<applet code="marble.class" width=200 height=200>
+Loading marble...
+<param name=color value="magenta">
+</applet>
+</center>
+</body>
+</html>

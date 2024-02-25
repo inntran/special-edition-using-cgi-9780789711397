@@ -1,0 +1,22 @@
+Sub SendReQuest()
+
+    Send ("Content-type: text/html")
+    Send ("")
+    Send ("<HTML><HEAD><TITLE>" & "Phone number database" & _
+          "</TITLE></HEAD>")
+    Send ("<BODY>")
+    Send ("<FORM METHOD=""POST"" ACTION=""/cgi-win\phone.exe"">")
+    Send ("Fill in (a part of) a name and press Search")
+    Send ("<br>")
+    Send ("<br>")
+    Send ("<INPUT SIZE=30 NAME=""query"">")
+    Send ("<br>")
+    Send ("<br>")
+    Send ("<INPUT TYPE=""submit""")
+    Send ("VALUE=""Search"">")
+    Send ("")
+    Send ("</FORM>")
+    Send ("<HR>")
+    Send ("</BODY></HTML>")
+
+End Sub

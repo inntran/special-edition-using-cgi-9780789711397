@@ -1,0 +1,85 @@
+<HTML><HEAD>
+<TITLE>Willoughby, Dwight & Wright, Inc. - Questionnaire</TITLE>
+</HEAD>
+<BODY>
+<CENTER>
+<IMG SRC="/icons/logo.gif" ALT="The WDW,Inc. LOGO"><P>
+<H1>Questionnaire</H1>
+</CENTER>
+<HR>
+<H3>For us to better serve you, please take a few moments to fill out this questionnaire.</H3>
+<HR>
+<FORM METHOD = "POST" ACTION = "/cgi-bin/questionnaire.pl">
+Please select your age group:
+<INPUT TYPE="radio" NAME="agegroup" VALUE="under 20">Under 20
+<INPUT TYPE="radio" NAME="agegroup" VALUE="20-29">20-29
+<INPUT TYPE="radio" NAME="agegroup" VALUE="30-39" CHECKED>30-39
+<INPUT TYPE="radio" NAME="agegroup" VALUE="40-49">40-49
+<INPUT TYPE="radio" NAME="agegroup" VALUE="50-59">50-59
+<INPUT TYPE="radio" NAME="agegroup" VALUE="60+">60 or Over
+<HR>
+Are you Male or Female?
+<INPUT TYPE="radio" NAME="morf" VALUE="Male" CHECKED>Male
+<INPUT TYPE="radio" NAME="morf" VALUE="Female">Female
+<HR>
+What is the number of people living in your household?
+<INPUT TYPE="text" NAME="household" SIZE=2>
+<HR>
+Please select your yearly income group<BR>
+<INPUT TYPE="radio" NAME="income" VALUE="Under 20">Under $20k
+<INPUT TYPE="radio" NAME="income" VALUE="20-34">$20k-$34k
+<INPUT TYPE="radio" NAME="income" VALUE="35-49">$35k-$49k
+<INPUT TYPE="radio" NAME="income" VALUE="50-69">$50k-$69k
+<INPUT TYPE="radio" NAME="income" VALUE="70-99">$70k-$99k
+<INPUT TYPE="radio" NAME="income" VALUE="100+">$100k or More
+<HR>What is the size of your stock portfolio?
+<SELECT NAME="portfolio">
+<OPTION>Small
+<OPTION>Medium
+<OPTION>Large
+</SELECT>
+<HR>
+What types of stocks are you interested in?<BR>
+<INPUT TYPE="checkbox" NAME="Penny" VALUE="Yes">Penny
+<INPUT TYPE="checkbox" NAME="High-Tech" VALUE="Yes">Technology
+<INPUT TYPE="checkbox" NAME="Mfg" VALUE="Yes">Manufacturing
+<INPUT TYPE="checkbox" NAME="Retail" VALUE="Yes">Retail
+<INPUT TYPE="checkbox" NAME="Service" VALUE="Yes">Service
+<INPUT TYPE="checkbox" NAME="BlueChip" VALUE="Yes">Blue-Chip
+<HR>
+What financial/investment magazines do you read?<BR>
+<INPUT TYPE="checkbox" NAME="Forbes" VALUE="Yes">Forbes
+<INPUT TYPE="checkbox" NAME="Wall-Street" VALUE="Yes">Wall-Street Journal
+<INPUT TYPE="checkbox" NAME="Robb" VALUE="Yes">Robb Report
+<INPUT TYPE="checkbox" NAME="Kiplinger's" VALUE="Yes">Kiplinger's
+<INPUT TYPE="checkbox" NAME="other" VALUE="Yes">Others
+<HR>
+Would you be interested in a Bonds quoting service?
+<INPUT TYPE="radio" NAME="bond" VALUE="Yes">Yes
+<INPUT TYPE="radio" NAME="bond" VALUE="No">No
+<HR>
+How did you find out about our service?<BR>
+<TEXTAREA NAME="finding" ROWS=6 COLS=40>
+Type in here</TEXTAREA>
+<HR>
+How do you rate our service?
+<INPUT TYPE="radio" NAME="rating" VALUE="Great">Great!
+<INPUT TYPE="radio" NAME="rating" VALUE="VeryGood">Very Good
+<INPUT TYPE="radio" NAME="rating" VALUE="Good">Good
+<INPUT TYPE="radio" NAME="rating" VALUE="Fair">Fair
+<INPUT TYPE="radio" NAME="rating" VALUE="Poor">Poor
+<HR>
+Will you return?
+<INPUT TYPE="radio" NAME="visit" VALUE="Yes">Yes
+<INPUT TYPE="radio" NAME="visit" VALUE="No">No
+<HR>
+Miscellaneous Comments:<BR>
+<TEXTAREA NAME="comments" ROWS=6 COLS=40>
+Type in here</TEXTAREA>
+<HR>
+<INPUT TYPE="submit" VALUE="Submit">
+<INPUT TYPE="reset" VALUE="Clear">
+<HR>
+<I>Copyright 1996, Que Corporation</I>
+</BODY>
+</HTML>

@@ -1,0 +1,31 @@
+<!-- Simple color selection form with JavaScript validation
+ -->
+<HTML>
+<HEAD>
+<script language="JavaScript">
+<!-- hide script from old browsers
+  function checkcolor() {
+    if (document.sel.color != "blue") {
+      alert("Any color you want so long as it is blue!");
+      return false ;
+    } else {
+      document.sel.submit();
+      return true ;
+    }
+  }
+// end hiding contents -->
+</script>
+<TITLE>
+Simple Color Selection
+</TITLE>
+</HEAD>
+<BODY>
+<center>
+<h2>Select a color</h2>
+<FORM NAME="sel"  onSubmit="alert('Your color choice has been selected.')">
+<p>Color: <INPUT TYPE="text" NAME="color" Size="20" >
+<p><INPUT TYPE="button" VALUE="I Like This Color" onClick="checkcolor()">
+</FORM>
+</center>
+</BODY>
+</HTML>

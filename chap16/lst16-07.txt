@@ -1,0 +1,11 @@
+<html>
+<head>
+<META HTTP-EQUIV="Refresh" CONTENT="10">
+<title>Election Returns</title>
+</head>
+<body>
+<h1>Election Returns</h1>
+This document refreshes itself once every ten seconds.  Sit back and watch!
+     ...
+</body>
+</html>

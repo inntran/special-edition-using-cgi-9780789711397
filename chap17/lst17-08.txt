@@ -1,0 +1,190 @@
+// LASTHIT.C
+// This SSI program tracks visitors to a page, remembering
+// the most recent for display.
+
+#include <windows.h>
+#include <stdio.h>
+#define      ERROR_CANT_CREATE "LastHit:  Cannot open/create
+[ccc]registry key."
+#define  ERROR_CANT_UPDATE "LastHit:  Cannot update registry key."
+#define  LASTHIT "Software\\Greyware\\LastHit\\Pages"
+
+// This subroutine builds the info string about the
+// current caller. Hence the name. It uses a pointer
+// to a buffer owned by the calling routine for output,
+// and gets its information from the standard SSI
+// environment variables. Since "standard" is almost
+// meaningless when it comes to SSI, the program
+// gracefully skips anything it can't find.
+
+void BuildInfo(char * szOut) {
+     SYSTEMTIME         st;
+     char               szTmp[512];
+     char               *p;
+
+     szOut[0]='\0';
+
+     GetLocalTime(&st);
+     GetDateFormat(0, DATE_LONGDATE, &st, NULL, szTmp, 511);
+     sprintf(szOut,
+          "Last access on %s at %02d:%02d:%02d",
+          szTmp,
+          st.wHour,
+          st.wMinute,
+          st.wSecond);
+
+     p = getenv("REMOTE_ADDR");
+     if (p!=NULL) {
+          szTmp[0] = '\0';
+          sprintf(szTmp,"<br>Caller from %s",p);
+          if (szTmp[0] != '\0') strcat(szOut,szTmp);
+     }
+     p = getenv("REMOTE_HOST");
+     if (p!=NULL) {
+          szTmp[0] = '\0';
+          sprintf(szTmp," (%s)",p);
+          if (szTmp[0] != '\0') strcat(szOut,szTmp);
+     }
+     p = getenv("HTTP_USER_AGENT");
+     if (p!=NULL) {
+          szTmp[0] = '\0';
+          sprintf(szTmp,"<br>Using %s",p);
+          if (szTmp[0] != '\0') strcat(szOut,szTmp);
+     }
+}
+
+void main(int argc, char * argv[]) {
+     char     szOldInfo[512];
+     char     szNewInfo[512];
+     char     szDefPage[80];
+     char     *p;
+     char     *PageName;     // pointer to this page's name
+     long     dwLength=511;     // length of temporary buffer
+     long     dwType;          // registry value type code
+     long     dwRetCode;     // generic return code from API
+     HKEY     hKey;          // registry key handle
+
+     // Determine where to get the page name. A command-
+     // line argument overrides the SCRIPT_NAME variable.
+
+     if ((argc==2) && ((*argv[1]=='/') | (*argv[1]=='\\')))
+          PageName = argv[1];
+     else
+          PageName = getenv("SCRIPT_NAME");
+
+     // If invoked from without SCRIPT_NAME or args, die
+     if (PageName==NULL)
+     {
+          printf("LastHit 1.0.b.960121\n"
+                 "Copyright (c) 1995,96 Greyware "
+                 "Automation Products\n\n"
+                 "Documentation available online from "
+                 "Greyware's Web server:\n"
+                 "http://www.greyware.com/"
+                 "greyware/software/freeware.htp\n\n");
+     }
+     else
+     {
+
+          // Build info for next call
+          BuildInfo(szNewInfo);
+
+          // Open the registry key
+          dwRetCode = RegOpenKeyEx (
+               HKEY_LOCAL_MACHINE,
+               LASTHIT,
+               0,
+               KEY_EXECUTE,
+               &hKey);
+
+             // If open failed because key doesn't exist,
+          //create it
+          if ((dwRetCode==ERROR_BADDB)
+               || (dwRetCode==ERROR_BADKEY)
+               || (dwRetCode==ERROR_FILE_NOT_FOUND))
+               dwRetCode = RegCreateKey(
+                    HKEY_LOCAL_MACHINE,
+                    LASTHIT,
+                    &hKey);
+
+          // If couldn't open or create, die
+          if (dwRetCode != ERROR_SUCCESS) {
+               printf (ERROR_CANT_CREATE);
+          } else {
+
+               // Get the default page name
+               dwLength = sizeof(szDefPage);
+               dwRetCode = RegQueryValueEx (
+                    hKey,
+                    "(default)",
+                    0,
+                    &dwType,
+                    szDefPage,
+                    &dwLength);
+               if ((dwRetCode == ERROR_SUCCESS)
+                    && (dwType == REG_SZ)
+                    && (dwLength > 0)) {
+                    szDefPage[dwLength] = '\0';
+               } else {
+                    strcpy(szDefPage,"default.htm");
+               }
+
+               // If current page uses default page name,
+               // strip the page name
+               _strlwr(PageName);
+               p = strrchr(PageName,'/');
+               if (p==NULL) p = strrchr(PageName,'\\');
+               if (p) {
+                    p++;
+                    if (stricmp(p,szDefPage)==0) *p = '\0';
+               }
+
+               // Get this page's information
+               dwLength = sizeof(szOldInfo);
+               dwRetCode = RegQueryValueEx (
+                    hKey,
+                    PageName,
+                    0,
+                    &dwType,
+                    szOldInfo,
+                    &dwLength);
+               if ((dwRetCode == ERROR_SUCCESS)
+                    && (dwType == REG_SZ)
+                    && (dwLength >0)) {
+                    szOldInfo[dwLength] = '\0';
+               } else {
+                    strcpy (szOldInfo, szNewInfo);
+               }
+
+               // Close the registry key
+               dwRetCode = RegCloseKey(hKey);
+
+               // Print this page's info
+               printf("%s",szOldInfo);
+
+
+               // Write the new value back to the registry
+               dwRetCode = RegOpenKeyEx (
+                    HKEY_LOCAL_MACHINE,
+                    LASTHIT,
+                    0,
+                    KEY_SET_VALUE,
+                    &hKey);
+               if (dwRetCode==ERROR_SUCCESS) {
+                    dwRetCode = RegSetValueEx(
+                         hKey,
+                         PageName,
+                         0,
+                         REG_SZ,
+                         szNewInfo,
+                         strlen(szNewInfo));
+                    dwRetCode = RegCloseKey(hKey);
+               } else {
+                    printf(ERROR_CANT_UPDATE);
+               }
+          }
+     }
+     fflush(stdout);
+     return;
+}
+

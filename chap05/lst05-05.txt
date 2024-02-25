@@ -1,0 +1,21 @@
+<FORM METHOD = "POST" ACTION = "/cgi-bin/questionnaire.pl">
+Please select your age group:
+<INPUT TYPE="radio" NAME="agegroup" VALUE="under 20">Under 20
+<INPUT TYPE="radio" NAME="agegroup" VALUE="20-29">20-29
+<INPUT TYPE="radio" NAME="agegroup" VALUE="30-39" CHECKED>30-39
+<INPUT TYPE="radio" NAME="agegroup" VALUE="40-49">40-49
+<INPUT TYPE="radio" NAME="agegroup" VALUE="50-59">50-59
+<INPUT TYPE="radio" NAME="agegroup" VALUE="60+">60 or Over
+<HR>
+Are you Male or Female?
+<INPUT TYPE="radio" NAME="morf" VALUE="Male" CHECKED>Male
+<INPUT TYPE="radio" NAME="morf" VALUE="Female">Female
+<HR>
+Please select your yearly income group<BR>
+<INPUT TYPE="radio" NAME="income" VALUE="Under 20">Under $20k
+<INPUT TYPE="radio" NAME="income" VALUE="20-34">$20k-$34k
+<INPUT TYPE="radio" NAME="income" VALUE="35-49">$35k-$49k
+<INPUT TYPE="radio" NAME="income" VALUE="50-69">$50k-$69k
+<INPUT TYPE="radio" NAME="income" VALUE="70-99">$70k-$99k
+<INPUT TYPE="radio" NAME="income" VALUE="100+">$100k or More
+<HR>

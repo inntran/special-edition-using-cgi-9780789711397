@@ -1,0 +1,34 @@
+#Up to here code is identical with SearchHotlist.p above
+#
+#now @in has key=value pairs, and %in{key} = value
+#Main Program Begins Here
+#
+$UID = $in{'UID'};
+
+#connect to database server
+$user = "healy";
+$server = "server.wherever";
+$passwd = "dummy";  #not used, for msql goes by Unix UID;
+$database = "test";
+&dbi_connect( $user, $pswd, $server, $database );
+
+$Query = "select UID,URL,SHORTDESC,DESCRIPTION from HOTLIST where UID = $UID";
+
+&dbi_dosql($Query);
+#the next line is msql-specific; comment-out for other ver
+&dbi_fieldnames('UID','URL','SHORTDESC','DESCRIPTION');
+
+print "<h1>Detail View</h1>\n";
+
+while( %row = &dbi_nextrow  )
+     {
+      print "Hot link to this item: ";
+      print '<a href="';
+      print "$row{'URL'}";
+      print '">';
+      print &unescape($row{'SHORTDESC'});
+      print "</a><br>";
+      print "Detailed description: ";
+      print &unescape($row{'DESCRIPTION'});
+      print "<p>\n";
+      }

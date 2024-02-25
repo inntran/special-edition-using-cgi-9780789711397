@@ -1,0 +1,13 @@
+Content-type: multipart/mixed;boundary=BoundaryString
+
+--BoundaryString
+Content-type: text/plain
+
+Some text for part one.
+
+--BoundaryString
+Content-type: text/plain
+
+Some text for part two.
+
+--BoundaryString--

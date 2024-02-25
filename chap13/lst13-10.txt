@@ -1,0 +1,5 @@
+<h1>Detail View</h1>
+Hot link to this item:
+<A href="http://cscsun1.larc.nasa.gov/~beowulf/db/existing_products.html">
+LIST OF WWW DBMS GATEWAYS</A><br>
+Detailed description: Comprehensive List of Tools for Building RDBMS CGI Gateways<p>

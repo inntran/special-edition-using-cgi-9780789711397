@@ -1,0 +1,24 @@
+sub error_Fatal
+{
+     local($error_Title);
+     local($error_Mail);
+
+     # Get the specifics
+     $error_Title = "General" unless $error_Title = $_[0];
+     $error_Mail = "webmaster@www.server.com" unless
+      $error_Mail = $_[1];
+
+     # Print the error
+     print("<HTML><HEAD>");
+     print("<TITLE>Error: $error_Title</TITLE>");
+     print("</HEAD><BODY>\n");
+     print("<H1>Error: $error_Title</H1>\n");
+     print("<HR><I>@_[2..@_]</I><HR>\n");
+     print("Please inform ");
+     print("<A HREF=\"mailto:$error_Mail\">$error_Mail</A> ");
+     print("of this problem. Thank you.\n");
+     print("</BODY></HTML>\n"):
+
+     # Exit the program
+     exit(-1);
+}

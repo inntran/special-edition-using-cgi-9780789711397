@@ -1,0 +1,9 @@
+int main()
+{
+     int dummy_Var = 0;
+
+     for (;;)
+     {
+          dummy_Var++;
+     }
+}

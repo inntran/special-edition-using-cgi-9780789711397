@@ -1,0 +1,62 @@
+// XMAS.C
+// This program calculates the number of days between
+// the time of invocation and the nearest upcoming 25
+// December. It reports the result as a complete sentence.
+// The code is platform-independent.
+
+
+#include <windows.h> // Only required for windows platforms. 
+#include <stdio.h>
+#include <time.h>
+
+void main() {
+
+     // Some variables, all self-explanatory
+
+     struct tm     today;
+     time_t        now;
+     int           days;
+
+     // Get the current date, first retrieving the
+     // Universal Coordinated Time, then converting it
+     // to local time, stored in the today tm structure.
+
+     time(&now);
+     today = *localtime(&now);
+     mktime(&today);
+
+     // month is zero-based (0=jan, 1=feb, etc);
+     // day is one-based
+     // year is one-based
+     // so Christmas Eve is 11/24
+
+     // Is it Christmas Eve?
+     if ((today.tm_mon == 11) && (today.tm_mday==24)) {
+          printf("Today is Christmas Eve!");
+
+     } else {
+          // Is it Christmas Day?
+          if ((today.tm_mon == 11) && (today.tm_mday==25)) {
+               printf("Today is Christmas Day!");
+          } else {
+               // Calculate days by adding one and comparing
+               // for 11/25 repeatedly
+               days =0;
+               while ( (today.tm_mon  != 11) |
+                       (today.tm_mday != 25) )
+               {
+                    days++;
+                    today.tm_mday = today.tm_mday + 1;
+                    mktime(&today);
+               }
+               // Print the result using the customary
+               // static verb formation
+               printf("There are %i days until Christmas."
+                      ,days);
+          }
+     }
+
+     // Flush the output and we're done
+     fflush(stdout);
+     return;
+}

@@ -1,0 +1,80 @@
+-- Set up global variables
+global crlf
+global http_10_header
+global datestamp
+global idletime
+-- define  a variable equal to a carriage return and a line feed
+set crlf to (ASCII character 13) & (ASCII character 10)
+
+-- set up number of seconds that script will remain idle before
+-- terminating
+set idletime to 15
+
+-- set the current date to a variable
+set datestamp to current date
+
+-- define a standard HTTP 1.0 header
+set http_10_header to "HTTP/1.0 200 OK" & crlf & [ct]
+     "Server: MacHTTP" & crlf & [ct]
+     "MIME-Version: 1.0" & crlf & [ct]
+     "Content-type: text/html" & crlf & crlf
+
+-- This is the handler that processes Apple events sent from MacHTTP.
+-- WWW[go]sdoc is the event sent with GET or POST methods.
+-- process AppleEvent sent by the WWW server
+on [lch]event WWW[go]sdoc[rch] path_args [ct]
+     given [lch]class kfor[rch]:http_search_args, [lch]class post[rch]:post_args,
+            [lch]class meth[rch]:method, [lch]class addr[rch]:client_address,
+            [lch]class user[rch]:username, [lch]class pass[rch]:password,
+            [lch]class frmu[rch]:from_user, [lch]class svnm[rch]:server_name,
+            [lch]class svpt[rch]:server_port, [lch]class scnm[rch]:script_name,
+            [lch]class ctyp[rch]:content_type
+     -- develop HTML Output
+     set return_page to http_10_header & [ct]
+          "<HTML><HEAD><TITLE>Test 3</TITLE></HEAD>" & [ct]
+          "<BODY><H1>Test 3</H1>" & return & [ct]
+          "<H2>Post-Query Test</H3>" & return & [ct]
+          "<HR>" & return
+     -- list form variables
+     set return_page to return_page & [ct]
+          "<TABLE>" & return & [ct]
+          "<TR><TD>path_args: " & "<TD>" & path_args & [ct]
+          "</TR>" & return & [ct]
+          "<TR><TD>http_search_args: " & "<TD>" & "</TR>" & [ct]
+          http_search_args & return & [ct]
+          "<TR><TD>post_args: " & "<TD>" & post_args & "</TR>" & [ct]
+          return & [ct]
+          "<TR><TD>method: " & "<TD>" & method & "</TR>" &[ct]
+          return & [ct]
+          "<TR><TD>client_address: " & "<TD>" & client_address & [ct]
+          "</TR>" & return & [ct]
+          "<TR><TD>user_name: " & "<TD>" & username & "</TR>" & [ct]
+          return & [ct]
+          "<TR><TD>password: " & "<TD>" & password & "</TR>" & [ct]
+          return & [ct]
+          "<TR><TD>from_user: " & "<TD>" & from_user & "</TR>" & [ct]
+          return & [ct]
+          "<TR><TD>server_name: " & "<TD>" & server_name & [ct]
+          "</TR>" & return & [ct]
+          "<TR><TD>server_port: " & "<TD>" & server_port & [ct]
+          "</TR>" & return & [ct]
+          "<TR><TD>script_name: " & "<TD>" & script_name & [ct]
+          "</TR>" & return & [ct]
+          "<TR><TD>content_type: " & "<TD>" & content_type & [ct]
+          "</TR>" & return & [ct]
+          "</TABLE></BODY></HTML>"
+     return return_page
+
+end [lch]event WWW[go]sdoc[rch]
+
+-- Following
+on idle
+     if (current date) > (datestamp + idletime) then
+          quit
+     end if
+     return 5
+end idle
+
+on quit
+     continue quit
+end quit

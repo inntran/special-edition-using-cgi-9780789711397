@@ -1,0 +1,13 @@
+# Turn the flag on
+$debug_Flag = 1;
+
+# Some code
+print STDERR ("Output header\n") if $debug_Flag;
+print("Content-type: text/html\n\n");
+
+print STDERR ("Loop through %user_Info array\n") if $debug_Flag;
+foreach $user_Key sort(keys(%user_Info))
+{
+     print STDERR ("\"$user_Key\" = \"$user_Info{$user_Key}\"\n")
+      if $debug_Flag;
+     if (...

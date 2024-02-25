@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>Cool Random Colors</title>
+<meta http-equiv="refresh" content="3; URL=<%=Request.ServerVariables("PATH_INFO")%>">
+</head>
+
+<body bgcolor="#ffffff">
+<center>
+
+<%  Randomize %>
+<%
+n = int (rnd * 20 + 10)
+for i = 1 to n
+%>
+<font
+size=<%  s = int (rnd * 9 + 1) %><%  =s %>
+color="#<%  for j = 1 to 6 %><%  c = hex ( int (rnd * 16 + 1) ) %><%  =c %><%  next %>"
+>
+Cool
+</font>
+<%  next %>
+</center>
+<p>
+<hr>
+Programmed by
+<a href="http://rajiv.org">Rajiv Pant</a> (<a href="http://rajiv.org">Betul</a>)
+<a href="mailto:betul@rajiv.com">betul@rajiv.com</a>
+<!--#include virtual="/active/srcform.inc"-->
+
+</body>
+</html>

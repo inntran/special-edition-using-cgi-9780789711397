@@ -1,0 +1,35 @@
+$days = intval($argv[1]);
+
+if(strtoupper($DAYS)=="ALL");
+        $days=0;
+elseif ($DAYS > 0);
+        $days = $DAYS;
+endif>
+<form action="<?echo $PHP_SELF>?read" method="POST">
+<center>Show entries for the past       
+<?if($days==0)>
+        <input type="text" name="DAYS" value="All" size=4 maxlength=4>
+<?else>
+        <input type="text" name="DAYS" value="<?echo $days>" size=4 
+[ic:ccc]     maxlength=4>
+<?endif>
+days. (0 = All entries)</center></form><hr>
+<?              
+echo "<center><strong>";
+/* Title switch */
+switch($days);
+case 0;
+        echo "Showing all entries";
+        break;
+case 1;
+        echo "Showing today's entries";
+        break;
+case 2;
+        echo "Showing entries for today and yesterday";
+        break;
+default;
+        echo "Showing entries for the past $days days";
+        break;
+endswitch;
+echo "</strong></center>";
+echo "<hr>";

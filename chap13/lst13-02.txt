@@ -1,0 +1,32 @@
+#!/usr/local/bin/perl
+require sybperl;
+#
+#This code tested with Sybase 4.9.1 and Sybase 10.0.1 under SunOS 4.1.2
+#
+#NOTE: for Perl4, or for Statically loaded Perl5 versions
+#of sybperl, you must edit the first line to replace
+#the name 'perl' with the name of your sybperl version
+
+#raw_syb_perl_demo.p
+#A simple demonstration of Sybperl in action
+#
+#Must define $USER,$PWD,$SERVER here!
+    $dbproc = &dblogin( $USER,$PWD,$SERVER);
+    $dbproc != -1 || die "Can't connect to $server ...\n";
+    &dbuse( "test" ) || die "Can't use $database ...\n";
+
+#Create the SQL statement & send to the server
+$SQL = "select last_name,salary,id from employees";
+&dbcmd( $SQL ) || die "Error in dbcmd.\n" ;
+&dbsqlexec || die "Error in dbsqlexec.\n" ;
+$result = &dbresults($dbproc);
+
+#and get the resulting rows
+%row = &dbnextrow($dbproc, 1); #get first row
+while (%row = &dbnextrow($dbproc, 1))
+     {
+          print "last_name:$row{'last_name'}\t";
+          print "salary:$row{'salary'}\t";
+          print "id:$row{'id'}\t";
+          print "\n";
+     }

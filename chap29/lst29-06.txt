@@ -1,0 +1,11 @@
+sub error_Fatal
+{
+     # Print the error
+     print("<HTML><HEAD><TITLE>Error!</TITLE></HEAD><BODY>\n");
+     print("<H1>Error!</H1>\n");
+     print("<HR><I>@_</I><HR>\n");
+     print("</BODY></HTML>\n"):
+
+     # Exit the program
+     exit(-1);
+}

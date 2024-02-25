@@ -1,0 +1,9 @@
+<HTML>
+     <HEAD><TITLE>A POST METHOD Form</TITLE></HEAD>
+     <BODY>Please enter some data:<P>
+          <FORM METHOD="POST" ACTION="/cgi-bin/savepost.pl">
+               <INPUT TYPE="TEXT" NAME="text"
+                VALUE="Some sample text">
+          </FORM>
+     </BODY>
+</HTML>

@@ -1,0 +1,29 @@
+# Title or name of your server:
+local($title)="ICE Indexing Gateway";
+
+# search directories to present in the search dialogue
+local(@directories)=(
+    "Public HTML Directory",
+    "Another HTML Directory"
+);
+
+# Location of the indexfile:
+#   Example: $indexfile="/usr/local/etc/httpd/index/index.idx";
+$indexfile="/home/rclark/public_html/index.idx";
+
+# Location of the thesaurus data file:
+#   Example: $thesfile="/igd/a3/home1/neuss/Perl/thes.dat";
+$thesfile="/usr/local/etc/httpd/index/thes.dat":
+
+# URL Mappings (a.k.a Aliases) that your server does.
+# map "/" to some path to reflect a "document root"
+#   Example
+#   %urltopath = (
+#   '/projects',   '/usr/stud/proj', 
+#   '/people',     '/usr3/webstuff/staff', 
+#   '/',           '/usr3/webstuff/documents',
+#   );
+
+%urltopath = (
+  '/~rclark',   '/home/rclark/public_html'
+);

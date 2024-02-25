@@ -1,0 +1,7 @@
+<html>
+<head><title>Invoking SGB1</title></head>
+<body>
+<h1>Invoking SGB1</h1>
+<a href="/scripts/sgb1.exe">View or Sign the Guestbook</a>
+</body>
+</html>

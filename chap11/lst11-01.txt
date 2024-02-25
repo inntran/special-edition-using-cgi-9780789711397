@@ -1,0 +1,54 @@
+#! /bin/sh
+echo Content-type: text/html
+echo
+if [ $# = 0 ]
+then
+  echo "<HTML>"
+  echo "<HEAD>"
+  echo "<TITLE>Search the News Page</TITLE>"
+  echo "</HEAD>"
+  echo "<BODY background=\"http://www.aa.net/~rclark/ivory.gif\">"
+  echo "<b><a href=\"http://www.aa.net/~rclark/\">Home</a></b><br>"
+  echo "<b><a href=\"http://www.aa.net/~rclark/news.html\">News
+  [ccc]Page</a></b><br>"
+  echo "<b><a href=\"http://www.aa.net/~rclark/search.html\">Search
+  [ccc]the Web</a></b><br>"
+  echo "<hr>"
+  echo "<H2>Search the News Page</H2>"
+  echo "<ISINDEX>"
+  echo "<p>"
+  echo "<dl><dt><dd>"
+  echo "The search program looks for the exact phrase you specify.<br>"
+  echo "<p>"
+  echo "You can search for <b>a phrase</b>, a whole <b>word</b> or a <b>sub</b>string.<br>"
+  echo "UPPER and lower case are equivalent.<br>"
+  echo "<p>"
+  echo "This program searches only the news listings page
+  [ccc]itself.<BR>"
+  echo "Matches may be in publication names, URLs or section
+  [ccc]headings.<br>"
+  echo "<p>"
+  echo "To search the Web in general, use <b>Search the Web</b> in
+  [ccc]the menu above.<br>"
+  echo "<p>"
+  echo "</dd></dl>"
+  echo "<hr>"
+  echo "</BODY>"
+  echo "</HTML>"
+else
+  echo "<HTML>"
+  echo "<HEAD>"
+  echo "<TITLE>Result of Search for \"$*\".</TITLE>"
+  echo "</HEAD>"
+  echo "<BODY background=\"http://www.aa.net/~rclark/ivory.gif\">"
+  echo "<b><a href=\"http://www.aa.net/~rclark/\">Home</a></b><br>"
+  echo "<hr>"
+  echo "<H2> Search Results: $*</H2>"
+  grep -i "$*" /home/rclark/public_html/news.html
+  echo "<p>"
+  echo "<hr>"
+  echo "<b><a href=\"http://www.aa.net/cgi-bin/rclark/
+  [ccc]isindex.cgi\">Return to Searching the News Page</a></b><br>"
+  echo "</BODY>"
+  echo "</HTML>"
+fi

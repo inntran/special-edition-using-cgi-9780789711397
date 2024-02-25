@@ -1,0 +1,38 @@
+#!/usr/local/bin/perl
+# Sample CGI.pm Script
+# Created by Matt Wright
+
+# Tell PERL to use the CGI.pm functions.
+use CGI;
+
+# Create the new form CGI.
+$form = new CGI;
+
+# Print the HTML compliant header.
+print $form->header;
+
+# Start the Form.
+print $form->startform;
+
+# Ask the Question.
+print "How is the page so far?\n";
+
+# Give the options in a popup menu.
+print "$form->popup_menu(-name=>'question',
+                         -values=>['Is Great!',
+                                   'Could Use Some Work',
+                                   'Needs Major Improvement']);
+
+# Give the user a submit button.
+print "<p>",$form->submit;
+
+# End the Form.
+print $form->endform;
+
+# If the form has been submitted, send back the information they
+# filled in.
+
+if ($query->param) {
+   print "You think that this page ";
+   print "<b>",$form->param('question'),"</b>\n";
+}

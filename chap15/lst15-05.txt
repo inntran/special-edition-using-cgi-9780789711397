@@ -1,0 +1,7 @@
+<!-- begin MetaSearch form interface for Starting Point-->
+Enter search keyword(s):<br>
+<form action="http://www.stpt.com/cgi-bin/searcher" method="post">
+<input type="text" name="SearchFor" value="" size=38><br>
+<input type="submit" name="S" value="Starting Point - MetaSearch">
+</form>
+<!-- end MetaSearch form interface -->

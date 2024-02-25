@@ -1,0 +1,9 @@
+[General]
+ScriptTitle=Fresh Fruit Farm
+ScriptHeader=Fresh Fruit Online Ordering System
+TaxRate=0.0525
+[Items]
+Item1=Apple $0.25 each
+Item2=Orange $0.24 each
+Item3=Mango $1.25 each
+...

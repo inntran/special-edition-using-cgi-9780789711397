@@ -1,0 +1,46 @@
+# Takes the maximum length allowed as a parameter
+# Returns 1 and the raw form data, or "0" and the error text
+sub cgi_Read
+{
+      local($input_Max) = 1024 unless $input_Max = $_[0];
+      local($input_Method) = $ENV{'REQUEST_METHOD'};
+
+      # Check for each possible REQUEST_METHODs
+      if ($input_Method eq "GET")
+      {
+            # "GET"
+            local($input_Size) = length($ENV{'QUERY_STRING'});
+
+            # Check the size of the input
+            if ($input_Size > $input_Max)
+            {
+                  return (0,"Input too big");
+            }
+
+            # Read the input from QUERY_STRING
+            return (1,$ENV{'QUERY_STRING'});
+      }
+      elsif ($input_Method eq "POST")
+      {
+            # "POST"
+            local($input_Size) = $ENV{'CONTENT_LENGTH'};
+            local($input_Data);
+
+            # Check the size of the input
+            if ($input_Size > $input_Max)
+            {
+                  return (0,"Input too big");
+            }
+
+            # Read the input from stdin
+            unless (read(STDIN,$input_Data,$input_Size))
+            {
+                  return (0,"Could not read STDIN");
+            }
+
+            return (1,$input_Data);
+      }
+
+      # Unrecognized METHOD
+      return (0,"METHOD not GET or POST");
+}

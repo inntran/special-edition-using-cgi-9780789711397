@@ -1,0 +1,77 @@
+#!/usr/local/bin/perl
+#
+#This program tested with Msql 1.0.6 under SunOS 4.1.4 and
+#NCSA httpd 1.5 with Perl 5.001m
+
+#do this as soon as possible!
+print "Content-type:text/html\n\n";
+
+#Define two little subroutines for urlencode/decode
+#
+#replace funny characters with %xx hex for urls
+sub escape
+{
+    ($_)=@_;
+    s/([^a-zA-Z0-9_\-.])/uc sprintf("%%%02x",ord($1))/eg;
+    $_;
+}
+
+#replace + with space and %xx with that ASCII character
+sub unescape {
+    ($_)=@_;
+    tr/+/ /;
+    s/%(..)/pack("c",hex($1))/ge;
+    $_;
+}
+
+#load the cgi library
+require "cgi-lib.pl";
+#load the Msql database interface library
+require 'msql_dbi.pl';
+
+# Start output
+
+#read in the form contents:
+
+&ReadParse(); #handles GET or POST forms w/identical results
+#now @in has key=value pairs, and %in{key} = value
+#Main Program Begins Here
+
+$SHORTDESC = $in{'SHORTDESC'};
+$SHORTDESC =~ tr/a-z/A-Z/;  #convert to uppercase
+$SCRIPT_NAME = $ENV{'SCRIPT_NAME'};
+
+#connect to database server
+$user = "healy";
+$server = "server.wherever";
+$passwd = "dummy";  #not used, for msql goes by Unix UID;
+$database = "test";
+&dbi_connect( $user, $pswd, $server, $database );
+
+$Query = "select UID,URL,SHORTDESC from HOTLIST";
+$Query = $Query . " where SHORTDESC like '%";
+$Query = $Query . $SHORTDESC . "%'";
+
+&dbi_dosql($Query);
+#the next line is msql-specific; comment-out for other ver
+&dbi_fieldnames('UID','URL','SHORTDESC','DESCRIPTION');
+
+print "<h1>Search Results</h1>\n";
+
+while( %row = &dbi_nextrow  )
+     {
+      print '<a href="';
+      print "$row{'URL'}";
+      print '">';
+      print &unescape($row{'SHORTDESC'});
+      print "</a> ";
+      print '<a href="';
+      print '/cgi-bin/healy/ShowDetails.p?';
+      print 'UID=';
+      print $row{'UID'};
+      print '">';
+      print "Details</a><p>\n";
+      }
+
+print "Click on a link to go there, or click on
+<b>details</b> for a more-detailed description of the link\n";

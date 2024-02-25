@@ -1,0 +1,7 @@
+<html>
+<head><title>ByAgent</title></head>
+<body>
+<h1>ByAgent Test Page</h1>
+This page demonstrates the ByAgent CGI program.  Click <a href="/cgi-bin/byagent.exe?">here</a> to test.
+</body>
+</html>

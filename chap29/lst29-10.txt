@@ -1,0 +1,29 @@
+sub error_User
+{
+     local($error_Title);
+     local($error_UrlHelp);
+     local($error_UrlBack);
+
+     # Get the specifics
+     $error_Title = "General" unless $error_Title = $_[0];
+     $error_UrlHelp = "http://www.server.com/help.html" unless
+      $error_UrlHelp = $_[1];
+     $error_UrlBack = $ENV{"HTTP_REFERER"};
+
+     # Print the error
+     print("<HTML><HEAD>");
+     print("<TITLE>Error: $error_Title</TITLE>");
+     print("</HEAD><BODY>\n");
+     print("<H1>Error: $error_Title</H1>\n");
+     print("<HR><I>@_[2..@_]</I><HR>\n");
+     if ($error_UrlBack)
+     {
+          print("To try again, click ");
+          print("<A HREF=\"$error_UrlBack\">here</A>. ");
+     }
+     print("For help, click <A HREF=\"$error_UrlHelp\">here</A>.\n");
+     print("</BODY></HTML>\n"):
+
+     # Exit the program
+     exit(-1);
+}

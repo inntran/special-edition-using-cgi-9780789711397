@@ -1,0 +1,14 @@
+<HTML>
+<HEAD><TITLE>Hotlist Demo HomePage</TITLE></HEAD><BODY>
+<H1>Hotlist Demo HomePage</H1>
+
+<A HREF="Search.html">Search the Hotlist</A><p>
+
+<A HREF="Submission.html">Submit an Item for the Hotlist</A><p>
+
+<A HREF="/cgi-bin/healy/SearchHotlist.p">See All Records in Hotlist</A><p>
+
+<A HREF="/cgi-bin/healy/ListSubmissions.p">Transfer Submitted Data</A>
+to the Public portion of the database (password required).<p>
+</PRE></BODY>
+</HTML>

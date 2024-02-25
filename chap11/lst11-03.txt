@@ -1,0 +1,55 @@
+# SWISH configuration file
+
+IndexDir /home/rclark/public_html/
+# This is a space-separated list of files and directories you 
+# want indexed. You can specify more than one of these directives.
+
+IndexFile index.swish
+# This is what the generated index file will be.
+
+IndexName "Index of Small Hours files"
+IndexDescription "General index of the Small Hours web site"
+IndexPointer "http://www.aa.net/~rclark/"
+IndexAdmin "Rod Clark (rclark@aa.net)"
+# Extra information you can include in the index file.
+
+IndexOnly .html .txt .gif .xbm .jpg
+# Only files with these suffixes will be indexed.
+
+IndexReport 3
+# This is how detailed you want reporting. You can specify numbers
+# 0 to 3 - 0 is totally silent, 3 is the most verbose.
+
+FollowSymLinks yes
+# Put "yes" to follow symbolic links in indexing, else "no".
+
+NoContents .gif .xbm .jpg
+# Files with these suffixes will not have their contents indexed -
+# only their file names will be indexed.
+
+ReplaceRules replace "/home/rclark/public_html/"
+[ccc]"http://www.aa.net/~rclark/"
+# ReplaceRules allow you to make changes to file pathnames
+# before they're indexed.
+
+FileRules pathname contains test newsmap
+FileRules filename is index.html rename chk lst bit
+FileRules filename contains ~ .bak .orig .000 .001 .old old. .map
+ [ccc].cgi .bit .test test log- .log
+FileRules title contains test Test
+FileRules directory contains .htaccess
+# Files matching the above criteria will *not* be indexed.
+
+IgnoreLimit 80 50
+# This automatically omits words that appear too often in the files
+# (these words are called stopwords). Specify a whole percentage
+# and a number, such as "80 256". This omits words that occur in
+# over 80% of the files and appear in over 256 files. Comment out
+# to turn of auto-stopwording.
+
+IgnoreWords SwishDefault
+
+# The IgnoreWords option allows you to specify words to ignore.
+# Comment out for no stopwords; the word "SwishDefault" will
+# include a list of default stopwords. Words should be separated
+# by spaces and may span multiple directives.

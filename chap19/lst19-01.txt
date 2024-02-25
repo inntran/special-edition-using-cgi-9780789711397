@@ -1,0 +1,41 @@
+
+<META HTTP-EQUIV="Refresh" CONTENT=90>
+<!------------------------------------------------
+File:     citycam.html
+created:     1/16/96
+-------------------------------------------------->
+<html>
+<HEAD>
+<TITLE>CityCam</TITLE>
+</HEAD>
+
+<BODY bgcolor="#000000"
+      text="#ffffff"
+      vlink="#80f080"
+      link="#00ff00">
+
+<P>
+<center>
+<font face=Lucida-Sans size=+3 color="#ff00ff">CityCAM</font>
+
+<table cellpadding=4 border=4>
+<tr>
+     <td valign=top align=center>
+          <img src="capture.jpg" alt="Image">
+          <P>
+     </td>
+</tr>
+</table>
+
+<table cellpadding=4 border=0 width=330>
+<tr>
+     <td><font size=-1>
+          <P>
+          You're looking at Seattle's skyline.
+          This page will refresh itself every 90 seconds.
+     </td>
+</tr>
+</table>
+</center>
+</BODY>
+</HTML>

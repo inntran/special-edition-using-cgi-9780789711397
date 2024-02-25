@@ -1,0 +1,45 @@
+<?if (!$GUESTBOOKFUNC)>
+<center><h2>Administrative Screen</h2></center>
+
+<center>
+<form action="<?echo $PHP_SELF>?admin" method="POST">
+<input type="hidden" name="GUESTBOOKPASS" 
+[ic:ccc]  value="<?echo $GUESTBOOKPASS>">
+<input type="hidden" name="GUESTBOOKFUNC" value="clear">
+<input type="submit" value="Clear all entries">
+</form>
+</center>
+
+<center>
+<form action="<?echo $PHP_SELF>?admin" method="POST">
+<input type="hidden" name="GUESTBOOKPASS" 
+[ic:ccc]   value="<?echo $GUESTBOOKPASS>">
+<input type="hidden" name="GUESTBOOKFUNC" value="delete">
+Delete all entries older than 
+<input type="text" name="GUESTBOOKARG" value="30" size=4 
+[ic:ccc]  maxlength=4> days.
+<input type="submit" value=" Ok ">
+</form>
+</center>
+
+<center>
+<form action="<?echo $PHP_SELF>?admin" method="POST">
+<input type="hidden" name="GUESTBOOKPASS" 
+[ic:ccc]  value="<?echo $GUESTBOOKPASS>">
+<input type="hidden" name="GUESTBOOKFUNC" value="edit">
+entry id: <input type="text" name="GUESTBOOKARG">
+<input type="submit" value="Edit Entry">
+</form>
+</center>
+
+<center>
+<form action="<?echo $PHP_SELF>?admin" method="POST">
+<input type="hidden" name="GUESTBOOKPASS" 
+[ic:ccc]  value="<?echo $GUESTBOOKPASS>">
+<input type="hidden" name="GUESTBOOKFUNC" value="change_password">
+Change password to: <input type="password" name="GUESTBOOKARG">
+<input type="submit" value=" Ok ">
+</form>
+</center>
+<?else;
+switch($GUESTBOOKFUNC);

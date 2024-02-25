@@ -1,0 +1,18 @@
+sub error_Fatal
+{
+     local($error_Title);
+
+     # Get the specifics
+     $error_Title = "General" unless $error_Title = $_[0];
+
+     # Print the error
+     print("<HTML><HEAD>");
+     print("<TITLE>Error: $error_Title</TITLE>");
+     print("</HEAD><BODY>\n");
+     print("<H1>Error: $error_Title</H1>\n");
+     print("<HR><I>@_[1..@_]</I><HR>\n");
+     print("</BODY></HTML>\n"):
+
+     # Exit the program
+     exit(-1);
+}

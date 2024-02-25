@@ -1,0 +1,24 @@
+open (HTFILE, "$passfile");
+  until (eof (HTFILE))
+  {
+     $line =<HTFILE>;
+       chop ($line);
+       if ($line =~ /$contents{'username'}/)
+        {
+
+        close (HTFILE);
+
+        print <<"HTML";
+        <HTML><HEAD><TITLE>Sorry, user exists</TITLE></HEAD>
+        <BODY>
+        <H1>Username: \"$contents{'username'}\" already exists!</H1>
+          <p>
+          Please select a different username to use.
+          <p><HR>
+          <a href=\"$referer\">Return to registration page</a>
+          </BODY></HTML>
+HTML
+die;
+
+          }
+  }

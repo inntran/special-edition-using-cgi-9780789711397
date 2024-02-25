@@ -1,0 +1,22 @@
+// This code fragment shows how to check the REQUEST_METHOD
+// environment variable and respond accordingly.  Note that
+// the variable might be NULL if the script is executed
+// from the command line, or it might be something other
+// than the expected GET or POST.
+
+char * pRequestMethod;
+
+pRequestMethod = getenv("REQUEST_METHOD");
+
+if (pRequestMethod==NULL) {
+    // do error processing
+}
+else if (stricmp(pRequestMethod,"GET")==0) {
+    // do GET processing
+}
+else if (stricmp(pRequestMethod,"POST")==0) {
+    // do POST processing
+}
+else {
+    // do error processing
+}

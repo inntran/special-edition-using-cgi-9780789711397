@@ -1,0 +1,15 @@
+<h1>Search Alta Vista</h1>
+<form method=get
+      action="http://www.altavista.digital.com/cgi-bin/query">
+<input type=hidden name=pg value=q>
+<input type=hidden name=what value=news>
+<input type=hidden name=fmt value=d>
+<b>Search Newsgroups for</b>
+<select name=q>
+<option>CGI by Example
+<option>Using CGI
+<option>Que Corporation
+</select><br>
+<input type=submit value=Submit>
+<br>
+</form>

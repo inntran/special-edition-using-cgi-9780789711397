@@ -1,0 +1,5 @@
+#!/bin/sh
+echo Content-Type: text/html
+echo
+echo Browser Software: $HTTP_USER_AGENT
+echo Originating Page: $HTTP_REFERER

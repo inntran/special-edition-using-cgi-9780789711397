@@ -1,0 +1,15 @@
+# robots.txt file for myhost.com
+# <User-agent>:<option><Disallow>:<option>
+
+User-agent: wobot/1.0 #Don't let that unknown Wobot in!!
+Disallow: /
+
+User-agent: Lycos/0.9 #Hey Lycos is nice!
+Disallow: /private/ #No need to poke around in there!
+Disallow: /test #Nobody really wants access to my test files
+
+User-agent: ArchitextSpider
+Disallow: /gifs #Don't need those pictures anyways
+
+User-agent: InfoSeek Robot 1.16
+Disallow: /users/ #Keep 'em out of the user directories

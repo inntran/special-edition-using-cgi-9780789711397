@@ -1,0 +1,76 @@
+#! /usr/local/bin/perl
+
+$passfile ="/usr/local/web/magazine/.htpasswd";
+$htpasswd ="/usr/local/web/cgi-bin/htpasswd.pl";
+$referer ="passwd.html";
+$private_area ="magazine/magazine.html";
+
+if ($ENV{'REQUEST_METHOD'} eq 'POST')
+{
+     read(STDIN, $buffer, $ENV{'CONTENT_LENGTH'});
+     @pairs = split(/&/, $buffer);
+     foreach $pair (@pairs)
+     {
+          ($name, $value) = split(/=/, $pair);
+          $value =~ tr/+/ /;
+          $value =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
+          $contents{$name} = $value;
+
+     }
+}
+
+chop($date = `date`);
+
+print "Content-type: text/html\n\n ";
+open (HTFILE, "$passfile");
+  until (eof (HTFILE))
+  {
+     $line =<HTFILE>;
+       chop ($line);
+       if ($line =~ /$contents{'username'}/)
+     {
+
+     close (HTFILE);
+
+     print <<"HTML";
+     <HTML><HEAD><TITLE>Sorry, user exists</TITLE></HEAD>
+     <BODY>
+     <H1>Username: \"$contents{'username'}\" already exists!</H1>
+     <p>
+     Please select a different username to use.
+     <p><HR>
+     <a href=\"$referer\">Return to registration page</a>
+     </BODY></HTML>
+HTML
+die;
+
+     }
+  }
+
+open(HTPASSWD, "|$htpasswd $passfile $contents{'username'}
+[ccc]>/dev/null 2>&1");
+print HTPASSWD "$contents{'password'}\n";
+close(HTPASSWD);
+
+print <<"HTML";
+<HTML><HEAD><TITLE>Entry successful</TITLE></HEAD>
+<BODY>
+<H1>Entry successful!</H1>
+<p>
+<hr>
+<p>
+<H2>You may now view our special online magazine!</H2>
+Simply click the link below and then enter your username,
+<b>$contents{'username'}</b> and your private password when asked.
+
+<p>
+Thank you for registering with us!<p>
+Enjoy!!
+<p>
+<HR>
+<A HREF=\"$private_area\">Go read the magazine!!</A>
+</BODY>
+</HTML>
+HTML
+
+exit;

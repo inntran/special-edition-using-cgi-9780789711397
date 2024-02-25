@@ -1,0 +1,7 @@
+printf("<a href=\"%s"
+       "?op=view&first=0&howmany=%li\">"
+       "View the Guestbook"
+       "</a><p>\n",
+       getenv("SCRIPT_NAME"),
+       liHowMany
+       );

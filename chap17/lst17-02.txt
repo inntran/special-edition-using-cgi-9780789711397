@@ -1,0 +1,33 @@
+KEEPING THIS A HAPPY FILE:
+o All entries should start flush-left.
+o Entries may be up to 8K in length.
+o Entries must be at least one line.
+o Entries may contain 1-9999 lines (8K max).
+o Line length is irrelevant; CRs are ignored.
+o Entries are separated by ONE blank line.
+o The last entry must be followed by a blank line, too.
+o The first entry (these lines here) will never get picked, so we use it to document the file.
+o Length of the file doesn't change retrieval time.
+o Any line beginning with "--" it is treated as a byline. It must be the last line in the block, otherwise the quotation might get cut off.
+o You can use HTML formatting tags.
+
+Drunk is feeling sophisticated when you can't say it.
+--Anon
+
+What really flatters a man is that you think him worth
+flattery.
+--George Bernard Shaw
+
+True patriotism hates injustice in its own land more
+than anywhere else.
+--Clarence Darrow
+
+If by "fundies" we mean "fanatics," that's okay with
+me, but in that case shouldn't we call them fannies?
+--Damon Knight
+
+My <i>other</i> car is <i>also</i> a Porsche.
+--Bumper Sticker
+
+The death sentence is a necessary and efficacious means for the Church to attain its ends when rebels against it disturb the ecclesiastical unity, especially obstinate heretics who cannot be restrained by any other penalty from continuing to disturb ecclesiastical order.
+--Pope Leo XIII

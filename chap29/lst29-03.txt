@@ -1,0 +1,50 @@
+#!/usr/bin/perl
+
+# Set up the file to dump
+$dump_File = "/etc/motd";
+
+# Print a fatal error and exit
+sub error_Fatal
+{
+     print("<HTML><HEAD><TITLE>MOTD Error!</TITLE></HEAD><BODY>\n");
+     print("<H1>Error!</H1>Please report the following to the ");
+     print("Webmaster of this site:<P>\n");
+     print("<I>@_</I>\n");
+     print("</BODY></HTML>\n");
+
+exit(-1);
+}
+
+# Print the header
+print("Content-type: text/html\n\n");
+
+# Try to open the dump file
+if (open(DUMP_FILE,$dump_File) != 0)
+{
+     print("<HTML><HEAD><TITLE>MOTD Error!</TITLE></HEAD><BODY>\n");
+     print("<H1>Error!</H1>\n");
+     print("<HR><I>Could not open MOTD file!</I><HR>\n");
+     print("</BODY></HTML>\n");
+
+     exit(-1);
+}
+
+# Try to read the dump file
+if (read(DUMP_FILE,$dump_Text,4096) < 1)
+{
+     print("<HTML><HEAD><TITLE>MOTD Error!</TITLE></HEAD><BODY>\n");
+     print("<H1>Error!</H1>\n");
+     print("<HR><I>Could not read MOTD file!</I><HR>\n");
+     print("</BODY></HTML>\n");
+
+     exit(-1);
+}
+
+# Send the dump file
+print("<HTML><HEAD>");
+print("<TITLE>Message of the Day</TITLE>");
+print("</HEAD><BODY><PRE>\n");
+print("$dump_Text\n");
+print("</PRE></BODY></HTML>\n");
+
+exit(0);

@@ -1,0 +1,66 @@
+#!/usr/local/bin/perl
+# Animation PERL/CGI Script     Version 1.2
+# Written by Matt Wright          mattw@misha.net
+# Created on: 9/28/95        Last Modified on: 1/29/96
+# Scripts Archive at:   http://www.worldwidemart.com/scripts/
+#########################################################
+# Define Variables
+
+# The $times variable represents how many times you want your
+# animation to be looped.
+
+$times = "1";
+
+# $basefile defines the path on your filesystem to the images you
+# plan to use in your animation.
+
+$basefile = "/WWW/images/animation/";
+
+# @files is an array that lists all of the images that you wish
+# to be displayed during the course of your animation.
+
+@files = ("begin.gif","second.gif","third.gif","last.gif");
+
+# $con_type is the content-type header that will be accompanied
+# with the images.  For any GIF images, set this equal to 'gif'
+# and if you plan on using JPEG images, set this variable equal
+# to 'jpeg'.
+
+$con_type = "gif";
+
+# Done
+#########################################################
+
+# Unbuffer the output so it streams through faster and better
+
+select (STDOUT);
+$| = 1;
+
+# Print out a HTTP/1.0 compatible header. Comment this line out
+# if you change the name of the script to not have an nph in
+# front of it.
+
+print "HTTP/1.0 200 OK\n";
+
+# Start the multipart content
+
+print "Content-Type: ";
+print "multipart/x-mixed-replace;boundary=myboundary\n\n";
+print "--myboundary\n";
+
+# For each file print the image out, and then loop back and print
+# the next image.  Do this for all images as many times as $times
+# is defined as.
+
+for ($num=1;$num<=$times;$num++) {
+   foreach $file (@files) {
+      print "Content-Type: image/$con_type\n\n";
+      open(PIC,"$basefile$file");
+      print <PIC>;
+      close(PIC);
+      print "\n--myboundary\n";
+   }
+}
+The two lines in listing 21.1 that are similar to
+select(STDOUT);
+$| = 1;

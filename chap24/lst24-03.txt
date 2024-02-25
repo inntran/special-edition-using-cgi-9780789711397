@@ -1,0 +1,14 @@
+// This code fragment demonstrates how to search through the input
+// to find each delimiting token.  It assumes you've already read
+// the input into InputBuffer, and are ready to parse out the
+// individual var=val pairs.
+
+char * pToken;           // pointer to token separator
+char InputBuffer[1024];  // local storage for input
+
+
+pToken = strtok(InputBuffer,"&");
+while (pToken != NULL) {       // While any tokens left in string
+    PrintOut (pToken);         // Do something with var=val pair
+    pToken = strtok(NULL,"&"); // Find the next token
+}

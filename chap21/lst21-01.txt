@@ -1,0 +1,17 @@
+<HTML>
+<HEAD>
+<TITLE>New Page</TITLE>
+</HEAD>
+<BODY BGCOLOR=#FFFFFF>
+
+<OBJECT ID="Marquee1" WIDTH=100% HEIGHT=200
+ CLASSID="CLSID:1A4DA620-6217-11CF-BE62-0080C72EDD2D">
+        <PARAM NAME="szURL" VALUE="http://www.selah.net/cgi.html">
+        <PARAM NAME="ScrollPixelsX" VALUE="0">
+        <PARAM NAME="ScrollPixelsY" VALUE="-5">
+        <PARAM NAME="ScrollDelay" VALUE="100">
+        <PARAM NAME="Whitespace" VALUE="0">
+</OBJECT>
+ 
+</BODY>
+</HTML>

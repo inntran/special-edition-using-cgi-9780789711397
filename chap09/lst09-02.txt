@@ -1,0 +1,28 @@
+# Basic Map Configuration File For Apache Server
+# Corresponds to Basic Image
+# Written on: 1/12/95        Last Modified on: 1/24/95
+# Map File Created by: Matt Wright
+
+# Default URL if user clicks outside of hyperlinked areas
+
+default http://www.server.xxx/
+
+# Base URL.  All URLs will be relative to this URL.
+
+base_url http://www.server.xxx/
+
+# Circle URL.  URL used if user clicks in the circle.
+
+circle circle.html 35,35 67,35
+
+# Rectangle URL.  URL used if user clicks in the rectangle.
+
+rect rect.html 71,3 199,65
+
+# Point URL.  URL used if user clicks on the dot.
+
+point point.html 326,30
+
+# Triangle URL.  URL used if user clicks in the triangle.
+
+poly poly.html 225,63 296,63 261,4

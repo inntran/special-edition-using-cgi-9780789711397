@@ -1,0 +1,56 @@
+Sub SendResponse()
+
+Dim Email As String
+Dim Name As String
+Dim Male_or_Female As String
+Dim Continent As String
+Dim Action As String
+Dim Your_Time As String
+Dim n
+
+Email = GetSmallField("EMailAddress")
+
+Name = GetSmallField("Name")
+
+On Error Resume Next
+
+Male_or_Female = GetSmallField("Male_or_Female")
+
+On Error GoTo 0
+
+Continent = GetSmallField("Continent")
+
+
+On Error GoTo Done_Decoding
+    Do
+        If n = 0 Then
+            Action = "We will: " & GetSmallField("Action")
+        Else
+            Action = Action & " and " & GetSmallField("Action_" & n)
+        End If
+        n = n + 1
+    Loop
+Done_Decoding:
+    Resume Done_Decoding1
+Done_Decoding1:
+    On Error GoTo 0
+
+Your_Time = GetSmallField("Time")
+
+Send ("Content-type: text/html")
+Send ("")
+Send ("<HTML><HEAD><TITLE> Thanks!")
+Send ("</TITLE></HEAD>")
+Send ("Thank you for submitting your E-Mail address! <br>")
+Send ("<pre>")
+Send ("We have registered: " + Email + "<br>")
+Send ("         Your Name: " + Name + "<br>")
+Send ("           You are: " + Male_or_Female + "<br>")
+Send ("       You live in: " + Continent + "<br>")
+Send ("              Time: " + Your_Time + "<br>")
+Send (Action + "." + "<br>")
+Send ("</pre>")
+Send ("</FORM>")
+Send ("</HTML>")
+
+End Sub

@@ -1,0 +1,14 @@
+#!/usr/local/bin/perl
+# Simple CGI Script
+
+require "cgi-lib.pl";
+
+# Read and parse the form information.
+&ReadParse(*input);
+
+# Print the Content-type: header so that browsers will recognize
+# information as HTML.
+print &PrintHeader;
+
+# Print all of the variables to the user's screen.
+print &PrintVariables;

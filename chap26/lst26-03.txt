@@ -1,0 +1,59 @@
+-- Set up global variables
+global crlf
+global http_10_header
+global datestamp
+global idletime
+-- define  a variable equal to a carriage return and a line feed
+set crlf to (ASCII character 13) & (ASCII character 10)
+
+-- set up number of seconds that script will remain idle before
+-- terminating
+set idletime to 15
+
+-- set the current date to a variable
+set datestamp to current date
+
+-- define a standard HTTP 1.0 header
+set http_10_header to "HTTP/1.0 200 OK" & crlf & [ct]
+     "Server: MacHTTP" & crlf & [ct]
+     "MIME-Version: 1.0" & crlf & [ct]
+     "Content-type: text/html" & crlf & crlf
+
+-- This is the handler that processes Apple events sent from MacHTTP.
+-- WWW[go]sdoc is the event sent with GET or POST methods.
+-- process AppleEvent sent by the WWW server
+on [lch]event WWW[go]sdoc[rch] path_args given [lch]class post[rch]:post_args
+     set formdata to parse CGI arguments post_args
+     set full_name to CGI field "full_name" from formdata
+     set rock to CGI field "rock" from formdata
+     set age to CGI field "age" from formdata
+     set return_page to http_10_header & [ct]
+          "<HTML><HEAD><TITLE>Test 4</TITLE></HEAD>" & [ct]
+          "<BODY><H1>Test 4</H1>" & return & [ct]
+          "<H2>Parse CGI Test</H2>" & return & [ct]
+          "<HR>" & return
+     -- list form variables
+     set return_page to return_page & [ct]
+         "Your name is " & return & full_name & "<P>" & [ct]
+         return & [ct]
+         "Your favorite music group is " & rock & "<P>" & return & [ct]
+         "You consider yourself to be of the " & age & [ct]
+          " age group" & "<P>" & return & [ct]
+ [ct]
+          "</BODY></HTML>"
+
+     return return_page
+end [lch]event WWW[go]sdoc[rch]
+
+-- Following handlers quit applications if idle after "idletime"
+-- seconds
+on idle
+     if (current date) > (datestamp + idletime) then
+          quit
+     end if
+     return 5
+end idle
+
+on quit
+     continue quit
+end quit

@@ -1,0 +1,71 @@
+import java.net.URL;
+import java.sql.*;
+import imaginary.sql.*;
+
+class Select {
+        private static void dispResultSet (ResultSet rs) 
+                throws SQLException
+        {
+                int i; 
+
+                // Get the ResultSetMetaData. This will be used for
+                // the column headings
+
+                ResultSetMetaData rsmd = rs.getMetaData (); 
+
+                // Get the number of columns in the result set
+
+                int numCols = rsmd.getColumnCount (); 
+
+                // Display column headings
+
+                for (i=1; i<=numCols; i++) {
+                        if (i > 1) System.out.print(","); 
+                        System.out.print(rsmd.getColumnLabel(i)); 
+                }
+                System.out.println(""); 
+                
+                // Display data, fetching until end of the result set
+
+                boolean more = rs.next (); 
+                while (more) {
+
+                        // Loop through each column, getting the
+                        // column data and displaying
+
+                        for (i=1; i<=numCols; i++) {
+                                if (i > 1) System.out.print(","); 
+                                System.out.print(rs.getString(i)); 
+                        }
+                        System.out.println(""); 
+
+                        // Fetch the next result set row
+
+                        more = rs.next (); 
+                }
+        }
+
+  public static void main(String argv[]) {
+    try {
+      new imaginary.sql.iMsqlDriver();
+      String url = "jdbc:msql://ns2.yakima.net/test2";
+      Connection con = DriverManager.getConnection(url, "borg", "");
+      Statement stmt = con.createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * from employees");
+
+      System.out.println("Content-type: text/html");
+      System.out.println("");
+      System.out.println("");
+      System.out.println("Got results:");
+
+        dispResultSet (rs);
+      stmt.close();
+      con.close();
+    }
+    catch( Exception e ) {
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+    }
+  }
+}
+  

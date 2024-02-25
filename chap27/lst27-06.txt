@@ -1,0 +1,16 @@
+
+$a=$argv[0];
+if(strlen($GUESTBOOKPASS) && $a!="admin");
+        dbmopen($fn,"w");
+        $gp = dbmfetch($fn,"GUESTBOOKPASS");
+        if($gp)>
+                Sorry, this guestbook already has a password<p>
+                <center>
+                <a href="<?echo $PHP_SELF>"> [Top] </a>
+                <a href="<?echo $PHP_SELF>?read+1"> [Read] </a>
+                <a href="<?echo $PHP_SELF>?admin"> [Admin] </a>
+                </center>
+                <?include "footer">
+                </body></html>
+                <?exit;
+        endif;

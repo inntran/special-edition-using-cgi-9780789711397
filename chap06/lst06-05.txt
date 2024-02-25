@@ -1,0 +1,50 @@
+// GetPOSTData:  Read in data from POST operation
+
+void GetPOSTData() {
+    char * pContentLength;  // pointer to CONTENT_LENGTH
+    int  ContentLength;     // value of CONTENT_LENGTH string
+    int  i;                 // local counter
+    int  x;                 // generic char holder
+
+    // Retrieve a pointer to the CONTENT_LENGTH variable
+
+    pContentLength = getenv("CONTENT_LENGTH");
+
+    // If the variable exists, convert its value to an integer
+    // with atoi()
+
+    if (pContentLength != NULL)
+    {
+           ContentLength = atoi(pContentLength);
+    }
+    else
+    {
+           ContentLength = 0;
+    }
+
+    // Make sure specified length isn't greater than the size
+    // of our statically-allocated buffer
+
+    if (ContentLength > sizeof(szBuffer)-1)
+    {
+        ContentLength = sizeof(szBuffer)-1;
+    }
+
+    // Now read ContentLength bytes from STDIN
+    
+    i = 0;
+    while (i < ContentLength)
+    {
+        x = fgetc(stdin);
+        if (x==EOF) break;
+        szBuffer[i++] = x;
+    }
+
+    // Terminate the string with a zero
+    
+    szBuffer[i] = '\0';
+
+    // And update ContentLength
+    
+    ContentLength = i;
+}

@@ -1,0 +1,7 @@
+<html>
+<head><title>ByAgent</title></head>
+<body>
+<h1>ByAgent</h1>
+Congratulations! You got to this page because your browser identified itself as a Microsoft Internet Explorer (or compatible) browser.
+</body>
+</html>

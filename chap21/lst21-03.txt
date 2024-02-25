@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>AX2.HTML</TITLE>
+</HEAD>
+<BODY BGCOLOR=#FFFFFF>
+<CENTER>
+<table border=1 bgcolor=#ffffff>
+<tr><td align=center bgcolor=#00ccff>
+
+<OBJECT ID="pmenu1" WIDTH=37 HEIGHT=20
+  CLASSID="CLSID:52DFAE60-CEBF-11CF-A3A9-00A0C9034920">
+    <PARAM NAME="_ExtentX" VALUE="979">
+    <PARAM NAME="_ExtentY" VALUE="529">
+    <PARAM NAME="Caption" VALUE="Go to:">
+    <PARAM NAME="Menuitem[0]" VALUE="Main Page">
+    <PARAM NAME="Menuitem[1]" VALUE="CGI Page">
+    <PARAM NAME="Menuitem[2]" VALUE="ActiveX Page">
+    <PARAM NAME="Menuitem[3]" VALUE="Search">
+</OBJECT>
+</td>
+<td align=center><H1>Welcome to my site!</H1>
+</td></tr>
+
+<SCRIPT LANGUAGE="VBSCRIPT">
+<!--
+ 
+Sub pmenu1_Select(item)
+    Select Case item
+        Case 1
+                location.href = "http://www.in-command.com/"
+        Case 2
+                location.href = "http://www.selah.net/cgi.html"
+        Case 3
+                location.href = "http://www.selah.net/activex.html"
+        Case 4
+                location.href = "http://www.selah.net/swish-web.html"
+    End Select
+End Sub
+ 
+--></script>
+</TABLE>
+</CENTER>
+</BODY>
+</HTML>

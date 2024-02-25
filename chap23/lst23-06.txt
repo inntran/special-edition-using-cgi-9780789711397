@@ -1,0 +1,17 @@
+Sub SendResponse()
+
+     Dim Email as String
+
+Email = GetSmallField("EMailAddress")
+
+Send ("Content-type: text/html")
+Send ("")
+Send ("<HTML><HEAD><TITLE> Thanks!")
+Send ("</TITLE></HEAD>")
+Send ("Thank you for submitting your e-mail address!")
+Send ("<br>")
+Send ("We have registered: " + Email)
+Send ("</FORM>")
+Send ("</HTML>")
+
+End Sub

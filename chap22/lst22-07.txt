@@ -1,0 +1,255 @@
+#!/usr/local/bin/perl
+
+# Countdown Script for the WWW     Version 1.21
+# Created by Matt Wright               mattw@worldwidemart.com
+# Created on: 8/31/95                  Last Modified: 1/29/96
+# Scripts located at:      http://www.worldwidemart.com/scripts/
+
+##################################
+# Define Variables
+
+# @from_date = (yyyy,mm,dd,hh,mm,ss);
+# Which means: (year,month,day,hour,minute,second)
+# Configuring the following @from_date variable as in the above
+# examples will set the default date.  You can also specify a
+# from_date on the fly, by calling the script with a url similar
+# to:
+#     http://www.server.xxx/countdown.pl?2000,1,1,0,0,0
+# That would set the from_date to count down to January 1, 2000.
+
+@from_date = (2000,1,1,0,0,0);
+
+# Done
+##################################
+
+# If there is a QUERY_STRING, we will assume they wish to count
+# down to the date specified on the QUERY_STRING, so we will
+# break it down into @from_date by commas.
+if ($ENV{'QUERY_STRING'}) {
+   $ENV{'QUERY_STRING'} =~ s/%2C/,/g;
+   $ENV{'QUERY_STRING'} =~ s/=//g;
+   @from_date = split(/,/, $ENV{'QUERY_STRING'});
+}
+
+# Define when various things occur, different dates, etc...
+&define_dates;
+
+# Calculate the differences in the two dates
+&calc_dates;
+
+# Make Sure we don't get negative times. That's not cool...
+&no_negative;
+
+# Top of HTML Page Information
+&html_header;
+
+# We don't want it to say 1 Years, now, do we?  Of course not!
+&proper_english;
+
+# End of HTML Page Information
+&html_trailer;
+
+sub define_dates {
+
+   # Define Future Time Variables.
+   ($f_year,$f_month,$f_day,$f_hour,$f_minute,$f_second) =
+                                                      @from_date;
+
+   # Get Current Time Variables
+   ($second,$minute,$hour,$day,$month,$year,$wday,$yday,$isdst) =
+                                                 localtime(time);
+
+   # Put the Year into a 4 digit year, rather than 2.
+   $year ="19$year";
+
+   # Check to see if it is a leap year.
+   &leap_year_check;
+
+   # Define the names of months.
+   @months = ( "XX","January","February","March","April","May",
+               "June","July","August","September","October",
+               "November","December");
+
+   # Define the days of month.
+   @days = ("XX","1st","2nd","3rd","4th","5th","6th","7th","8th",
+            "9th","10th","11th","12th","13th","14th","15th",
+            "16th","17th","18th","19th","20th","21st","22nd",
+            "23rd","24th","25th","26th","27th","28th",
+            "29th","30th","31st");
+
+   # Define how many days are in each month
+   @days_in_month = (31,$feb_days,31,30,31,30,31,31,30,31,30,31);
+
+   # This is the English terminology for the date, like January
+   # 1st.
+   $date_term = "$months[$f_month] $days[$f_day]";
+
+   # Keep adding to the date_term unless the user has said they
+   # wish to not include a certain time, like seconds, or
+   # minutes, or years, etc...
+   unless ($f_year eq 'XX') {
+      $date_term = "$date_term, $f_year";
+   }
+   unless ($f_hour eq 'XX') {
+      $date_term = "$date_term $f_hour";
+   }
+   unless ($f_minute eq 'XX') {
+      if ($f_minute < 10) {
+         $date_term = "$date_term:0$f_minute";
+      }
+      else {
+         $date_term = "$date_term:$f_minute";
+      }
+   }
+   unless ($f_second eq 'XX') {
+      if ($f_second < 10) {
+         $date_term = "$date_term:0$f_second";
+      }
+      else {
+         $date_term = "$date_term:$f_second";
+      }
+   }
+
+# Start the Current Date
+$current_date = "$months[($month + 1)] $days[$day], $year $hour";
+   if ($minute < 10) {
+      $current_date = "$current_date:0$minute";
+   }
+   else {
+      $current_date = "$current_date:$minute";
+   }
+   if ($second < 10) {
+      $current_date = "$current_date:0$second";
+   }
+   else {
+      $current_date = "$current_date:$second";
+   }
+
+}
+
+# Check to see if it is a leap year.  If a year is divisible by 4
+# and not divisible by 100, then it is a leap year.
+sub leap_year_check {
+   $yeardiv = ($year / 4);
+   $yearint = int($yeardiv);
+   $yeardiv1 = ($year / 100);
+   $yearint1 = int($yeardiv1);
+
+   # 29 days in february on leap year, 28 on regular year.
+   if (($yeardiv eq $yearint && $yeardiv1 ne $yearint1) || ($year% 400 == 0)) {
+      $feb_days = "28";
+   }
+   else {
+      $feb_days = "29";
+   }
+}
+# Calculate the dates by subtracting the current dates from the
+# future dates.
+sub calc_dates {
+   $real_year = ($f_year - $year);
+   $real_month = (($f_month - 1) - $month);
+   $real_day = ($f_day - $day);
+   $real_hour = ($f_hour - $hour);
+   $real_minute = ($f_minute - $minute);
+   $real_second = ($f_second - $second);
+}
+
+# Now make sure we don't end up with values such as negative
+# minutes.  Instead, we must subtract 1 hour, and add 60 minutes
+# to get a positive minute value.
+sub no_negative {
+   if ($real_second < 0) {
+      $real_second = ($real_second + 60);
+      $real_minute--;
+   }
+
+   if ($real_minute < 0) {
+      $real_minute = ($real_minute + 60);
+      $real_hour--;
+   }
+
+   if ($real_hour < 0) {
+      $real_hour = ($real_hour + 24);
+      $real_day--;
+   }
+
+   if ($real_day < 0) {
+     $real_day = ($real_day + @days_in_month[$month]);
+      $real_month--;
+   }
+
+   if ($real_month < 0) {
+      $real_month = ($real_month + 12);
+      $real_year--;
+   }
+}
+
+# Use proper English, such as 1 second and 2 seconds, not 1
+# seconds or 2 second.
+sub proper_english {
+   unless ($f_year eq 'XX') {
+      if ($real_year eq '1') {
+         print "$real_year Year<br>\n";
+      } else {
+         print "$real_year Years<br>\n";
+      }
+   }
+
+   unless ($f_month eq 'XX') {
+      if ($real_month eq '1') {
+         print "$real_month Month<br>\n";
+      } else {
+         print "$real_month Months<br>\n";
+      }
+   }
+
+   unless ($f_day eq 'XX') {
+      if ($real_day eq '1') {
+         print "$real_day Day<br>\n";
+      } else {
+         print "$real_day Days<br>\n";
+      }
+   }
+
+   unless ($f_hour eq 'XX') {
+      if ($real_hour eq '1') {
+         print "$real_hour Hour<br>\n";
+      } else {
+         print "$real_hour Hours<br>\n";
+      }
+   }
+
+   unless ($f_minute eq 'XX') {
+      if ($real_minute eq '1') {
+         print "$real_minute Minute<br>\n";
+      } else {
+         print "$real_minute Minutes<br>\n";
+      }
+   }
+
+   unless ($f_second eq 'XX') {
+      if ($real_second eq '1') {
+         print "$real_second Second<br>\n";
+      } else {
+         print "$real_second Seconds<br>\n";
+      }
+   }
+}
+
+# Print out the Top of the HTML page.
+sub html_header {
+   print "Content-type: text/html\n\n";
+   print "<html><head>\n";
+   print "<title>Countdown to: $date_term</title>\n";
+   print "</head><body>\n";
+   print "<center><h1>Countdown to: $date_term</h1>\n";
+   print "<hr>\n";
+}
+
+# Print out the bottom of the HTML page.
+sub html_trailer {
+   print "<hr>\n";
+   print "It is currently $current_date\n";
+   print "</center>\n";
+   print "</body></html>\n";
+}

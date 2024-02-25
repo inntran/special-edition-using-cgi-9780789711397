@@ -1,0 +1,79 @@
+/*
+ * marble.java
+ */
+import java.awt.*;
+import java.applet.*;
+
+public class marble extends Applet implements Runnable {
+    Thread cntrl;
+    Chroma sphere;
+
+    public void init() {
+        cntrl = new Thread(this);
+        try {
+            sphere = (Chroma)Class.forName("ColorBall").newInstance();
+            sphere.init(this);
+        } catch (java.lang.ClassNotFoundException e) {
+            return ;
+        }
+    }
+
+    public void start() {
+        if (cntrl.isAlive()) {
+            cntrl.resume();
+        } else {
+            cntrl.start();
+        }
+    }
+
+    public void stop() {
+        cntrl.suspend();
+    }
+
+    public void destroy() {
+        cntrl.stop();
+    }
+
+    public void run() {
+        while (true) {
+            repaint();
+            try {
+                Thread.sleep(500);
+            } catch(java.lang.InterruptedException e) {
+                continue;
+            }
+            sphere.advance();
+        }
+    }
+
+    public void paint(Graphics g) {
+        sphere.paintColor(g);
+    }
+}
+
+abstract class Chroma {
+    protected Applet app;
+    /*
+     * init this thread
+     */
+    protected void init(Applet app) {
+        this.app = app;
+    }
+    public abstract void advance();  // next step
+    public abstract void paintColor(Graphics g); // new color, repaint
+}
+
+class ColorBall extends Chroma {
+    private Color bc = Color.white;
+    private int cnum;
+
+    public void advance() {
+        cnum = cnum+1;
+        bc = new Color(cnum);
+    }
+
+    public void paintColor(Graphics g) {
+        g.setColor(bc);
+        g.fillOval(40, 40, 100, 100);
+    }
+}

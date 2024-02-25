@@ -1,0 +1,9 @@
+<HTML>
+     <HEAD><TITLE>A Simple Form</TITLE></HEAD>
+     <BODY>Please enter some data:<P>
+          <FORM METHOD="GET" ACTION="/cgi-bin/show_env.sh">
+               <INPUT TYPE="TEXT" NAME="text"
+                VALUE="Some sample text">
+          </FORM>
+     </BODY>
+</HTML>

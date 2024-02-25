@@ -1,0 +1,10 @@
+<FORM METHOD = "POST" ACTION = "/cgi-bin/quote.pl">
+<INPUT TYPE="text" NAME="symbol1" SIZE=5>
+<INPUT TYPE="text" NAME="symbol2" SIZE=5>
+<INPUT TYPE="text" NAME="symbol3" SIZE=5>
+<INPUT TYPE="text" NAME="symbol4" SIZE=5>
+<INPUT TYPE="text" NAME="symbol5" SIZE=5>
+<BR>
+<INPUT TYPE="submit" VALUE="Submit">
+<INPUT TYPE="reset" VALUE="Clear">
+</FORM>

@@ -1,0 +1,50 @@
+<META HTTP-EQUIV="Refresh" CONTENT=90>
+<!------------------------------------------------
+File:     citycam2.html
+created:     1/16/96
+-------------------------------------------------->
+<html>
+<HEAD>
+<TITLE>CityCam</TITLE>
+</HEAD>
+
+<body     bgcolor="#000000"
+          text="#ffffff"
+          vlink="#80f080"
+          link="#00ff00">
+
+<P>
+<center>
+<font face=Lucida-Sans size=+3 color="#ff00ff">CityCAM</font>
+
+<table cellpadding=4 border=4 width=460>
+<tr>
+     <td rowspan=2 BGCOLOR=663300>
+     <font size=+1>
+          You're looking at Seattle's
+          majestic skyline framed by the
+          beautiful Cascade mountain range.
+     </font>
+
+     <td valign=top align=center>
+          <img src="capture.jpg" alt="Image">
+          <P>
+     </td>
+
+</tr>
+
+<tr>
+
+     <td  BGCOLOR=F2D9D9 align=center valign=center>
+     <font color="#000000">
+     This image is automatically updated every
+     90 seconds. Thank you for visiting the SeattleCAM.
+     </font>
+     </td>
+</tr>
+
+</table>
+
+</center>
+</BODY>
+</HTML>

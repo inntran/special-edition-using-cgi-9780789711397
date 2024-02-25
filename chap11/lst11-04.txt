@@ -1,0 +1,29 @@
+$SwishLocation          = "/home/rclark/public_html/swish";
+$DefaultIndexLocation     = "/home/rclark/public_html/index.swish";
+
+@MultiIndexLocation = 
+(
+  "/home/rclark/public_html/index.swish",
+  "/home/rclark/public_html/index2.swish"
+);
+
+$ShowIndexFilenames     = 0;
+$ShowSwishVersion     = 0;
+
+$PrintBoldLinks          = 1;
+$GoofyKeyword          = "oQiTb2lkCv";
+
+$SimpleFormURL          = "http://www.aa.net/~rclark/
+[ccc]swish-simple.html";
+$SimpleFormPrompt     = "Simple Search Form";
+
+$DetailedFormURL          = "http://www.aa.net/~rclark/
+[ccc]swish-web.html";
+$DetailedFormPrompt     = "Detailed Search Form";
+
+$HomePageURL          = "http://www.aa.net/~rclark/";
+$HomePagePrompt      = "Home Page";
+
+$MailtoAddress          = "rclark@aa.net";
+$MailtoPrompt          = "E-mail: ";
+$MailtoName          = "Rod Clark";

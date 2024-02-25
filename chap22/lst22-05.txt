@@ -1,0 +1,198 @@
+#!/usr/local/bin/perl
+# Free For All Link Script       Version: 2.1
+# Created by Matt Wright        mattw@misha.net
+# Created On: 5/14/95           Last Modified: 1/29/96
+#################################################################
+# Define Variables
+
+# The $filename variable represents the system path to your
+# links.html file, which will contain all of your links and the
+# form to add new links.
+
+$filename = "/home/mattw/public_html/links/links.html";
+
+# $linksurl is the URL to the same file as you listed in
+# $filename, except this is the reference that will be sued to
+# return users to your link file.
+
+$linksurl = "http://your.host.xxx/links/links.html";
+
+# The $linkspl variable specifies the URL to your links.pl
+# PERL/CGI script.  This is used as the action for the form if a
+# user fails to enter their URL or title.
+
+$linkspl = "http://your.host.xxx/cgi-bin/links.pl";
+
+# This is the path to your system's date command.
+
+$datecom = '/usr/bin/date';
+
+# Done
+#################################################################
+
+# Get the Current Date.
+$date = `$datecom +"%r on %A, %B %d, %Y %Z"`; chop($date);
+
+# Get the input
+read(STDIN, $buffer, $ENV{'CONTENT_LENGTH'});
+
+# Split the name-value pairs
+@pairs = split(/&/, $buffer);
+
+foreach $pair (@pairs) {
+   ($name, $value) = split(/=/, $pair);
+
+   $value =~ tr/+/ /;
+   $value =~ s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
+   $value =~ s/<([^>]|\n)*>//g;
+
+   # Create an associative array (%FORM) that contains all of the
+   # names and values that were input into the form.
+
+   $FORM{$name} = $value;
+}
+
+# Send Errors back to the user if they failed to fill in the URL
+# or Title portion of the links.html form.
+
+&no_url if ($FORM{'url'} eq 'http://');
+&no_url unless $FORM{'url'};
+&no_title unless $FORM{'title'};
+
+# Enter our tags and sections into an associative array
+
+%sections =  ( "busi","Business","comp","Computers",
+               "educ","Education","ente","Entertainment",
+               "gove","Government","pers","Personal",
+               "misc","Miscellaneous");
+
+# Determine How Many Links Are Currently in the Link File.
+$response = `grep '<li><a href' $filename`;
+@data = split(/\n/,$response);
+
+$i=1;
+
+foreach $line (@data) { # For every line in our data
+  $i++;
+}
+
+# Open Previous Link File and Put it into one large string to
+# manipulate later.
+
+open (FILE,"$filename");
+@LINES=<FILE>;
+close(FILE);
+$SIZE=@LINES;
+
+# Loop through the entire file and if the line equals
+# <!--number--> or <!--date-->, it will insert the new values.
+# Otherwise, it simply prints the line back into the HTML file.
+
+open (FILE,">$filename");
+for ($a=0;$a<=$SIZE;$a++) {
+   $_=$LINES[$a];
+   if (/<!--number-->/) {
+      print FILE "<!--number--><b>There are <i>$i</i> links ";
+      print FILE "on this page.</b><br>\n";
+   }
+   elsif (/<!--time-->/) {
+      print FILE "<!--time--><b>Last link was added at ";
+      print FILE "$date</b><hr>\n";
+   }
+   else {
+      print FILE $_;
+   }
+}
+close (FILE);
+
+open (FILE,"$filename");
+
+while (<FILE>) {
+   $raw_data .=  $_;
+}
+
+close(FILE);
+
+# Make a normal array out of this data, one line per entry.
+# NOTE: This eats up our newline characters, so be sure to add
+# them back when we print back to the file.
+
+undef $/;
+@proc_data = split(/\n/,$raw_data);
+
+# Open Link File to Output
+open (FILE,">$filename");
+
+foreach $line (@proc_data) { # For every line in our data
+
+   print FILE "$line\n";   # Print the line.  We have to do this
+                           # no matter what, so let's get it over
+                           # with.
+
+   # If the section tag equals the one the user wishes to add
+   # their link to, add it.  Otherwise, just continue.
+   foreach $tag (keys(%sections)) { # For every tag
+      if ( ($FORM{section} eq $sections{$tag}) &&
+         ($line =~ /<!--$tag-->/) ) {
+
+         print FILE "<li><a href=\"$FORM{'url'}\">";
+         print FILE "$FORM{'title'}</a>\n";
+      }
+   }
+}
+
+close (FILE);
+
+# Return Link File
+print "Location: $linksurl\n\n";
+
+# If the User forgot to enter a URL for their link, then simply
+# send them this message, and followup form, which explains that
+# they need to fill out everything before they can continue.
+
+sub no_url {
+   print "Content-type: text/html\n\n";
+   print "<html><head><title>NO URL</title></head>\n";
+   print "<body><h1>ERROR - NO URL</h1>\n";
+   print "You forgot to enter a url you wanted added to the ";
+   print "Free for all link page.<p>\n";
+   print "<form method=POST action=\"$linkspl\">\n";
+   print "<input type=hidden name=\"title\" ";
+   print "value=\"$FORM{'title'}\">\n";
+   print "<input type=hidden name=\"section\" ";
+   print "value=\"$FORM{'section'}\">\n";
+   print "URL: <input type=text name=\"url\" size=50><p>\n";
+   print "<input type=submit> * <input type=reset>\n";
+   print "<hr>\n";
+   print "<a href=\"$linksurl\">Back to the Free for all Link";
+   print "Page</a>\n";
+   print "</form></body></html>\n";
+
+   # Exit since there was an error.
+   exit;
+}
+
+# Send out a similar error message if the user forgot to enter a
+# title for their link.
+
+sub no_title {
+   print "Content-type: text/html\n\n";
+   print "<html><head><title>NO TITLE</title></head>\n";
+   print "<body><h1>ERROR - NO TITLE</h1>\n";
+   print "You forgot to enter a title you wanted added to ";
+   print "the Free for all link page.<p>\n";
+   print "<form method=POST action=\"$linkspl\">\n";
+   print "<input type=hidden name=\"url\" ";
+   print "value=\"$FORM{'url'}\">\n";
+   print "<input type=hidden name=\"section\" ";
+   print "value=\"$FORM{'section'}\">\n";
+   print "TITLE: <input type=text name=\"title\" size=50><p>\n";
+   print "<input type=submit> * <input type=reset>\n";
+   print "<hr>\n";
+   print "<a href=\"$linksurl\">Back to the free for all links";
+   print "page</a>\n";
+   print "</form></body></html>\n";
+
+   # Exit Since there was an error.
+   exit;
+}

@@ -1,0 +1,40 @@
+Sub SendResults
+    Dim Db As Database
+    Dim tmpDyna As Dynaset
+    Dim query As String
+    Dim SQLQuery As String
+
+    query = GetSmallField("query")
+
+    Send ("Content-type: text/html")
+    Send ("")
+    Send ("<HTML><HEAD><TITLE>" & "Phone number database" &
+          "</TITLE></HEAD>")
+    Send ("<BODY>")
+    Send ("You searched for: " & query & "<br>")
+
+    Set Db = OpenDatabase("cgi-win\phone.mdb", False, True)
+
+    SQLQuery = "SELECT * FROM MY_Table WHERE Name like " & "'*" & _
+               query & "*'"
+
+    Set tmpDyna = Db.CreateDynaset(SQLQuery)
+
+    If tmpDyna.RecordCount = 0 Then
+         Send ("Your search produced no results.<br><br>")
+    Else
+        Send ("Results<br><br>")
+        Do While Not tmpDyna.EOF
+            Send ("<PRE>")
+            Send ("          Name : " & tmpDyna("Name"))
+            Send ("  Phone number : " & tmpDyna("Phone_Number"))
+            Send (" Email address : " & tmpDyna("Email_Address"))
+            Send ("</pre>")
+            Send ("<br>")
+            tmpDyna.MoveNext
+        Loop
+    End If
+
+    Send ("</BODY></HTML>")
+
+End Sub

@@ -1,0 +1,29 @@
+<HTML><HEAD>
+<TITLE>Willoughby, Dwight & Wright, Inc. Stock Quote Service</TITLE>
+</HEAD>
+<BODY>
+<CENTER>
+<IMG SRC="/images/logo.gif" ALT="WWD,Inc.LOGO"></CENTER><P>
+<H1 ALIGN=CENTER>Stock Quote Service</H1>
+<H3 ALIGN=CENTER>20-minute Delayed Market Information</H3>
+<P>
+<CENTER>
+<H2>Please enter the ticker symbols for your stock quote.</H2>
+<BR>
+<FORM METHOD = "POST" ACTION = "/cgi-bin/quote.pl">
+<INPUT TYPE="text" NAME="symbol1" SIZE=5>
+<INPUT TYPE="text" NAME="symbol2" SIZE=5>
+<INPUT TYPE="text" NAME="symbol3" SIZE=5>
+<INPUT TYPE="text" NAME="symbol4" SIZE=5>
+<INPUT TYPE="text" NAME="symbol5" SIZE=5>
+<HR>
+<INPUT TYPE="submit" VALUE="Submit">
+<INPUT TYPE="reset" VALUE="Clear">
+</FORM>
+</CENTER>
+<P>
+<HR>
+<P>
+<I>Copyright 1996, Que Corporation</I>
+</BODY>
+</HTML>

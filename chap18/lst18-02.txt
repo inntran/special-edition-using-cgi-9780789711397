@@ -1,0 +1,131 @@
+'
+' Declarations section
+'
+Option Explicit
+DefInt A-Z
+
+' ----- Some constants used throughout the script
+Const txtTitle = "CGI by Example -- Shopping Cart Demo"
+Const txtHeader = "<i>CGI by Example</i><br>Shopping
+[cc] Cart Demo<hr>"
+' ----- A global variable, holding the choice made when
+'       the user last clicked a button
+Dim Choice As String
+
+' ----- The type-declaration for our purchase array.
+'       This array holds the purchase info while the
+'       user is browsing around
+Type PurchaseLine
+    Item        As String
+    Quantity    As Integer
+    Price       As Currency
+End Type
+' ----- Declare a dynamic array of type PurchaseLine
+Dim Purchases() As PurchaseLine
+'
+' This routine retrieves the state information (baggage)
+' and pops it into our dynamic Purchases() array.
+'
+Sub BaggageToArray()
+    ' Some local variables
+   
+    Dim x As Integer
+    Dim Thing As String
+    Dim Quantity As Integer
+    Dim Tmp As String
+    Dim TotItems As Integer
+    Dim Price As Currency
+   
+    ' No items so far, and the array has zero elements
+   
+    TotItems = 0
+    ReDim Purchases(TotItems)
+   
+    ' Grab the state information baggage from the CGI
+    ' environment variable called 'baggage'
+   
+    Tmp = cgiGetEnv("Baggage")
+      
+    ' While any baggage left, process it....
+   
+    While Len(Tmp)
+   
+        ' Look for a record separator (a semi-colon)
+        x = InStr(Tmp, ";")
+       
+        ' If found, split out the record
+       
+        If x Then
+            ' What thing is this?
+            Thing = Left(Tmp, x - 1)
+           
+            ' Remove the thing from the baggage
+            Tmp = Trim(Mid(Tmp, x + 1))
+           
+            ' Default quantity and price
+            Quantity = 1
+            Price = 0
+           
+            ' Look through the item desc for a slash
+            x = InStr(Thing, "/")
+           
+            ' The first one we find separates the
+            ' quantity from the price
+            If x Then
+                Quantity = Val(Left(Thing, x - 1))
+                Thing = Mid(Thing, x + 1)
+            End If
+           
+            ' Find the next slash
+            x = InStr(Thing, "/")
+           
+            ' This one separates the price from
+            ' the item description
+            If x Then
+                Price = Val(Left(Thing, x - 1))
+                Thing = Mid(Thing, x + 1)
+            End If
+           
+            ' Add another item to the array of
+            ' items
+            TotItems = TotItems + 1
+            ReDim Preserve Purchases(TotItems)
+            Purchases(TotItems).Quantity = Quantity
+            Purchases(TotItems).Item = Thing
+            Purchases(TotItems).Price = Price
+        End If
+    Wend
+End Sub
+'
+' This routine takes all the entries in the
+' Purchases() array and prints them out as
+' one long string. This is the baggage we
+' carry with us from form to form.
+'
+Sub PrintArray()
+    Dim x As Integer
+   
+    ' Put the baggage in quotation marks
+    Out Chr$(34)
+   
+    ' Loop through the array, appending
+    ' each bit of each element of the array
+    ' so that we can undecode it later on
+   
+    For x = 1 To UBound(Purchases, 1)
+        ' Don't print out deleted items!
+        ' Deleted items are marked by having
+        ' the Item be blank
+        If Purchases(x).Item > "" Then
+            ' Quantity plus a slash
+            Out Format$(Purchases(x).Quantity) + "/"
+            ' Price plus a comma
+            Out Format$(Purchases(x).Price) + "/"
+            ' Item description plus a semi-colon
+            Out "" + Purchases(x).Item + ";"
+        End If
+    Next x
+   
+    ' Closing quotation mark, please
+    Out Chr$(34)
+End Sub

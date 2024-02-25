@@ -1,0 +1,19 @@
+How did you find out about our service?
+<TEXTAREA NAME="finding" ROWS=6 COLS=40>
+Type in here</TEXTAREA>
+<HR>
+How do you rate our service?
+<INPUT TYPE="radio" NAME="rating" VALUE="Great">Great!
+<INPUT TYPE="radio" NAME="rating" VALUE="VeryGood">Very Good
+<INPUT TYPE="radio" NAME="rating" VALUE="Good">Good
+<INPUT TYPE="radio" NAME="rating" VALUE="Fair">Fair
+<INPUT TYPE="radio" NAME="rating" VALUE="Poor">Poor
+<HR>
+Will you return?
+<INPUT TYPE="radio" NAME="visit" VALUE="Yes">Yes
+<INPUT TYPE="radio" NAME="visit" VALUE="No">No
+<HR>
+Miscellaneous Comments:<BR>
+<TEXTAREA NAME="comments" ROWS=6 COLS=40>
+Type in here</TEXTAREA>
+<HR>

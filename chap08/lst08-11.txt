@@ -1,0 +1,7 @@
+if ($separator eq '1') {
+    print GUEST " <hr>\n\n";
+ }
+ else {
+
+    print GUEST " <p>\n\n";
+ }

@@ -1,0 +1,23 @@
+page1.html:
+<html>
+<head>
+<META HTTP-EQUIV="Refresh" CONTENT="1; URL=http://www.myserver.com/page2.html">
+<title>Page One</title>
+</head>
+<body>
+<h1>Page One</h1>
+This page takes you to Page Two.
+</body>
+</html>
+
+page2.html:
+<html>
+<head>
+<META HTTP-EQUIV="Refresh" CONTENT="1; URL=http://www.myserver.com/page1.html">
+<title>Page Two</title>
+</head>
+<body>
+<h1>Page Two</h1>
+This page takes you to Page One.
+</body>
+</html>

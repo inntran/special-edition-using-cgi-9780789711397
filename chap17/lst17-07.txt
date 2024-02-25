@@ -1,0 +1,159 @@
+// FIRSTHIT.C
+// This SSI program keeps track of the date and time
+// a page was first hit. Useful in conjunction with
+// HitCount or HitCntth.
+
+#include <windows.h>
+#include <stdio.h>
+#define      ERROR_CANT_CREATE "FirstHit:  Cannot open/create registry key."
+#define  ERROR_CANT_UPDATE "FirstHit:  Cannot update registry key."
+#define  FIRSTHIT "Software\\Greyware\\FirstHit\\Pages"
+#define      sdatefmt "ddd dd MMM yyyy"
+
+void main(int argc, char * argv[]) {
+     char     szDate[128];     // number of hits for this page
+     char     szDefPage[80]; // system default pagename
+     char     *p;               // generic pointer
+     char     *PageName;     // pointer to this page's name
+     long     dwLength=127;     // length of temporary buffer
+     long     dwType;          // registry value type code
+     long     dwRetCode;     // generic return code from API
+     HKEY     hKey;          // registry key handle
+     SYSTEMTIME st;          // system time
+     char     szTmp[128];     // temporary string storage
+
+     // Determine where to get the page name. A command-
+     // line argument overrides the SCRIPT_NAME variable.
+
+     if ((argc==2) && ((*argv[1]=='/') | (*argv[1]=='\\')))
+          PageName = argv[1];
+     else
+          PageName = getenv("SCRIPT_NAME");
+
+     // If invoked from without SCRIPT_NAME or args, die
+     if (PageName==NULL)
+     {
+          printf("FirstHit 1.0.b.960121\n"
+                 "Copyright (c) 1995,96 Greyware "
+                 "Automation Products\n\n"
+                 "Documentation available online from "
+                 "Greyware's Web server:\n"
+                 "http://www.greyware.com/"
+                 "greyware/software/freeware.htp\n\n");
+     }
+     else
+     {
+          // Open the registry key
+          dwRetCode = RegOpenKeyEx (
+               HKEY_LOCAL_MACHINE,
+               FIRSTHIT,
+               0,
+               KEY_EXECUTE,
+               &hKey);
+
+             // If open failed because key doesn't exist,
+          // create it
+          if ((dwRetCode==ERROR_BADDB)
+               || (dwRetCode==ERROR_BADKEY)
+               || (dwRetCode==ERROR_FILE_NOT_FOUND))
+               dwRetCode = RegCreateKey(
+                    HKEY_LOCAL_MACHINE,
+                    FIRSTHIT,
+                    &hKey);
+
+          // If couldn't open or create, die
+          if (dwRetCode != ERROR_SUCCESS)
+          {
+               strcpy(szDate,ERROR_CANT_CREATE);
+          }
+          else
+          {
+               // Get the default page name
+               dwLength = sizeof(szDefPage);
+               dwRetCode = RegQueryValueEx (
+                    hKey,
+                    "(default)",
+                    0,
+                    &dwType,
+                    szDefPage,
+                    &dwLength);
+               if ((dwRetCode == ERROR_SUCCESS)
+                    && (dwType == REG_SZ)
+                    && (dwLength > 0)) {
+                    szDefPage[dwLength] = '\0';
+               } else {
+                    strcpy(szDefPage,"default.htm");
+               }
+
+               // If current page uses default page name,
+               // strip the page name
+               _strlwr(PageName);
+               p = strrchr(PageName,'/');
+               if (p==NULL) p = strrchr(PageName,'\\');
+               if (p) {
+                    p++;
+                    if (stricmp(p,szDefPage)==0) *p = '\0';
+               }
+
+               // Get this page's information
+               dwLength = sizeof(szDate);
+               dwRetCode = RegQueryValueEx (
+                    hKey,
+                    PageName,
+                    0,
+                    &dwType,
+                    szDate,
+                    &dwLength);
+               if ((dwRetCode == ERROR_SUCCESS)
+                    && (dwType == REG_SZ)
+                    && (dwLength >0)) {
+                    szDate[dwLength] = '\0';
+               } else {
+                    GetLocalTime(&st);
+                    GetDateFormat(
+                         0,
+                         0,
+                         &st,
+                         sdatefmt,
+                         szTmp,
+                         sizeof(szTmp));
+                    sprintf(
+                         szDate,
+                         "%s at %02d:%02d",
+                         szTmp,
+                         st.wHour,
+                         st.wMinute);
+                     // Write the new value back to the
+                    // registry
+                    dwRetCode = RegOpenKeyEx (
+                         HKEY_LOCAL_MACHINE,
+                         FIRSTHIT,
+                         0,
+                         KEY_SET_VALUE,
+                         &hKey);
+                    if (dwRetCode==ERROR_SUCCESS)
+                    {
+                         dwRetCode = RegSetValueEx(
+                              hKey,
+                              PageName,
+                              0,
+                              REG_SZ,
+                              szDate,
+                              strlen(szDate));
+                         dwRetCode = RegCloseKey(hKey);
+                    }
+                    else
+                    {
+                         strcpy(szDate,ERROR_CANT_UPDATE);
+                    }
+               }
+
+               // Close the registry key
+               dwRetCode = RegCloseKey(hKey);
+          }
+          printf("%s",szDate);
+     }
+
+     fflush(stdout);
+     return;
+}

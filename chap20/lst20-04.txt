@@ -1,0 +1,59 @@
+import java.io.*;
+import java.util.*;
+import java.servlet.*;
+import java.servlet.http.*;
+
+import sun.server.http.Cookie;
+
+/* Simple servlet to test the api.
+ * @author  Pavani Diwanji
+ */
+public
+class Counter extends HttpServlet {
+    private int count = 0;
+
+    public void init() throws ServletException {
+     super.init();
+     String s = getInitParameter("initial");
+     count = (s == null ? 0 : Integer.parseInt(s));
+    }
+
+    public void service(HttpServletRequest req, HttpServletResponse res)
+     throws ServletException, IOException
+    {
+     // printClientCookies(req);
+
+     Cookie cookies[] = new Cookie[2];
+     long tm = System.currentTimeMillis();
+     cookies[0] = new Cookie("a", "aa");
+     cookies[1] = new Cookie("b", "bb");
+     cookies[0].setExpires(tm + 600000);
+     cookies[0].setPath("/counter.html");
+     cookies[1].setPath("/");
+     res.setHeader("Set-Cookie", Cookie.toString(cookies));
+
+     count++;
+     String hellostr = null;
+     String countstr = "count=" + count;
+     res.setContentType("text/html");
+     res.setContentLength(countstr.length());
+     PrintStream out = new PrintStream(res.getOutputStream());
+     out.println(countstr);
+    }
+
+    public void printClientCookies(HttpServletRequest req) {
+     String s = req.getHeader("Cookie");
+     if (s != null) {
+         Cookie cookie = new Cookie(s);
+         String c[] = cookie.getCookieNames();
+         System.out.print("Cookies In: ");
+         for (int i=0; i<c.length; ++i)
+          System.out.print(c[i] + " ");
+         System.out.println();
+     }
+    }
+
+    public String getServletInfo() {
+     return "This counter servlet is present as an example and a simple test.";
+    }
+}

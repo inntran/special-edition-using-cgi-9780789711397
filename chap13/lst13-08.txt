@@ -1,0 +1,14 @@
+<h1>Search Results</h1>
+
+<a href="http://arch-http.hq.eso.org/bfrasmus/wdb/install.html">
+WDB INSTALLATION INSTRUCTIONS</a>
+<a href="/cgi-bin/healy/public/ShowDetails.p?UID=2">Details</a><p>
+<a href="http://arch-http.hq.eso.org/bfrasmus/wdb/">WDB HOMEPAGE</a>
+<a href="/cgi-bin/healy/public/ShowDetails.p?UID=3">Details</a><p>
+<a href="http://cscsun1.larc.nasa.gov/~beowulf/db/
+existing_products.html">LIST OF WWW DBMS GATEWAYS</a>
+<a href="/cgi-bin/healy/public/ShowDetails.p?UID=7">Details</a><p>
+<a href="http://server.wherever/~healy/Submission.html">DB GATEWAY</a>
+<a href="/cgi-bin/healy/public/ShowDetails.p?UID=13">Details</a><p>
+Click on a link to go there, or click on <b>details</b>
+for a more-detailed description of the link

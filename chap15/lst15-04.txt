@@ -1,0 +1,21 @@
+<FORM METHOD="GET" ACTION="http://guide-p.infoseek.com/WW/IS/Titles">
+
+<A HREF="http://guide.infoseek.com/"><img src="http://images2.infoseek.com/images/guidesm.gif" border=2 width=105 height=62 alt="[Infoseek Guide]"></A><p>
+
+<A HREF="http://guide.infoseek.com/">Infoseek Guide</A>: <B>Your roadmap to the Internet</B><p>
+
+The best way to search the Web, Usenet News and <A HREF="http://guide.infoseek.com/">more</A>.
+
+Type in words and phrases and select a source to search below.<br>
+
+<INPUT NAME="qt" SIZE=50 VALUE="" MAXLENGTH=80>
+
+<INPUT TYPE="submit" VALUE="Search"><br>
+
+Source:
+
+<INPUT TYPE=radio NAME=col VALUE=DC CHECKED> All Web pages
+
+<INPUT TYPE=radio NAME=col VALUE=NN> Usenet Newsgroups &nbsp;&nbsp;(<A HREF="http://guide.infoseek.com/IS/Help?SearchHelp.html#searchtips">Search tips</A>)
+
+</FORM>

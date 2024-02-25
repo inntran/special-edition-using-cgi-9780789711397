@@ -1,0 +1,158 @@
+#----------------------------------------------------------------
+# List Files
+
+sub ListFiles {
+   opendir (HTMLDir, $DirectoryPath);
+   @FileList = grep (/$FileEnding$/, readdir (HTMLDir));
+   closedir (HTMLDir);
+   @FileList = sort (@FileList);
+
+   $LinesPrinted = 0;
+   foreach $FileName (@FileList) {
+      $FilePath = $DirectoryPath.$FileName;
+      $FileURL     = $DirectoryURL.$FileName;
+      if ($ListAllFiles eq "quick") {
+      print "<li><b><a href=\"$FileURL\">$FileName</a></b><br>\n";
+      $LinesPrinted ++;
+      }
+      else {
+      if ($Compact eq "no") {
+         &ListDetailedFileInfo;
+      }
+      else {
+      &ListQuickFileInfo;
+      }
+    }
+  }
+}
+
+#----------------------------------------------------------------
+# List Detailed File Info
+
+sub ListDetailedFileInfo {
+   print "<li><b><a href=\"$FileURL\">$FileName</a>";
+   if (($ShowSampleText eq "yes") || ($Title ne $FileName)) {
+      &FindTitle;
+      print " - $Title";
+   }
+   print "</b><br>\n";
+   $LinesPrinted ++;
+   if ($ShowURL eq "yes") {
+      print "$FileURL<br>\n";
+      $LinesPrinted ++;
+   }
+   if ($ShowSampleText eq "yes") {
+      &BuildSampleForList; 
+      $SampleText = substr ($SampleText, 0, $LongSampleLength);
+      print "$SampleText<br>\n";
+      print "<p>\n";
+      # this is an approximation, as sample lines will vary
+      $LinesPrinted = $LinesPrinted + $AvgLongSampleLines + 1;
+   }
+}
+
+#----------------------------------------------------------------
+# List Quick File Info
+
+sub ListQuickFileInfo {
+   print "<li><b><a href=\"$FileURL\">$FileName</a>";
+   if ($ShowSampleText eq "no") {
+      print "</b><br>\n";
+      $LinesPrinted ++;
+   }
+   else {
+      if ($Title ne $FileName) {
+      &FindTitle;
+      print " - $Title";
+      }
+      print "</b><br>\n";
+      $LinesPrinted ++;
+      &BuildSampleForList;
+      $SampleText = substr ($SampleText, 0, $ShortSampleLength);
+      print "$SampleText<br>\n";
+      print "<p>\n";
+      $LinesPrinted = LinesPrinted + AvgShortSampleLines + 1;
+   }
+}
+
+#----------------------------------------------------------------
+# Find Title
+
+sub FindTitle {
+  # find the file's <TITLE>, if it has one
+  # if not, put $FileName in $Title
+
+  open (FILE, "$FilePath");
+  # look for a <TITLE> tag
+  $HaveTitle = 0;
+  $ConcatLine = "";
+  foreach $IndivLine (<FILE>) {
+    $ConcatLine = $ConcatLine.$IndivLine;
+    if ($IndivLine =~ /<TITLE>/i) {
+      $HaveTitle = 1;
+    }
+    last if ($IndivLine =~ m#</TITLE>#i);
+    # last aborts loop when it finds </TITLE>
+    # use # instead of / as delimiter, because / is in string
+    # trailing i is for case insensitive match
+  }
+  close (FILE);
+
+  # if file has no <TITLE>, use filename instead
+  if (!$HaveTitle) {
+    $Title = $FileName;
+  }
+  # otherwise use string from <TITLE> tag
+  else {
+    # replace linefeeds with spaces
+    $ConcatLine =~ s/\n/ /g;
+    # collapse any extended whitespace to single spaces
+    $ConcatLine =~ s/\t / /g;
+    # replace possibly mixed-case <TiTle></tItLe> with fixed string
+    $ConcatLine =~ s#</[tT][iI][tT][lL][eE]>#<XX>#;
+    $ConcatLine =~ s#<[tT][iI][tT][lL][eE]>#<XX>#;
+    # concatenated line is now "junk XXPage TitleXX junk"
+    @TempLines = split (/<XX>/, $ConcatLine);
+    # part [0] is junk, part [1] is page title, part [2] is junk
+    $TempTitle = $TempLines[1];
+    # trim leading spaces
+    $TempTitle =~ s/^ +//;
+    # trim trailing spaces
+    $TempTitle =~ s/ +$//;
+    if ($TempTitle eq "") {
+      $Title = $FileName;
+    }
+    else {
+      $Title = $TempTitle;
+    }
+    undef @TempLines; # dispense with array, free a little memory
+  }
+}
+
+#----------------------------------------------------------------
+# Build Sample for List
+
+sub BuildSampleForList {
+   $SampleText = "";
+   open (FILE, "$FilePath");
+   foreach $Record (<FILE>) { 
+      &BuildSampleText;
+  }
+  close (FILE);
+}
+
+#----------------------------------------------------------------
+# Build Sample Text
+
+sub BuildSampleText {
+   # remove linefeed at end of line
+   chop ($Record);
+   # collapse any extended whitespace to single space
+   $Record =~ s/\t / /g;
+   # remove separator at end of existing sample text, if one exists
+   $SampleText =~ s/$SampleSeparator$//;
+   # add sample from current line, separate former lines visually
+   $SampleText = $SampleText.$SampleSeparator.$Record;
+   # remove everything inside <tags> in sample
+   $SampleText =~ s/<[^>]*>//g;
+}

@@ -1,0 +1,141 @@
+// HITCOUNT.C
+// This SSI program produces a cardinal number page hit
+// count based on the environment variable SCRIPT_NAME.
+
+#include <windows.h>
+#include <stdio.h>
+#define      ERROR_CANT_CREATE "HitCount:  Cannot open/create registry key."
+#define  ERROR_CANT_UPDATE "HitCount:  Cannot update registry key."
+#define  HITCOUNT "Software\\Greyware\\HitCount\\Pages"
+
+void main(int argc, char * argv[]) {
+     char     szHits[33];     // number of hits for this page
+     char     szDefPage[80]; // system default pagename
+     char     *p;               // generic pointer
+     char     *PageName;     // pointer to this page's name
+     long     dwLength=33;     // length of temporary buffer
+     long     dwType;          // registry value type code
+     long     dwRetCode;     // generic return code from API
+     HKEY     hKey;          // registry key handle
+
+     // Determine where to get the page name. A command-
+     // line argument overrides the SCRIPT_NAME variable.
+
+     if ((argc==2) && ((*argv[1]=='/') | (*argv[1]=='\\')))
+          PageName = argv[1];
+     else
+          PageName = getenv("SCRIPT_NAME");
+
+     // If invoked from without SCRIPT_NAME or args, die
+     if (PageName==NULL)
+     {
+          printf("HitCount 1.0.b.960121\n"
+                 "Copyright (c) 1995,96 Greyware "
+                 "Automation Products\n\n"
+                 "Documentation available online from "
+                 "Greyware's Web server:\n"
+                 "http://www.greyware.com/"
+                 "greyware/software/freeware.htp\n\n");
+     }
+     else
+     {
+
+          // Open the registry key
+          dwRetCode = RegOpenKeyEx (
+               HKEY_LOCAL_MACHINE,
+               HITCOUNT,
+               0,
+               KEY_EXECUTE,
+               &hKey);
+
+             // If open failed because key doesn't exist,
+          // create it
+          if ((dwRetCode==ERROR_BADDB)
+               || (dwRetCode==ERROR_BADKEY)
+               || (dwRetCode==ERROR_FILE_NOT_FOUND))
+               dwRetCode = RegCreateKey(
+                    HKEY_LOCAL_MACHINE,
+                    HITCOUNT,
+                    &hKey);
+
+          // If couldn't open or create, die
+          if (dwRetCode != ERROR_SUCCESS) {
+               printf (ERROR_CANT_CREATE);
+          } else {
+               // Get the default page name
+               dwLength = sizeof(szDefPage);
+               dwRetCode = RegQueryValueEx (
+                    hKey,
+                    "(default)",
+                    0,
+                    &dwType,
+                    szDefPage,
+                    &dwLength);
+               if ((dwRetCode == ERROR_SUCCESS)
+                    && (dwType == REG_SZ)
+                    && (dwLength > 0)) {
+                    szDefPage[dwLength] = '\0';
+               } else {
+                    strcpy(szDefPage,"default.htm");
+               }
+
+               // If current page uses default page name,
+               // strip the page name
+               _strlwr(PageName);
+               p = strrchr(PageName,'/');
+               if (p==NULL) p = strrchr(PageName,'\\');
+               if (p) {
+                    p++;
+                    if (stricmp(p,szDefPage)==0) *p = '\0';
+               }
+
+               // Get this page's information
+               dwLength = sizeof(szHits);
+               dwRetCode = RegQueryValueEx (
+                    hKey,
+                    PageName,
+                    0,
+                    &dwType,
+                    szHits,
+                    &dwLength);
+               if ((dwRetCode == ERROR_SUCCESS)
+                    && (dwType == REG_SZ)
+                    && (dwLength >0)) {
+                    szHits[dwLength] = '\0';
+               } else {
+                    strcpy (szHits, "1");
+               }
+
+               // Close the registry key
+               dwRetCode = RegCloseKey(hKey);
+
+               // Print this page's count
+               printf("%s",szHits);
+
+               // Bump the count by one for next call
+               _ltoa ((atol(szHits)+1), szHits, 10);
+
+               // Write the new value back to the registry
+               dwRetCode = RegOpenKeyEx (
+                    HKEY_LOCAL_MACHINE,
+                    HITCOUNT,
+                    0,
+                    KEY_SET_VALUE,
+                    &hKey);
+               if (dwRetCode==ERROR_SUCCESS) {
+                    dwRetCode = RegSetValueEx(
+                         hKey,
+                         PageName,
+                         0,
+                         REG_SZ,
+                         szHits,
+                         strlen(szHits));
+                    dwRetCode = RegCloseKey(hKey);
+               } else {
+                    printf(ERROR_CANT_UPDATE);
+               }
+          }
+     }
+     fflush(stdout);
+     return;
+}

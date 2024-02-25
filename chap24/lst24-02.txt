@@ -1,0 +1,42 @@
+// This code fragment shows how to retrieve characters from
+// STDIN after you've determined that your script was
+// invoked with the POST method.
+
+char * pContentLength;  // pointer to CONTENT_LENGTH
+char InputBuffer[1024]; // local storage for input
+int  ContentLength;     // value of CONTENT_LENGTH string
+int  i;                 // local counter
+int  x;                 // generic char variable
+
+// First retrieve a pointer to the CONTENT_LENGTH variable
+pContentLength = getenv("CONTENT_LENGTH");
+
+// If the variable exists, convert its value to an integer
+// with atoi()
+if (pContentLength != NULL) {
+      ContentLength = atoi(pContentLength);
+}
+else
+{
+      ContentLength = 0;
+}
+
+// Make sure specified length isn't greater than the size
+// of our staticly-allocated buffer
+if (ContentLength > sizeof(InputBuffer)-1) {
+      ContentLength = sizeof(InputBuffer)-1;
+}
+
+// Now read ContentLength bytes from STDIN
+i = 0;
+while (i < ContentLength) {
+      x = fgetc(stdin);
+      if (x==EOF) break;
+      InputBuffer[i++] = x;
+}
+
+// Terminate the string with a zero
+InputBuffer[i] = '\0';
+
+// And update ContentLength
+ContentLength = i;

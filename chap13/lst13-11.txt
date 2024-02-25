@@ -1,0 +1,9 @@
+<h1>Tom Anderson</h1>
+Department:
+<a href="http://server.wherever/cgi-bin/DeptSrch?Deptid=17">Engineering</a><p>
+Location:
+<a href="http://server.wherever/cgi-bin/LocSrch?Locid=29">Podunk</a><p>
+Position:
+<a href="http://server.wherever/cgi-bin/PosSrch?Posid=17">CAD Technician</a><p>
+Mail Stop:
+<a href="http://server.wherever/cgi-bin/EmpSrch?Mailid=97">POD-43</a><p>

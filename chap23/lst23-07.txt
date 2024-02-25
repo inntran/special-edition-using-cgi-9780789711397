@@ -1,0 +1,55 @@
+Sub SendReQuest()
+
+    Send ("Content-type: text/html")
+    Send ("")
+    Send ("<HTML><HEAD><TITLE>")
+    Send ("Please fill in your E-Mail address.")
+    Send ("</TITLE></HEAD>")
+    Send ("<BODY>")
+    Send ("<FORM METHOD=""POST"" ACTION=""/cgi-win\email.exe"">")
+    Send ("")
+    Send ("Please fill in your E-mail address.")
+    Send ("<INPUT SIZE=30 NAME=""EMailAddress"">")
+
+    Send ("<p>")
+    Send ("Please type your name here:")
+    Send ("<INPUT SIZE=30 NAME=""Name"" VALUE=""Your name here"">")
+
+    Send ("<p>")
+    Send ("Are you:<br>")
+    Send ("<INPUT TYPE=""radio"" " + _
+          "NAME=""Male_or_Female"" VALUE=""Male"">")
+    Send ("Male<br>")
+    Send ("<INPUT TYPE=""radio"" " + _
+          "NAME=""Male_or_Female"" VALUE=""Female"">")
+    Send ("Female?<p>")
+
+    Send ("<p>")
+    Send ("Where do you live?")
+    Send ("<SELECT NAME=""Continent"">")
+    Send ("<OPTION SELECTED>North America")
+    Send ("<OPTION>Europe")
+    Send ("<OPTION>Other")
+    Send ("</SELECT> ")
+
+    Send ("<p>")
+    Send ("Please check one or more of the following:<br>")
+    Send ("<INPUT TYPE=""checkbox"" NAME=""Action"" " + _
+          " VALUE=""add you to our mailinglist"">")
+    Send ("Please add me to your mailinglist.<br>")
+    Send ("<INPUT TYPE=""checkbox"" NAME=""Action"" " + _
+          " VALUE=""send you more information"">")
+    Send ("Send me more information.<br>")
+    Send ("<INPUT TYPE=""checkbox"" NAME=""Action"" " + _
+          " VALUE=""call you"">")
+    Send ("Call me.<p>")
+
+    Send ("<INPUT TYPE=""Hidden"" NAME=""Time"" VALUE=""" + _
+          Time$ + """>")
+
+    Send ("<INPUT TYPE=""submit"" VALUE=""Submit"">.")
+    Send ("")
+    Send ("</FORM>")
+    Send ("</BODY></HTML>")
+
+End Sub

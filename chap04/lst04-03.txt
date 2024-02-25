@@ -1,0 +1,35 @@
+# Source for CGI-LIB.PL, by Stephen Brenner:
+# ReadParse
+# Reads in GET or POST data, converts it to unescaped text, and
+# puts one key=value in each member of the list "@in"
+# Also creates key/value pairs in %in, using '\0' to separate
+# multiple selections
+# If a variable-glob parameter (e.g., *cgi_input) is passed to
+# ReadParse, information is stored there, rather than in $in, @in,
+# and %in.
+sub ReadParse {
+    local (*in) = @_ if @_;
+  local ($i, $loc, $key, $val);
+  # Read in text                    #Checks the data-sending method
+  if ($ENV{'REQUEST_METHOD'} eq "GET") {
+    $in = $ENV{'QUERY_STRING'};
+  } elsif ($ENV{'REQUEST_METHOD'} eq "POST") {
+    read(STDIN,$in,$ENV{'CONTENT_LENGTH'});
+         #Reads in CONTENT_LENGTH bytes of STDIN
+  }
+  @in = split(/&/,$in);       #Splits ordered pairs at the "&" sign
+  foreach $i (0 .. $#in) {    #Processes ordered pairs
+    # Convert plus's to spaces
+    $in[$i] =~ s/\+/ /g;
+    # Split into key and value.
+    ($key, $val) = split(/=/,$in[$i],2); # splits on the first =.
+
+    # Convert %XX from hex numbers to alphanumeric
+    $key =~ s/%(..)/pack("c",hex($1))/ge;
+    $val =~ s/%(..)/pack("c",hex($1))/ge;
+    # Associate key and value
+    $in{$key} .= "\0" if (defined($in{$key})); # \0 is the multiple
+    $in{$key} .= $val;                         # separator
+ }
+  return 1; # just for fun
+}

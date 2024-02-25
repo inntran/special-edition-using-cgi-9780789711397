@@ -1,0 +1,12 @@
+<HTML><HEAD>
+<TITLE>Willoughby, Dwight & Wright, Inc. Stock Quote Service</TITLE>
+</HEAD>
+<BODY>
+<CENTER>
+<IMG SRC="/images/logo.gif" ALT="WWD,Inc.LOGO"><P></CENTER>
+<H1 ALIGN=CENTER>Stock Quote Service</H1>
+<H3 ALIGN=CENTER>20-minute Delayed Market Information</H3>
+<P>
+<CENTER>
+<H2>Please enter the ticker symbols for your stock quote.</H2></CENTER>
+<BR>

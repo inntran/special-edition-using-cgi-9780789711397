@@ -1,0 +1,13 @@
+#!/bin/perl
+#A Generic Environment Variable checker
+print "Content-Type: text/plain \n \n";
+print "Browser Software: $ENV('HTTP_USER_AGENT') \n";
+print "\n";
+print "Originating Page: $ENV('HTTP_REFERER') \n";
+#... and so on...
+
+print STDOUT "<UL>\n";
+foreach $var (sort keys (%ENV){
+      print STDOUT "<LI>$var: $ENV{$var}\n";
+}
+print STDOUT "</UL>";

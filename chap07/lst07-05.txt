@@ -1,0 +1,14 @@
+Subject: Book OrderDate: Sat, 20 Jan 1996 15:05:50 -0800From: jdoe@ez.access.com (John Doe)To: sales@que.books.com
+Below is the result of your feedback form. It was submitted by John Doe (jdoe@ez.access.com) on Sat Jan 20 15:05:50 PST 1996---------------------------------------------------------
+street1:  555 Block Ln.____________________________________________
+city:  Anywhere____________________________________________
+state:  WA____________________________________________
+country:  USA____________________________________________
+phone:  509-555-4000____________________________________________
+SP_Using_CGI:  order____________________________________________
+qnty_CGI:  2____________________________________________
+Comments:   Please send me information on ordering in bulk.____________________________________________
+CreditCard:  Visa___________________________________________
+Full_Name:  John A. Doe___________________________________________
+cc_number:  345-6743-334-3445____________________________________________
+expires:  01/2001___________________________________________

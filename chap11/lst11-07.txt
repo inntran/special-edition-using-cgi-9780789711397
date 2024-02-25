@@ -1,0 +1,23 @@
+sub PrintBlankSearchForm
+{
+...
+<INPUT TYPE="RADIO" NAME="SearchMethod" value="or"><b>Or</b>
+<INPUT TYPE="RADIO" NAME="SearchMethod" value="and" CHECKED><b>And</b>
+<INPUT TYPE="RADIO" NAME="SearchMethod" value="exact phrase"><b>Exact phrase</b> /
+
+<INPUT TYPE="RADIO" NAME="WholeWords" value="no" CHECKED><b>Sub</b>strings
+<INPUT TYPE="RADIO" NAME="WholeWords" value="yes"><b>Whole</b> Words<br>
+
+<INPUT TYPE="CHECKBOX" NAME="CaseSensitive" value="yes">Case sensitive<BR>
+
+<INPUT TYPE="RADIO" NAME="ListAllFiles" value="no" CHECKED><b>Search</b> (enter terms in search box above) <br>
+<INPUT TYPE="RADIO" NAME="ListAllFiles" value="yes">List all files in directory (search box has no effect)<br>
+<INPUT TYPE="RADIO" NAME="ListAllFiles" value="quick">Quick file list<br>
+
+<INPUT TYPE="RADIO" NAME="Compact" value="yes">Compact display<br>
+<INPUT TYPE="RADIO" NAME="Compact" value="no" CHECKED>Detailed display<br>
+
+<INPUT TYPE="CHECKBOX" NAME="ShowURL" value="yes">URLs<br>
+<INPUT TYPE="CHECKBOX" NAME="ShowScore" value="yes" CHECKED>Scores<br>
+<INPUT TYPE="CHECKBOX" NAME="ShowSampleText" value="yes" CHECKED>Sample text<br>
+...

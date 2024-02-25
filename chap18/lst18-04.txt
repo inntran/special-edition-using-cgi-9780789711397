@@ -1,0 +1,135 @@
+'
+' Control comes here any time the script is invoked
+' with the POST method. Depending on what button was
+' clicked to cause the POST, this routine does
+' different things
+'
+Sub ProcessForm()
+    ' Some local variables used for handling
+    ' the input and manipulating the Purchases()
+    ' array
+    Dim Items As Integer
+    Dim Thing As String
+    Dim Bucks As Currency
+    Dim x As Integer
+    Dim FoundInCart As Integer
+    Dim Qty As Integer
+   
+    ' Examine the CGI environment variable 'choice'
+    ' and take appropriate action. This variable is
+    ' set by clicking on a button, and the Main()
+    ' routine cleans it up for us.
+   
+    If Choice = "ADD" Then
+        ' Visitor selected something and clicked on
+        ' Add to Cart, so do that thing
+       
+        Items = UBound(Purchases, 1)
+      
+        ' What thing does the visitor want to buy?
+       
+        Thing = cgiGetEnv("Item")
+       
+        ' How many of 'em?
+       
+        Qty = Val(cgiGetEnv("Quantity"))
+       
+        ' Did tricksy visitor say zero or negative?
+        ' If not, go ahead; otherwise ignore
+       
+        If Qty > 0 Then
+            ' Item descriptions contain the price
+            ' (if there is a price) and indicate it
+            ' with a dollar sign
+           
+            x = InStr(Thing, "$")   ' Free item?
+           
+            ' Item is not free if $ is present
+            If x Then
+                Bucks = Val(Mid(Thing, x + 1))
+                Thing = Trim(Left(Thing, x - 1))
+            Else
+                Bucks = 0
+            End If
+           
+            ' See if visitor already has some of
+            ' this thing; if so, just adjust the
+            ' quantity
+           
+            FoundInCart = False
+            For x = 1 To Items
+                If Purchases(x).Item = Thing Then
+                    Purchases(x).Quantity _
+                        = Purchases(x).Quantity + Qty
+                    FoundInCart = True
+                    Exit For
+                End If
+            Next x
+            
+            ' If not Found In Cart, then add a new
+            ' item to the Purchases() array
+           
+            If Not FoundInCart Then
+                Items = Items + 1
+                ReDim Preserve Purchases(Items)
+                Purchases(Items).Item = Thing
+                Purchases(Items).Price = Bucks
+                Purchases(Items).Quantity = Qty
+            End If
+           
+        End If
+        CreateForm  ' back for more
+   
+    ElseIf Choice = "REMOVE" Then
+   
+        ' Visitor selected some item and clicked
+        ' Remove from Cart, so let's do that
+       
+        Items = UBound(Purchases, 1)
+      
+        ' What thing shall we remove?
+       
+        Thing = cgiGetEnv("Item")
+       
+        ' How many must go away?
+        Qty = Val(cgiGetEnv("Quantity"))
+       
+        ' Say, is that a positive number > zero?
+       
+        If Qty > 0 Then
+            ' If so, see if the thing is in the
+            ' cart already; otherwise ignore
+           
+            x = InStr(Thing, "$")
+            If x Then Thing = Trim(Left(Thing, x - 1))
+           
+            For x = 1 To Items
+                If Purchases(x).Item = Thing Then
+                    Purchases(x).Quantity _
+                        = Purchases(x).Quantity - Qty
+                    If Purchases(x).Quantity < 1 _
+                        Then Purchases(x).Item = ""
+                    Exit For
+                End If
+            Next x
+        End If
+        CreateForm  ' back for more
+    ElseIf Choice = "CHECK" Then
+        ' Visitor is done shopping and wants to
+        ' check out. Go do that thing
+        CheckOut
+       
+    ElseIf Choice = "CHARGE" Then
+        ' Visitor filled in the Check Out form
+        ' and said "Charge me, Momma!"
+        ' Go validate the input and take his
+        ' money away from him!
+        Finishup
+       
+    Else
+        ' ignore unknown choices
+        ' just reprint the form
+        CreateForm
+    End If
+End Sub
+

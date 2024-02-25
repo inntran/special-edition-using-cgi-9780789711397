@@ -1,0 +1,15 @@
+#!/usr/bin/perl
+
+# Set up the file to dump
+$dump_File = "/etc/motd";
+
+# Print the header
+print("Content-type: text/html\n\n");
+
+# Open, read and dump the file
+open(DUMP_FILE,$dump_File);
+read(DUMP_FILE,$dump_Text,4096);
+print("<HTML><HEAD><TITLE>Message of the Day</TITLE></HEAD>\n");
+print("<BODY><PRE>\n");
+print("$dump_Text\n");
+print("</PRE></BODY></HTML>\n");

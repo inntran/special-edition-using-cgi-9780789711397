@@ -1,0 +1,15 @@
+select
+     employees.first_name,
+     employees.last_name
+     employees.salary,
+     employees.startdate
+     depts.name,
+     depts.locid
+     emp_dept.empid,
+     emp_dept.deptid
+from
+     employees,depts,emp_dept
+where
+     employees.id = 503
+     and depts.id = emp_dept.deptid
+     and employees.id = emp_dept.empid

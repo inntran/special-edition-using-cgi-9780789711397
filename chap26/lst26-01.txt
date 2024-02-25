@@ -1,0 +1,18 @@
+-- define  a variable equal to a carriage return and a line feed
+set CLRF to (ASCII character 13) & (ASCII character (10))
+
+--define a standard HTTP 1.0 header
+set http_10_header to "HTTP/1.0 200 OK" & CLRF & [ct]
+     "Server: MacHTTP: 1.0" & CLRF & [ct]
+     "MIME-Version: 1.0" & CLRF & [ct]
+     "Content-type: text/html" & CLRF & CLRF
+
+-- return the following results as HTML output
+return http_10_header & [ct]
+     "<HTML>" & return & [ct]
+     "<HEAD>" & return & [ct]
+     "<TITLE>Test 2</TITLE>" & return & [ct]
+     "</HEAD>" & return & [ct]
+     "<BODY>" & return & [ct]
+     "This is my first <B>real</B> script!" & return & [ct]
+     "<HEAD>"
